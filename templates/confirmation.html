@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+
+{% block title %}Thank You - AstraZeneca Clinical Trials{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Success Message -->
+            <div class="text-center mb-5">
+                <div class="success-icon mb-4">
+                    <i class="fas fa-check-circle fa-5x text-success"></i>
+                </div>
+                <h1 class="text-astra-purple mb-3">Thank You for Your Interest!</h1>
+                <p class="lead text-muted">
+                    We have successfully received your registration for AstraZeneca clinical trials.
+                </p>
+            </div>
+
+            <!-- Confirmation Details -->
+            <div class="card shadow mb-4">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-clipboard-check me-2"></i>
+                        Registration Confirmed
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-astra-purple mb-3">Your Information:</h6>
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <strong><i class="fas fa-user me-2 text-astra-purple"></i>Name:</strong> 
+                                    {{ submission.name }}
+                                </li>
+                                <li class="mb-2">
+                                    <strong><i class="fas fa-envelope me-2 text-astra-purple"></i>Email:</strong> 
+                                    {{ submission.email }}
+                                </li>
+                                <li class="mb-2">
+                                    <strong><i class="fas fa-map-marker-alt me-2 text-astra-purple"></i>Pincode:</strong> 
+                                    {{ submission.pincode }}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-astra-purple mb-3">Eligibility Status:</h6>
+                            {% if submission.is_eligible %}
+                                <div class="alert alert-success">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    <strong>Eligible</strong> - You meet our basic criteria for clinical trial participation.
+                                </div>
+                            {% else %}
+                                <div class="alert alert-warning">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    <strong>Under Review</strong> - We'll review your information for suitable trials.
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- What's Next Section -->
+            <div class="card shadow mb-4">
+                <div class="card-header bg-astra-purple text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-route me-2"></i>
+                        What Happens Next?
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-marker bg-astra-yellow"></div>
+                            <div class="timeline-content">
+                                <h6 class="text-astra-purple">Step 1: Information Review</h6>
+                                <p class="text-muted mb-1">Our clinical research team will carefully review your health information and demographic details.</p>
+                                <small class="text-muted"><i class="fas fa-clock me-1"></i>Within 24-48 hours</small>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-marker bg-astra-yellow"></div>
+                            <div class="timeline-content">
+                                <h6 class="text-astra-purple">Step 2: Trial Matching</h6>
+                                <p class="text-muted mb-1">We'll match you with suitable clinical trials based on your location, age, and health profile.</p>
+                                <small class="text-muted"><i class="fas fa-clock me-1"></i>2-3 business days</small>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-marker bg-astra-yellow"></div>
+                            <div class="timeline-content">
+                                <h6 class="text-astra-purple">Step 3: Initial Contact</h6>
+                                <p class="text-muted mb-1">Our team will contact you via phone or email to discuss potential opportunities.</p>
+                                <small class="text-muted"><i class="fas fa-clock me-1"></i>5-7 business days</small>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-marker bg-astra-purple"></div>
+                            <div class="timeline-content">
+                                <h6 class="text-astra-purple">Step 4: Screening & Enrollment</h6>
+                                <p class="text-muted mb-1">If you're interested, we'll schedule a screening appointment to determine final eligibility.</p>
+                                <small class="text-muted"><i class="fas fa-clock me-1"></i>1-2 weeks after contact</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resources Section -->
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card border-astra-purple h-100">
+                        <div class="card-body">
+                            <h5 class="text-astra-purple mb-3">
+                                <i class="fas fa-book-medical me-2"></i>
+                                Learn About Clinical Trials
+                            </h5>
+                            <p class="text-muted mb-3">
+                                Educate yourself about clinical trials, their phases, and what to expect as a participant.
+                            </p>
+                            <div class="d-grid gap-2">
+                                <a href="https://clinicaltrials.gov" target="_blank" class="btn btn-outline-astra-purple">
+                                    <i class="fas fa-external-link-alt me-2"></i>
+                                    ClinicalTrials.gov
+                                </a>
+                                <a href="https://astrazenecaclinicaltrials.com" target="_blank" class="btn btn-outline-astra-purple">
+                                    <i class="fas fa-external-link-alt me-2"></i>
+                                    AstraZeneca Clinical Trials
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 mb-4">
+                    <div class="card border-astra-yellow h-100">
+                        <div class="card-body">
+                            <h5 class="text-astra-purple mb-3">
+                                <i class="fas fa-headset me-2"></i>
+                                Need Help?
+                            </h5>
+                            <p class="text-muted mb-3">
+                                Have questions about clinical trials or your registration? Our support team is here to help.
+                            </p>
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-phone text-astra-purple me-2"></i>
+                                    <strong>Phone:</strong> 1-800-TRIALS-1
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-envelope text-astra-purple me-2"></i>
+                                    <strong>Email:</strong> clinicaltrials@astrazeneca.com
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-clock text-astra-purple me-2"></i>
+                                    <strong>Hours:</strong> Mon-Fri, 9 AM - 6 PM EST
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Important Notice -->
+            <div class="alert alert-info">
+                <h6><i class="fas fa-info-circle me-2"></i>Important Notice</h6>
+                <p class="mb-0">
+                    <strong>Participation in clinical trials is voluntary.</strong> You can withdraw at any time without penalty. 
+                    All medical care related to the study is provided at no cost to you. Our team will provide detailed 
+                    information about any trial before you make a decision to participate.
+                </p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="text-center mt-4">
+                <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+                    <a href="{{ url_for('index') }}" class="btn btn-astra-purple btn-lg px-4">
+                        <i class="fas fa-home me-2"></i>
+                        Return to Homepage
+                    </a>
+                    <a href="{{ url_for('interest_form') }}" class="btn btn-outline-astra-purple btn-lg px-4">
+                        <i class="fas fa-user-plus me-2"></i>
+                        Register Another Person
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Add some animation to the success icon
+document.addEventListener('DOMContentLoaded', function() {
+    const successIcon = document.querySelector('.success-icon i');
+    if (successIcon) {
+        successIcon.style.animation = 'pulse 2s infinite';
+    }
+});
+</script>
+{% endblock %}

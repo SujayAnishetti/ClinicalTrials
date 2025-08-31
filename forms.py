@@ -1,0 +1,48 @@
+from flask_wtf import FlaskForm
+from wtforms import StringField, IntegerField, TextAreaField, SelectField, SubmitField
+from wtforms.validators import DataRequired, Email, Length, NumberRange, Regexp
+from wtforms.widgets import TextArea
+
+class InterestForm(FlaskForm):
+    name = StringField('Full Name', validators=[
+        DataRequired(message='Name is required'),
+        Length(min=2, max=100, message='Name must be between 2 and 100 characters')
+    ])
+    
+    email = StringField('Email Address', validators=[
+        DataRequired(message='Email is required'),
+        Email(message='Please enter a valid email address')
+    ])
+    
+    mobile = StringField('Mobile Number', validators=[
+        DataRequired(message='Mobile number is required'),
+        Regexp(r'^\d{10}$', message='Please enter a valid 10-digit mobile number')
+    ])
+    
+    pincode = StringField('Pincode', validators=[
+        DataRequired(message='Pincode is required'),
+        Regexp(r'^\d{6}$', message='Please enter a valid 6-digit pincode')
+    ])
+    
+    age = IntegerField('Age', validators=[
+        DataRequired(message='Age is required'),
+        NumberRange(min=16, max=120, message='Age must be between 16 and 120')
+    ])
+    
+    health_info = TextAreaField('Brief Health Information', validators=[
+        DataRequired(message='Health information is required'),
+        Length(min=10, max=500, message='Please provide between 10 and 500 characters')
+    ], widget=TextArea(), render_kw={"rows": 4, "placeholder": "Please describe your current health status, any medical conditions, medications, or relevant health information..."})
+    
+    submit = SubmitField('Submit Interest')
+
+class AdminSearchForm(FlaskForm):
+    search_pincode = StringField('Search by Pincode', render_kw={"placeholder": "Enter pincode"})
+    
+    eligibility_filter = SelectField('Filter by Eligibility', choices=[
+        ('', 'All'),
+        ('eligible', 'Eligible Only'),
+        ('not_eligible', 'Not Eligible Only')
+    ])
+    
+    submit = SubmitField('Search')

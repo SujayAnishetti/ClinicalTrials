@@ -1,0 +1,368 @@
+/* AstraZeneca Brand Colors and Custom Styles */
+:root {
+    --astra-purple: #8A0051;
+    --astra-yellow: #EFAB00;
+    --astra-light-purple: #A3336B;
+    --astra-dark-purple: #6B003F;
+}
+
+/* Global Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+}
+
+/* AstraZeneca Brand Colors */
+.bg-astra-purple {
+    background-color: var(--astra-purple) !important;
+}
+
+.bg-astra-yellow {
+    background-color: var(--astra-yellow) !important;
+}
+
+.text-astra-purple {
+    color: var(--astra-purple) !important;
+}
+
+.text-astra-yellow {
+    color: var(--astra-yellow) !important;
+}
+
+.border-astra-purple {
+    border-color: var(--astra-purple) !important;
+}
+
+.border-astra-yellow {
+    border-color: var(--astra-yellow) !important;
+}
+
+/* Button Styles */
+.btn-astra-purple {
+    background-color: var(--astra-purple);
+    border-color: var(--astra-purple);
+    color: white;
+}
+
+.btn-astra-purple:hover,
+.btn-astra-purple:focus {
+    background-color: var(--astra-dark-purple);
+    border-color: var(--astra-dark-purple);
+    color: white;
+}
+
+.btn-astra-yellow {
+    background-color: var(--astra-yellow);
+    border-color: var(--astra-yellow);
+    color: var(--astra-purple);
+    font-weight: 600;
+}
+
+.btn-astra-yellow:hover,
+.btn-astra-yellow:focus {
+    background-color: #D4960A;
+    border-color: #D4960A;
+    color: var(--astra-purple);
+}
+
+.btn-outline-astra-purple {
+    border-color: var(--astra-purple);
+    color: var(--astra-purple);
+}
+
+.btn-outline-astra-purple:hover,
+.btn-outline-astra-purple:focus {
+    background-color: var(--astra-purple);
+    border-color: var(--astra-purple);
+    color: white;
+}
+
+/* Hero Section */
+.hero-section {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+}
+
+.bg-gradient-astra {
+    background: linear-gradient(135deg, var(--astra-purple) 0%, var(--astra-light-purple) 100%);
+}
+
+.hero-icon {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Icon Circles */
+.icon-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Research Area Cards */
+.research-area-card {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.research-area-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(138, 0, 81, 0.1);
+    border-color: var(--astra-purple);
+}
+
+/* Form Styles */
+.form-label.required::after {
+    content: " *";
+    color: #dc3545;
+}
+
+.form-control:focus {
+    border-color: var(--astra-purple);
+    box-shadow: 0 0 0 0.2rem rgba(138, 0, 81, 0.25);
+}
+
+.form-select:focus {
+    border-color: var(--astra-purple);
+    box-shadow: 0 0 0 0.2rem rgba(138, 0, 81, 0.25);
+}
+
+/* Timeline Styles */
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--astra-yellow);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -37px;
+    top: 5px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 0 0 2px var(--astra-yellow);
+}
+
+.timeline-content {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 3px solid var(--astra-yellow);
+}
+
+/* Card Hover Effects */
+.card {
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+/* Table Styles */
+.table-responsive {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table thead th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid var(--astra-purple);
+    font-weight: 600;
+    color: var(--astra-purple);
+}
+
+.table tbody tr:hover {
+    background-color: rgba(138, 0, 81, 0.05);
+}
+
+/* Badge Styles */
+.badge {
+    font-size: 0.75em;
+    font-weight: 500;
+}
+
+/* Alert Styles */
+.alert {
+    border: none;
+    border-radius: 10px;
+}
+
+.alert-info {
+    background-color: rgba(138, 0, 81, 0.1);
+    color: var(--astra-purple);
+}
+
+/* Footer Styles */
+footer {
+    border-top: 3px solid var(--astra-purple);
+}
+
+/* Navigation Styles */
+.navbar-brand {
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--astra-yellow) !important;
+}
+
+/* Success Animation */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+/* Loading Spinner */
+.spinner-border-astra {
+    color: var(--astra-purple);
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 50vh;
+        text-align: center;
+    }
+    
+    .display-4 {
+        font-size: 2rem;
+    }
+    
+    .icon-circle {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .timeline {
+        padding-left: 20px;
+    }
+    
+    .timeline-marker {
+        left: -27px;
+        width: 10px;
+        height: 10px;
+    }
+}
+
+/* Custom Checkbox Styles */
+.form-check-input:checked {
+    background-color: var(--astra-purple);
+    border-color: var(--astra-purple);
+}
+
+.form-check-input:focus {
+    border-color: var(--astra-purple);
+    box-shadow: 0 0 0 0.25rem rgba(138, 0, 81, 0.25);
+}
+
+/* Statistics Cards */
+.card.bg-primary {
+    background-color: var(--astra-purple) !important;
+}
+
+/* Modal Styles */
+.modal-header.bg-astra-purple {
+    border-bottom: none;
+}
+
+.modal-content {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+/* Accessibility Improvements */
+.btn:focus,
+.form-control:focus,
+.form-select:focus {
+    outline: 2px solid var(--astra-yellow);
+    outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+    .navbar,
+    .btn,
+    footer {
+        display: none !important;
+    }
+    
+    .container-fluid {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .card {
+        border: 1px solid #000;
+        box-shadow: none;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .bg-light {
+        background-color: #2d3748 !important;
+    }
+    
+    .text-muted {
+        color: #a0aec0 !important;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .btn-astra-purple,
+    .bg-astra-purple {
+        background-color: #000;
+        border-color: #000;
+    }
+    
+    .btn-astra-yellow,
+    .bg-astra-yellow {
+        background-color: #ffff00;
+        color: #000;
+    }
+}

@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+
+{% block title %}Register Interest - AstraZeneca Clinical Trials{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Header -->
+            <div class="text-center mb-5">
+                <h1 class="text-astra-purple mb-3">
+                    <i class="fas fa-user-plus me-3"></i>
+                    Register Your Interest
+                </h1>
+                <p class="lead text-muted">
+                    Complete this form to express your interest in participating in AstraZeneca clinical trials. 
+                    We'll review your information and contact you about suitable opportunities.
+                </p>
+            </div>
+
+            <!-- Registration Form -->
+            <div class="card shadow">
+                <div class="card-header bg-astra-purple text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-clipboard-list me-2"></i>
+                        Clinical Trial Interest Form
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" novalidate>
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="row">
+                            <!-- Name Field -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.name.id }}" class="form-label required">
+                                    <i class="fas fa-user me-1"></i>
+                                    {{ form.name.label.text }}
+                                </label>
+                                {{ form.name(class="form-control" + (" is-invalid" if form.name.errors else "")) }}
+                                {% if form.name.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.name.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Age Field -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.age.id }}" class="form-label required">
+                                    <i class="fas fa-birthday-cake me-1"></i>
+                                    {{ form.age.label.text }}
+                                </label>
+                                {{ form.age(class="form-control" + (" is-invalid" if form.age.errors else "")) }}
+                                {% if form.age.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.age.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                                <div class="form-text">Must be 18 years or older to participate</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Email Field -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.email.id }}" class="form-label required">
+                                    <i class="fas fa-envelope me-1"></i>
+                                    {{ form.email.label.text }}
+                                </label>
+                                {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else "")) }}
+                                {% if form.email.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.email.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Mobile Field -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.mobile.id }}" class="form-label required">
+                                    <i class="fas fa-phone me-1"></i>
+                                    {{ form.mobile.label.text }}
+                                </label>
+                                {{ form.mobile(class="form-control" + (" is-invalid" if form.mobile.errors else "")) }}
+                                {% if form.mobile.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.mobile.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                                <div class="form-text">10-digit mobile number</div>
+                            </div>
+                        </div>
+
+                        <!-- Pincode Field -->
+                        <div class="mb-3">
+                            <label for="{{ form.pincode.id }}" class="form-label required">
+                                <i class="fas fa-map-marker-alt me-1"></i>
+                                {{ form.pincode.label.text }}
+                            </label>
+                            {{ form.pincode(class="form-control" + (" is-invalid" if form.pincode.errors else "")) }}
+                            {% if form.pincode.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.pincode.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">This helps us identify clinical trials in your area</div>
+                        </div>
+
+                        <!-- Health Information Field -->
+                        <div class="mb-4">
+                            <label for="{{ form.health_info.id }}" class="form-label required">
+                                <i class="fas fa-notes-medical me-1"></i>
+                                {{ form.health_info.label.text }}
+                            </label>
+                            {{ form.health_info(class="form-control" + (" is-invalid" if form.health_info.errors else "")) }}
+                            {% if form.health_info.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.health_info.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">
+                                Please provide information about any medical conditions, medications you're taking, 
+                                allergies, or other relevant health details.
+                            </div>
+                        </div>
+
+                        <!-- Privacy Notice -->
+                        <div class="alert alert-info">
+                            <h6><i class="fas fa-shield-alt me-2"></i>Privacy & Data Protection</h6>
+                            <small>
+                                Your personal information will be kept confidential and used only for clinical trial 
+                                matching purposes. We follow strict data protection protocols and will never share 
+                                your information without your explicit consent.
+                            </small>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid gap-2">
+                            {{ form.submit(class="btn btn-astra-purple btn-lg") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Additional Information -->
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="card border-astra-yellow">
+                        <div class="card-body">
+                            <h6 class="text-astra-purple">
+                                <i class="fas fa-question-circle me-2"></i>
+                                What Happens Next?
+                            </h6>
+                            <ul class="small text-muted list-unstyled">
+                                <li><i class="fas fa-check me-2 text-astra-yellow"></i>We review your information</li>
+                                <li><i class="fas fa-check me-2 text-astra-yellow"></i>Match you with suitable trials</li>
+                                <li><i class="fas fa-check me-2 text-astra-yellow"></i>Contact you within 5-7 days</li>
+                                <li><i class="fas fa-check me-2 text-astra-yellow"></i>Schedule screening if interested</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card border-astra-purple">
+                        <div class="card-body">
+                            <h6 class="text-astra-purple">
+                                <i class="fas fa-info-circle me-2"></i>
+                                Need More Information?
+                            </h6>
+                            <p class="small text-muted mb-2">
+                                Learn more about clinical trials and what to expect:
+                            </p>
+                            <div class="d-grid gap-1">
+                                <a href="https://clinicaltrials.gov" target="_blank" class="btn btn-outline-astra-purple btn-sm">
+                                    ClinicalTrials.gov
+                                </a>
+                                <a href="https://astrazenecaclinicaltrials.com" target="_blank" class="btn btn-outline-astra-purple btn-sm">
+                                    AstraZeneca Portal
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Form validation and UX improvements
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-format mobile number
+    const mobileInput = document.getElementById('mobile');
+    if (mobileInput) {
+        mobileInput.addEventListener('input', function(e) {
+            // Remove non-digits
+            let value = e.target.value.replace(/\D/g, '');
+            // Limit to 10 digits
+            if (value.length > 10) {
+                value = value.slice(0, 10);
+            }
+            e.target.value = value;
+        });
+    }
+
+    // Auto-format pincode
+    const pincodeInput = document.getElementById('pincode');
+    if (pincodeInput) {
+        pincodeInput.addEventListener('input', function(e) {
+            // Remove non-digits
+            let value = e.target.value.replace(/\D/g, '');
+            // Limit to 6 digits
+            if (value.length > 6) {
+                value = value.slice(0, 6);
+            }
+            e.target.value = value;
+        });
+    }
+
+    // Age validation
+    const ageInput = document.getElementById('age');
+    if (ageInput) {
+        ageInput.addEventListener('blur', function(e) {
+            const age = parseInt(e.target.value);
+            if (age < 18) {
+                e.target.classList.add('is-invalid');
+                // Find or create feedback div
+                let feedback = e.target.parentNode.querySelector('.invalid-feedback');
+                if (!feedback) {
+                    feedback = document.createElement('div');
+                    feedback.className = 'invalid-feedback';
+                    e.target.parentNode.appendChild(feedback);
+                }
+                feedback.textContent = 'You must be at least 18 years old to participate in clinical trials.';
+            } else {
+                e.target.classList.remove('is-invalid');
+            }
+        });
+    }
+});
+</script>
+{% endblock %}
