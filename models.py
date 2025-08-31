@@ -177,187 +177,190 @@ def get_eligibility_message(is_eligible, reasons):
         )
 
 def init_sample_data():
-    """Initialize database with sample data"""
+    """Initialize database with 20 diverse sample users for clinical trial interest"""
     sample_users = [
+        # Eligible participants - various cities and conditions
         {
-            'name': 'John Smith',
-            'email': 'john.smith@email.com',
+            'name': 'Rajesh Kumar',
+            'email': 'rajesh.kumar@gmail.com',
+            'mobile': '9845123456',
+            'pincode': '560034',  # Bangalore - eligible
+            'age': 42,
+            'health_info': 'Type 2 diabetes managed with metformin. HbA1c levels stable. Regular exercise and diet control.',
+            'is_eligible': True
+        },
+        {
+            'name': 'Priya Sharma',
+            'email': 'priya.sharma@outlook.com',
             'mobile': '9876543210',
-            'pincode': '110001',
-            'age': 45,
-            'health_info': 'No major health issues. Regular checkups.',
-            'is_eligible': True
-        },
-        {
-            'name': 'Sarah Johnson',
-            'email': 'sarah.j@email.com',
-            'mobile': '9876543211',
-            'pincode': '400001',
-            'age': 32,
-            'health_info': 'Diabetes Type 2, well controlled.',
-            'is_eligible': True
-        },
-        {
-            'name': 'Michael Brown',
-            'email': 'michael.brown@email.com',
-            'mobile': '9876543212',
-            'pincode': '560001',
-            'age': 28,
-            'health_info': 'Hypertension, on medication.',
-            'is_eligible': True
-        },
-        {
-            'name': 'Emily Davis',
-            'email': 'emily.davis@email.com',
-            'mobile': '9876543213',
-            'pincode': '600001',
-            'age': 55,
-            'health_info': 'Arthritis, mild symptoms.',
-            'is_eligible': True
-        },
-        {
-            'name': 'David Wilson',
-            'email': 'david.wilson@email.com',
-            'mobile': '9876543214',
-            'pincode': '700001',
-            'age': 41,
-            'health_info': 'No known allergies or conditions.',
-            'is_eligible': True
-        },
-        {
-            'name': 'Lisa Anderson',
-            'email': 'lisa.anderson@email.com',
-            'mobile': '9876543215',
-            'pincode': '500001',
-            'age': 36,
-            'health_info': 'Asthma, controlled with inhaler.',
-            'is_eligible': True
-        },
-        {
-            'name': 'Robert Taylor',
-            'email': 'robert.taylor@email.com',
-            'mobile': '9876543216',
-            'pincode': '380001',
-            'age': 50,
-            'health_info': 'High cholesterol, on statins.',
-            'is_eligible': True
-        },
-        {
-            'name': 'Jennifer Martinez',
-            'email': 'jennifer.martinez@email.com',
-            'mobile': '9876543217',
-            'pincode': '201001',
-            'age': 29,
-            'health_info': 'PCOS, regular monitoring.',
-            'is_eligible': True
-        },
-        {
-            'name': 'William Garcia',
-            'email': 'william.garcia@email.com',
-            'mobile': '9876543218',
-            'pincode': '411001',
-            'age': 38,
-            'health_info': 'No significant medical history.',
-            'is_eligible': True
-        },
-        {
-            'name': 'Amanda Rodriguez',
-            'email': 'amanda.rodriguez@email.com',
-            'mobile': '9876543219',
-            'pincode': '302001',
-            'age': 43,
-            'health_info': 'Migraine, occasional episodes.',
-            'is_eligible': True
-        },
-        {
-            'name': 'James Lee',
-            'email': 'james.lee@email.com',
-            'mobile': '9876543220',
-            'pincode': '226001',
-            'age': 31,
-            'health_info': 'Thyroid disorder, on medication.',
-            'is_eligible': True
-        },
-        {
-            'name': 'Michelle White',
-            'email': 'michelle.white@email.com',
-            'mobile': '9876543221',
-            'pincode': '121001',
-            'age': 47,
-            'health_info': 'Osteoporosis, taking supplements.',
-            'is_eligible': True
-        },
-        {
-            'name': 'Christopher Hall',
-            'email': 'christopher.hall@email.com',
-            'mobile': '9876543222',
-            'pincode': '141001',
-            'age': 26,
-            'health_info': 'Allergic rhinitis, seasonal.',
-            'is_eligible': True
-        },
-        {
-            'name': 'Stephanie Young',
-            'email': 'stephanie.young@email.com',
-            'mobile': '9876543223',
-            'pincode': '160001',
-            'age': 39,
-            'health_info': 'Anxiety disorder, managed well.',
-            'is_eligible': True
-        },
-        {
-            'name': 'Daniel King',
-            'email': 'daniel.king@email.com',
-            'mobile': '9876543224',
-            'pincode': '151001',
-            'age': 52,
-            'health_info': 'Sleep apnea, uses CPAP machine.',
-            'is_eligible': True
-        },
-        {
-            'name': 'Karen Wright',
-            'email': 'karen.wright@email.com',
-            'mobile': '9876543225',
-            'pincode': '800001',
+            'pincode': '110025',  # Delhi - eligible
             'age': 34,
-            'health_info': 'IBS, dietary management.',
+            'health_info': 'Hypertension controlled with ACE inhibitors. No other significant medical history.',
             'is_eligible': True
         },
         {
-            'name': 'Matthew Lopez',
-            'email': 'matthew.lopez@email.com',
-            'mobile': '9876543226',
-            'pincode': '751001',
+            'name': 'Arjun Reddy',
+            'email': 'arjun.reddy@yahoo.com',
+            'mobile': '9988776655',
+            'pincode': '500032',  # Hyderabad - eligible
+            'age': 28,
+            'health_info': 'Generally healthy. Occasional headaches. Family history of cardiovascular disease.',
+            'is_eligible': True
+        },
+        {
+            'name': 'Meera Iyer',
+            'email': 'meera.iyer@rediffmail.com',
+            'mobile': '9123456789',
+            'pincode': '600028',  # Chennai - eligible
+            'age': 51,
+            'health_info': 'Rheumatoid arthritis treated with methotrexate. Joint pain well controlled.',
+            'is_eligible': True
+        },
+        {
+            'name': 'Vikram Singh',
+            'email': 'vikram.singh@hotmail.com',
+            'mobile': '9765432108',
+            'pincode': '400021',  # Mumbai - eligible
+            'age': 39,
+            'health_info': 'Asthma since childhood. Uses inhaled corticosteroids. No recent exacerbations.',
+            'is_eligible': True
+        },
+        {
+            'name': 'Anjali Gupta',
+            'email': 'anjali.gupta@gmail.com',
+            'mobile': '9654321078',
+            'pincode': '700019',  # Kolkata - eligible
+            'age': 46,
+            'health_info': 'Hypothyroidism on levothyroxine replacement. Thyroid levels within normal range.',
+            'is_eligible': True
+        },
+        {
+            'name': 'Sanjay Patel',
+            'email': 'sanjay.patel@yahoo.in',
+            'mobile': '9543210987',
+            'pincode': '380015',  # Ahmedabad - eligible
+            'age': 33,
+            'health_info': 'No major medical conditions. Occasional back pain from desk job. Takes vitamin D supplements.',
+            'is_eligible': True
+        },
+        {
+            'name': 'Kavya Nair',
+            'email': 'kavya.nair@gmail.com',
+            'mobile': '9432109876',
+            'pincode': '682020',  # Kochi - eligible
+            'age': 29,
+            'health_info': 'PCOS diagnosed 3 years ago. Managed with lifestyle changes and metformin.',
+            'is_eligible': True
+        },
+        {
+            'name': 'Rahul Joshi',
+            'email': 'rahul.joshi@outlook.com',
+            'mobile': '9321098765',
+            'pincode': '411014',  # Pune - eligible
+            'age': 37,
+            'health_info': 'High cholesterol managed with atorvastatin. Regular cardiovascular checkups.',
+            'is_eligible': True
+        },
+        {
+            'name': 'Sneha Desai',
+            'email': 'sneha.desai@rediffmail.com',
+            'mobile': '9210987654',
+            'pincode': '302017',  # Jaipur - eligible
             'age': 44,
-            'health_info': 'No major health concerns.',
+            'health_info': 'Migraine episodes 2-3 times per month. Takes sumatriptan as needed.',
             'is_eligible': True
         },
         {
-            'name': 'Nancy Hill',
-            'email': 'nancy.hill@email.com',
-            'mobile': '9876543227',
-            'pincode': '641001',
-            'age': 17,
-            'health_info': 'Healthy teenager, no issues.',
+            'name': 'Arun Krishnan',
+            'email': 'arun.krishnan@gmail.com',
+            'mobile': '9109876543',
+            'pincode': '560001',  # Bangalore - eligible
+            'age': 55,
+            'health_info': 'Sleep apnea using CPAP machine. Blood pressure controlled with medication.',
+            'is_eligible': True
+        },
+        {
+            'name': 'Divya Agarwal',
+            'email': 'divya.agarwal@yahoo.com',
+            'mobile': '9098765432',
+            'pincode': '201301',  # Noida - eligible
+            'age': 31,
+            'health_info': 'Irritable bowel syndrome managed with diet modifications. No other conditions.',
+            'is_eligible': True
+        },
+        {
+            'name': 'Kiran Kumar',
+            'email': 'kiran.kumar@hotmail.com',
+            'mobile': '8987654321',
+            'pincode': '226010',  # Lucknow - eligible
+            'age': 48,
+            'health_info': 'Osteoarthritis in knee joints. Takes NSAIDs occasionally for pain relief.',
+            'is_eligible': True
+        },
+        
+        # Ineligible participants - various reasons
+        {
+            'name': 'Ravi Gupta',
+            'email': 'ravi.gupta@gmail.com',
+            'mobile': '8876543210',
+            'pincode': '999999',  # Invalid pincode area
+            'age': 35,
+            'health_info': 'Generally good health. No chronic conditions. Regular exercise routine.',
             'is_eligible': False
         },
         {
-            'name': 'Andrew Scott',
-            'email': 'andrew.scott@email.com',
-            'mobile': '9876543228',
-            'pincode': '620001',
-            'age': 25,
-            'health_info': 'Depression, on antidepressants.',
-            'is_eligible': True
+            'name': 'Neha Kapoor',
+            'email': 'neha.kapoor@outlook.com',
+            'mobile': '8765432109',
+            'pincode': '110001',  # Delhi - eligible area
+            'age': 17,  # Too young
+            'health_info': 'Healthy college student. No medical issues. Active lifestyle.',
+            'is_eligible': False
         },
         {
-            'name': 'Patricia Green',
-            'email': 'patricia.green@email.com',
-            'mobile': '9876543229',
-            'pincode': '682001',
-            'age': 48,
-            'health_info': 'Fibromyalgia, pain management.',
-            'is_eligible': True
+            'name': 'Suresh Malhotra',
+            'email': 'suresh.malhotra@yahoo.com',
+            'mobile': '8654321098',
+            'pincode': '400001',  # Mumbai - eligible area
+            'age': 52,
+            'health_info': 'Currently undergoing chemotherapy for colon cancer. Started treatment 2 months ago.',
+            'is_eligible': False
+        },
+        {
+            'name': 'Pooja Sharma',
+            'email': 'pooja.sharma@rediffmail.com',
+            'mobile': '8543210987',
+            'pincode': '560001',  # Bangalore - eligible area
+            'age': 26,
+            'health_info': 'Currently pregnant, second trimester. No complications so far.',
+            'is_eligible': False
+        },
+        {
+            'name': 'Manish Agarwal',
+            'email': 'manish.agarwal@gmail.com',
+            'mobile': '8432109876',
+            'pincode': '800020',  # Patna - eligible area
+            'age': 88,  # Too old
+            'health_info': 'Multiple comorbidities including diabetes, hypertension, and heart disease.',
+            'is_eligible': False
+        },
+        {
+            'name': 'Sunita Reddy',
+            'email': 'sunita.reddy@hotmail.com',
+            'mobile': '8321098765',
+            'pincode': '500001',  # Hyderabad - eligible area
+            'age': 40,
+            'health_info': 'Kidney failure on dialysis three times per week. Awaiting transplant.',
+            'is_eligible': False
+        },
+        {
+            'name': 'Deepak Verma',
+            'email': 'deepak.verma@yahoo.in',
+            'mobile': '8210987654',
+            'pincode': '123456',  # Invalid pincode format/area
+            'age': 32,
+            'health_info': 'No major health issues. Occasional seasonal allergies managed with antihistamines.',
+            'is_eligible': False
         }
     ]
     
