@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Login - AstraZeneca Clinical Trials{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-lg border-0 mt-5">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h3 class="mb-0">
+                        <i class="fas fa-shield-alt me-2"></i>Admin Login
+                    </h3>
+                    <p class="mb-0 small">Clinical Trials Management Portal</p>
+                </div>
+                
+                <div class="card-body p-4">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    
+                    <form method="POST" novalidate>
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="mb-3">
+                            {{ form.username.label(class="form-label fw-bold") }}
+                            {{ form.username(class="form-control form-control-lg") }}
+                            {% if form.username.errors %}
+                                <div class="text-danger small mt-1">
+                                    {% for error in form.username.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-4">
+                            {{ form.password.label(class="form-label fw-bold") }}
+                            {{ form.password(class="form-control form-control-lg") }}
+                            {% if form.password.errors %}
+                                <div class="text-danger small mt-1">
+                                    {% for error in form.password.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="d-grid">
+                            {{ form.submit(class="btn btn-primary btn-lg") }}
+                        </div>
+                    </form>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="text-center">
+                        <small class="text-muted">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Contact IT support if you've forgotten your credentials
+                        </small>
+                    </div>
+                    
+                    <div class="text-center mt-3">
+                        <a href="{{ url_for('index') }}" class="btn btn-outline-secondary btn-sm">
+                            <i class="fas fa-arrow-left me-1"></i>Back to Homepage
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <small class="text-muted">
+                    AstraZeneca Clinical Trials Portal &copy; {{ moment().format('YYYY') if moment else '2024' }}
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.card {
+    border-radius: 15px;
+}
+
+.card-header {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.form-control:focus {
+    border-color: var(--az-primary);
+    box-shadow: 0 0 0 0.2rem rgba(138, 0, 81, 0.25);
+}
+
+.btn-primary {
+    background-color: var(--az-primary);
+    border-color: var(--az-primary);
+}
+
+.btn-primary:hover {
+    background-color: #6d003a;
+    border-color: #6d003a;
+}
+
+body {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    min-height: 100vh;
+}
+</style>
+{% endblock %}

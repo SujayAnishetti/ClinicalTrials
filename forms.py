@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, TextAreaField, SelectField, SubmitField
+from wtforms import StringField, IntegerField, TextAreaField, SelectField, SubmitField, PasswordField
 from wtforms.validators import DataRequired, Email, Length, NumberRange, Regexp
 from wtforms.widgets import TextArea
 
@@ -35,6 +35,17 @@ class InterestForm(FlaskForm):
     ], widget=TextArea(), render_kw={"rows": 4, "placeholder": "Please describe your current health status, any medical conditions, medications, or relevant health information..."})
     
     submit = SubmitField('Submit Interest')
+
+class AdminLoginForm(FlaskForm):
+    username = StringField('Username', validators=[
+        DataRequired(message='Username is required')
+    ], render_kw={"placeholder": "Enter username"})
+    
+    password = PasswordField('Password', validators=[
+        DataRequired(message='Password is required')
+    ], render_kw={"placeholder": "Enter password"})
+    
+    submit = SubmitField('Login')
 
 class AdminSearchForm(FlaskForm):
     search_pincode = StringField('Search by Pincode', render_kw={"placeholder": "Enter pincode"})

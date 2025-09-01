@@ -1,9 +1,11 @@
-from flask import render_template, request, redirect, url_for, flash, jsonify
+from flask import render_template, request, redirect, url_for, flash, jsonify, session
 from app import app, db
 from models import UserSubmission, check_clinical_trial_eligibility, get_eligibility_message
-from forms import InterestForm, AdminSearchForm
+from forms import InterestForm, AdminSearchForm, AdminLoginForm
 from email_service import send_bulk_emails
 import logging
+import os
+from functools import wraps
 
 @app.route('/')
 def index():
@@ -61,7 +63,46 @@ def confirmation(submission_id):
     submission = UserSubmission.query.get_or_404(submission_id)
     return render_template('confirmation.html', submission=submission)
 
+def admin_required(f):
+    """Decorator to require admin authentication"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get('admin_logged_in'):
+            return redirect(url_for('admin_login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    """Admin login page"""
+    form = AdminLoginForm()
+    
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        
+        # Check credentials against environment variables
+        admin_username = os.environ.get('ADMIN_USERNAME', 'admin')
+        admin_password = os.environ.get('ADMIN_PASSWORD', 'admin123')
+        
+        if username == admin_username and password == admin_password:
+            session['admin_logged_in'] = True
+            flash('Successfully logged in to admin panel', 'success')
+            return redirect(url_for('admin_dashboard'))
+        else:
+            flash('Invalid username or password', 'error')
+    
+    return render_template('admin_login.html', form=form)
+
+@app.route('/admin/logout')
+def admin_logout():
+    """Admin logout"""
+    session.pop('admin_logged_in', None)
+    flash('You have been logged out', 'info')
+    return redirect(url_for('admin_login'))
+
 @app.route('/admin')
+@admin_required
 def admin_dashboard():
     """Admin dashboard for managing submissions"""
     search_form = AdminSearchForm()
@@ -103,6 +144,7 @@ def admin_dashboard():
                          current_eligibility=eligibility_filter)
 
 @app.route('/admin/send_emails', methods=['POST'])
+@admin_required
 def send_emails():
     """Send bulk emails to selected submissions"""
     selected_ids = request.form.getlist('selected_submissions')
