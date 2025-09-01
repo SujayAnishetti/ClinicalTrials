@@ -1,0 +1,375 @@
+{% extends "base.html" %}
+
+{% block title %}Cell Therapy Clinical Trials - AstraZeneca{% endblock %}
+
+{% block head %}
+<!-- Custom CSS for Cell Therapy page -->
+<style>
+    .trial-card {
+        border: 1px solid #dee2e6;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        background: white;
+    }
+    
+    .trial-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(138, 0, 81, 0.15);
+    }
+    
+    .nct-badge {
+        background: var(--az-primary);
+        color: white;
+        font-weight: bold;
+        padding: 4px 8px;
+        border-radius: 15px;
+        font-size: 0.8rem;
+    }
+    
+    .status-recruiting {
+        background: #28a745;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+    
+    .status-upcoming {
+        background: #ffc107;
+        color: #212529;
+        padding: 4px 12px;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+    
+    .hero-cell {
+        background: linear-gradient(135deg, var(--az-primary) 0%, #6d003f 100%);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero-cell::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="30" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="60" cy="70" r="2.5" fill="rgba(255,255,255,0.1)"/><circle cx="30" cy="80" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="60" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+        animation: float 20s linear infinite;
+    }
+    
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        100% { transform: translateY(-100px); }
+    }
+    
+    .location-card {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 1rem;
+        background: white;
+        transition: all 0.2s ease;
+    }
+    
+    .location-card:hover {
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-cell text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1 class="display-4 fw-bold mb-4">
+                    <i class="fas fa-dna me-3"></i>
+                    Cell Therapy Clinical Trials
+                </h1>
+                <p class="lead mb-4">
+                    Explore AstraZeneca's groundbreaking cell therapy trials using CAR-T technology for advanced cancer treatment. 
+                    Join the forefront of personalized medicine that could transform cancer care.
+                </p>
+                <div class="d-flex flex-column flex-sm-row gap-3">
+                    <a href="{{ url_for('celltherapy_interest') }}" class="btn btn-astra-yellow btn-lg px-4">
+                        <i class="fas fa-user-plus me-2"></i>Express Interest
+                    </a>
+                    <a href="https://astrazenecaclinicaltrials.com" target="_blank" class="btn btn-outline-light btn-lg px-4">
+                        <i class="fas fa-external-link-alt me-2"></i>Learn More
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center">
+                <div class="hero-icon">
+                    <i class="fas fa-microscope fa-8x opacity-75"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Cell Therapy Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center mb-5">
+                <h2 class="text-astra-purple mb-4">What is Cell Therapy?</h2>
+                <p class="lead text-muted">
+                    Cell therapy represents a revolutionary approach to cancer treatment, using genetically modified immune cells 
+                    to target and destroy cancer cells with unprecedented precision.
+                </p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="icon-circle bg-astra-purple text-white mb-3 mx-auto">
+                            <i class="fas fa-shield-virus fa-2x"></i>
+                        </div>
+                        <h5 class="card-title text-astra-purple">CAR-T Technology</h5>
+                        <p class="card-text text-muted">
+                            Chimeric Antigen Receptor T-cell therapy uses your own immune cells, 
+                            modified to better recognize and attack cancer cells.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="icon-circle bg-astra-yellow text-astra-purple mb-3 mx-auto">
+                            <i class="fas fa-bullseye fa-2x"></i>
+                        </div>
+                        <h5 class="card-title text-astra-purple">Targeted Treatment</h5>
+                        <p class="card-text text-muted">
+                            Specifically designed to target GPC3-positive tumors in advanced 
+                            hepatocellular carcinoma with precision.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="icon-circle bg-astra-purple text-white mb-3 mx-auto">
+                            <i class="fas fa-user-md fa-2x"></i>
+                        </div>
+                        <h5 class="card-title text-astra-purple">Personalized Medicine</h5>
+                        <p class="card-text text-muted">
+                            Each treatment is customized using the patient's own cells, 
+                            offering a personalized approach to cancer therapy.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Clinical Trials Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center mb-5">
+                <h2 class="text-astra-purple mb-4">Current Cell Therapy Trials</h2>
+                <p class="lead text-muted">
+                    Explore our active clinical trials investigating innovative cell therapy treatments 
+                    for advanced cancer patients.
+                </p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <!-- LOCUS Trial -->
+            <div class="col-lg-6">
+                <div class="trial-card p-4 h-100">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h4 class="text-astra-purple mb-0">{{ trials.locus.name }}</h4>
+                        <span class="nct-badge">{{ trials.locus.nct_id }}</span>
+                    </div>
+                    <div class="mb-3">
+                        <span class="status-upcoming">{{ trials.locus.status }}</span>
+                    </div>
+                    <p class="text-muted mb-3">{{ trials.locus.description }}</p>
+                    
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <small class="text-muted d-block">Phase</small>
+                            <strong>{{ trials.locus.phase }}</strong>
+                        </div>
+                        <div class="col-6">
+                            <small class="text-muted d-block">Age Range</small>
+                            <strong>{{ trials.locus.age_range }}</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <small class="text-muted d-block">Condition</small>
+                        <strong>{{ trials.locus.condition }}</strong>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <small class="text-muted d-block">Duration</small>
+                        <strong>{{ trials.locus.duration }}</strong>
+                    </div>
+                    
+                    <a href="https://clinicaltrials.gov/study/{{ trials.locus.nct_id }}" target="_blank" class="btn btn-outline-astra-purple btn-sm">
+                        <i class="fas fa-external-link-alt me-2"></i>View Details
+                    </a>
+                </div>
+            </div>
+            
+            <!-- AZD5851 Trial -->
+            <div class="col-lg-6">
+                <div class="trial-card p-4 h-100">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h4 class="text-astra-purple mb-0">{{ trials.azd5851.name }}</h4>
+                        <span class="nct-badge">{{ trials.azd5851.nct_id }}</span>
+                    </div>
+                    <div class="mb-3">
+                        <span class="status-recruiting">{{ trials.azd5851.status }}</span>
+                    </div>
+                    <p class="text-muted mb-3">{{ trials.azd5851.description }}</p>
+                    
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <small class="text-muted d-block">Phase</small>
+                            <strong>{{ trials.azd5851.phase }}</strong>
+                        </div>
+                        <div class="col-6">
+                            <small class="text-muted d-block">Age Range</small>
+                            <strong>{{ trials.azd5851.age_range }}</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <small class="text-muted d-block">Condition</small>
+                        <strong>{{ trials.azd5851.condition }}</strong>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <small class="text-muted d-block">Target Enrollment</small>
+                        <strong>{{ trials.azd5851.target_enrollment }}</strong>
+                    </div>
+                    
+                    <a href="https://clinicaltrials.gov/study/{{ trials.azd5851.nct_id }}" target="_blank" class="btn btn-outline-astra-purple btn-sm">
+                        <i class="fas fa-external-link-alt me-2"></i>View Details
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Trial Locations -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center mb-5">
+                <h2 class="text-astra-purple mb-4">Trial Locations</h2>
+                <p class="lead text-muted">
+                    Our cell therapy trials are conducted at leading medical centers with expertise in cellular therapy.
+                </p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            {% for location in locations %}
+            <div class="col-md-6">
+                <div class="location-card">
+                    <h5 class="text-astra-purple mb-2">
+                        <i class="fas fa-map-marker-alt me-2"></i>{{ location.name }}
+                    </h5>
+                    <p class="text-muted mb-2">
+                        <i class="fas fa-phone me-2"></i>Contact: {{ location.contact }}
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Eligibility Information -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="text-astra-purple mb-4">Cell Therapy Eligibility</h2>
+                <ul class="list-unstyled">
+                    <li class="mb-3">
+                        <i class="fas fa-check-circle text-astra-yellow me-3"></i>
+                        <strong>Age 18-65 years</strong> for most cell therapy trials
+                    </li>
+                    <li class="mb-3">
+                        <i class="fas fa-check-circle text-astra-yellow me-3"></i>
+                        <strong>Specific cancer diagnosis</strong> matching trial criteria (e.g., Hepatocellular Carcinoma)
+                    </li>
+                    <li class="mb-3">
+                        <i class="fas fa-check-circle text-astra-yellow me-3"></i>
+                        <strong>Previous treatment history</strong> as specified by the protocol
+                    </li>
+                    <li class="mb-3">
+                        <i class="fas fa-check-circle text-astra-yellow me-3"></i>
+                        <strong>Adequate organ function</strong> to safely receive cell therapy
+                    </li>
+                    <li class="mb-3">
+                        <i class="fas fa-check-circle text-astra-yellow me-3"></i>
+                        <strong>Performance status</strong> sufficient for participation
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-6">
+                <div class="bg-white rounded p-4 shadow-sm">
+                    <h4 class="text-astra-purple mb-3">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Important Information
+                    </h4>
+                    <p class="text-muted mb-3">
+                        Cell therapy trials have specific eligibility criteria that may differ from other cancer treatments. 
+                        A thorough medical evaluation is required to determine suitability.
+                    </p>
+                    <div class="alert alert-info">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <small>
+                            <strong>Note:</strong> Final eligibility is determined by the study team after comprehensive medical review. 
+                            Expressing interest does not guarantee participation.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-astra-purple text-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="mb-4">Ready to Explore Cell Therapy Options?</h2>
+                <p class="lead mb-4">
+                    Express your interest in our cell therapy clinical trials. Our research team will review your information 
+                    and contact you if you may be eligible for participation.
+                </p>
+                <a href="{{ url_for('celltherapy_interest') }}" class="btn btn-astra-yellow btn-lg px-5 me-3">
+                    <i class="fas fa-clipboard-list me-2"></i>
+                    Express Interest in Cell Therapy
+                </a>
+                <a href="{{ url_for('index') }}" class="btn btn-outline-light btn-lg px-4">
+                    <i class="fas fa-arrow-left me-2"></i>
+                    Back to All Trials
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

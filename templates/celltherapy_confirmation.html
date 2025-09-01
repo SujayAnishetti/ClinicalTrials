@@ -1,0 +1,236 @@
+{% extends "base.html" %}
+
+{% block title %}Cell Therapy Submission Confirmed - AstraZeneca{% endblock %}
+
+{% block head %}
+<style>
+    .confirmation-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .confirmation-header {
+        background: linear-gradient(135deg, var(--az-primary) 0%, #6d003f 100%);
+        color: white;
+        border-radius: 15px 15px 0 0;
+    }
+    
+    .check-icon {
+        width: 80px;
+        height: 80px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+    }
+    
+    .detail-card {
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .status-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+    
+    .status-eligible {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+    
+    .status-review {
+        background: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeeba;
+    }
+    
+    .next-steps {
+        background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+        border-left: 4px solid var(--az-primary);
+        padding: 1.5rem;
+        border-radius: 0 8px 8px 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="confirmation-card">
+                    <div class="confirmation-header p-4 text-center">
+                        <div class="check-icon">
+                            <i class="fas fa-check fa-3x"></i>
+                        </div>
+                        <h2 class="mb-2">Cell Therapy Interest Submitted!</h2>
+                        <p class="mb-0">
+                            Thank you for your interest in AstraZeneca's cell therapy clinical trials
+                        </p>
+                    </div>
+                    
+                    <div class="p-4">
+                        <!-- Submission Details -->
+                        <div class="detail-card">
+                            <h5 class="text-astra-purple mb-3">
+                                <i class="fas fa-user me-2"></i>Submission Details
+                            </h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p class="mb-2"><strong>Name:</strong> {{ submission.name }}</p>
+                                    <p class="mb-2"><strong>Email:</strong> {{ submission.email }}</p>
+                                    <p class="mb-2"><strong>Mobile:</strong> {{ submission.mobile }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="mb-2"><strong>Age:</strong> {{ submission.age }} years</p>
+                                    <p class="mb-2"><strong>Pincode:</strong> {{ submission.pincode }}</p>
+                                    <p class="mb-2"><strong>Submitted:</strong> {{ submission.created_at.strftime('%B %d, %Y at %I:%M %p') }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Eligibility Status -->
+                        <div class="detail-card">
+                            <h5 class="text-astra-purple mb-3">
+                                <i class="fas fa-clipboard-check me-2"></i>Initial Screening Status
+                            </h5>
+                            <div class="text-center mb-3">
+                                {% if submission.is_eligible %}
+                                    <span class="status-badge status-eligible">
+                                        <i class="fas fa-check-circle me-2"></i>Meets Initial Criteria
+                                    </span>
+                                {% else %}
+                                    <span class="status-badge status-review">
+                                        <i class="fas fa-exclamation-circle me-2"></i>Requires Further Review
+                                    </span>
+                                {% endif %}
+                            </div>
+                            
+                            {% if submission.is_eligible %}
+                                <div class="alert alert-success">
+                                    <i class="fas fa-thumbs-up me-2"></i>
+                                    <strong>Great news!</strong> Based on your initial information, you appear to meet 
+                                    the basic eligibility criteria for our cell therapy trials. Our research team will 
+                                    contact you soon for the next steps.
+                                </div>
+                            {% else %}
+                                <div class="alert alert-warning">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <strong>Thank you for your interest.</strong> While you may not meet all initial 
+                                    screening criteria at this time, our research team will review your information 
+                                    and contact you if suitable opportunities become available.
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Medical Information -->
+                        <div class="detail-card">
+                            <h5 class="text-astra-purple mb-3">
+                                <i class="fas fa-stethoscope me-2"></i>Medical Information Provided
+                            </h5>
+                            <p class="mb-2"><strong>Diagnosis:</strong> {{ submission.diagnosis }}</p>
+                            <p class="mb-0"><strong>Current Health Status:</strong></p>
+                            <p class="text-muted small">{{ submission.current_health_status }}</p>
+                        </div>
+                        
+                        <!-- Next Steps -->
+                        <div class="next-steps">
+                            <h5 class="text-astra-purple mb-3">
+                                <i class="fas fa-route me-2"></i>What Happens Next?
+                            </h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">
+                                            <i class="fas fa-clock text-astra-yellow me-2"></i>
+                                            <strong>Within 3-5 business days:</strong> Initial review of your submission
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-phone text-astra-yellow me-2"></i>
+                                            <strong>If eligible:</strong> Phone screening with research coordinator
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">
+                                            <i class="fas fa-user-md text-astra-yellow me-2"></i>
+                                            <strong>Medical evaluation:</strong> Comprehensive health assessment
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-handshake text-astra-yellow me-2"></i>
+                                            <strong>Informed consent:</strong> Detailed discussion about the trial
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Important Notes -->
+                        <div class="alert alert-info mt-4">
+                            <h6 class="text-astra-purple mb-2">
+                                <i class="fas fa-exclamation-triangle me-2"></i>Important Notes
+                            </h6>
+                            <ul class="mb-0 small">
+                                <li>Expressing interest does not guarantee participation in the trial</li>
+                                <li>Final eligibility is determined through comprehensive medical evaluation</li>
+                                <li>You may withdraw your interest at any time</li>
+                                <li>All participation is voluntary and at no cost to you</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Contact Information -->
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="card border-0 bg-light">
+                                    <div class="card-body">
+                                        <h6 class="text-astra-purple mb-2">
+                                            <i class="fas fa-envelope me-2"></i>Questions or Concerns?
+                                        </h6>
+                                        <p class="small text-muted mb-0">
+                                            Email us at: <strong>clinicaltrials@astrazeneca.com</strong>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="card border-0 bg-light">
+                                    <div class="card-body">
+                                        <h6 class="text-astra-purple mb-2">
+                                            <i class="fas fa-phone me-2"></i>Need to Speak with Someone?
+                                        </h6>
+                                        <p class="small text-muted mb-0">
+                                            Call us at: <strong>888-689-8273</strong> (Mon-Fri, 9 AM - 5 PM)
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+                            <a href="{{ url_for('celltherapy') }}" class="btn btn-astra-purple btn-lg px-4 me-md-2">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Cell Therapy Info
+                            </a>
+                            <a href="{{ url_for('index') }}" class="btn btn-outline-astra-purple btn-lg px-4">
+                                <i class="fas fa-home me-2"></i>Return to Homepage
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

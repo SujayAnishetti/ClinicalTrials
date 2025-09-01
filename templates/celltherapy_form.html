@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+
+{% block title %}Cell Therapy Interest Form - AstraZeneca{% endblock %}
+
+{% block head %}
+<style>
+    .form-container {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .form-header {
+        background: linear-gradient(135deg, var(--az-primary) 0%, #6d003f 100%);
+        color: white;
+        border-radius: 15px 15px 0 0;
+    }
+    
+    .form-group label {
+        color: var(--az-primary);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-control:focus {
+        border-color: var(--az-primary);
+        box-shadow: 0 0 0 0.2rem rgba(138, 0, 81, 0.25);
+    }
+    
+    .info-card {
+        background: #f8f9fa;
+        border-left: 4px solid var(--az-primary);
+        padding: 1rem;
+        margin: 1rem 0;
+        border-radius: 0 8px 8px 0;
+    }
+    
+    .required-field::after {
+        content: " *";
+        color: #dc3545;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="form-container">
+                    <div class="form-header p-4 text-center">
+                        <h2 class="mb-2">
+                            <i class="fas fa-dna me-3"></i>
+                            Cell Therapy Interest Form
+                        </h2>
+                        <p class="mb-0">
+                            Express your interest in AstraZeneca's innovative cell therapy clinical trials
+                        </p>
+                    </div>
+                    
+                    <div class="p-4">
+                        <div class="info-card">
+                            <h6 class="text-astra-purple mb-2">
+                                <i class="fas fa-info-circle me-2"></i>Before You Begin
+                            </h6>
+                            <p class="mb-0 small text-muted">
+                                This form helps us determine if you might be eligible for our cell therapy trials. 
+                                Please provide accurate information. All information is confidential and secure.
+                            </p>
+                        </div>
+                        
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                <h6><i class="fas fa-exclamation-triangle me-2"></i>Please correct the following errors:</h6>
+                                <ul class="mb-0">
+                                {% for field, errors in form.errors.items() %}
+                                    {% for error in errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        
+                        <form method="POST" novalidate>
+                            {{ form.hidden_tag() }}
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        {{ form.name.label(class="form-label required-field") }}
+                                        {{ form.name(class="form-control") }}
+                                        {% if form.name.errors %}
+                                            <div class="text-danger small mt-1">
+                                                {% for error in form.name.errors %}{{ error }}{% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        {{ form.email.label(class="form-label required-field") }}
+                                        {{ form.email(class="form-control") }}
+                                        {% if form.email.errors %}
+                                            <div class="text-danger small mt-1">
+                                                {% for error in form.email.errors %}{{ error }}{% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        {{ form.mobile.label(class="form-label required-field") }}
+                                        {{ form.mobile(class="form-control") }}
+                                        <small class="text-muted">10-digit mobile number (e.g., 9876543210)</small>
+                                        {% if form.mobile.errors %}
+                                            <div class="text-danger small mt-1">
+                                                {% for error in form.mobile.errors %}{{ error }}{% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-3">
+                                    <div class="form-group mb-3">
+                                        {{ form.pincode.label(class="form-label required-field") }}
+                                        {{ form.pincode(class="form-control") }}
+                                        <small class="text-muted">6-digit pincode</small>
+                                        {% if form.pincode.errors %}
+                                            <div class="text-danger small mt-1">
+                                                {% for error in form.pincode.errors %}{{ error }}{% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-3">
+                                    <div class="form-group mb-3">
+                                        {{ form.age.label(class="form-label required-field") }}
+                                        {{ form.age(class="form-control") }}
+                                        <small class="text-muted">Age in years</small>
+                                        {% if form.age.errors %}
+                                            <div class="text-danger small mt-1">
+                                                {% for error in form.age.errors %}{{ error }}{% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group mb-3">
+                                {{ form.diagnosis.label(class="form-label required-field") }}
+                                {{ form.diagnosis(class="form-control") }}
+                                <small class="text-muted">Current medical diagnosis (particularly liver-related conditions)</small>
+                                {% if form.diagnosis.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.diagnosis.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-group mb-4">
+                                {{ form.current_health_status.label(class="form-label required-field") }}
+                                {{ form.current_health_status(class="form-control") }}
+                                <small class="text-muted">
+                                    Detailed information about your current health, treatments received, medications, 
+                                    and any relevant medical history that might be important for cell therapy evaluation.
+                                </small>
+                                {% if form.current_health_status.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.current_health_status.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="info-card">
+                                <h6 class="text-astra-purple mb-2">
+                                    <i class="fas fa-shield-alt me-2"></i>Privacy & Next Steps
+                                </h6>
+                                <ul class="mb-0 small text-muted">
+                                    <li>Your information is confidential and will only be used for trial screening</li>
+                                    <li>A member of our research team will contact you if you may be eligible</li>
+                                    <li>Additional medical evaluations will be required for final eligibility determination</li>
+                                    <li>You may withdraw your interest at any time</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                                {{ form.submit(class="btn btn-astra-purple btn-lg px-5 me-md-2") }}
+                                <a href="{{ url_for('celltherapy') }}" class="btn btn-outline-secondary btn-lg px-4">
+                                    <i class="fas fa-arrow-left me-2"></i>Back to Cell Therapy Info
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Additional Information -->
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body">
+                                <h6 class="text-astra-purple mb-3">
+                                    <i class="fas fa-question-circle me-2"></i>Questions?
+                                </h6>
+                                <p class="small text-muted mb-0">
+                                    Contact our clinical research team at 
+                                    <strong>888-689-8273</strong> or visit 
+                                    <a href="https://astrazenecaclinicaltrials.com" target="_blank">AstraZeneca Clinical Trials</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body">
+                                <h6 class="text-astra-purple mb-3">
+                                    <i class="fas fa-clock me-2"></i>Response Time
+                                </h6>
+                                <p class="small text-muted mb-0">
+                                    You can expect to hear from our team within 
+                                    <strong>3-5 business days</strong> if you meet the initial screening criteria.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

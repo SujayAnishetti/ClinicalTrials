@@ -47,6 +47,44 @@ class AdminLoginForm(FlaskForm):
     
     submit = SubmitField('Login')
 
+class CellTherapyInterestForm(FlaskForm):
+    name = StringField('Full Name', validators=[
+        DataRequired(message='Name is required'),
+        Length(min=2, max=100, message='Name must be between 2 and 100 characters')
+    ])
+    
+    email = StringField('Email Address', validators=[
+        DataRequired(message='Email is required'),
+        Email(message='Please enter a valid email address')
+    ])
+    
+    mobile = StringField('Mobile Number', validators=[
+        DataRequired(message='Mobile number is required'),
+        Regexp(r'^\d{10}$', message='Please enter a valid 10-digit mobile number')
+    ])
+    
+    pincode = StringField('Pincode', validators=[
+        DataRequired(message='Pincode is required'),
+        Regexp(r'^\d{6}$', message='Please enter a valid 6-digit pincode')
+    ])
+    
+    age = IntegerField('Age', validators=[
+        DataRequired(message='Age is required'),
+        NumberRange(min=16, max=120, message='Age must be between 16 and 120')
+    ])
+    
+    diagnosis = StringField('Current Diagnosis', validators=[
+        DataRequired(message='Diagnosis is required'),
+        Length(min=5, max=200, message='Please provide between 5 and 200 characters')
+    ], render_kw={"placeholder": "e.g., Hepatocellular Carcinoma, Advanced Liver Cancer, etc."})
+    
+    current_health_status = TextAreaField('Current Health Status', validators=[
+        DataRequired(message='Current health status is required'),
+        Length(min=20, max=1000, message='Please provide between 20 and 1000 characters')
+    ], widget=TextArea(), render_kw={"rows": 5, "placeholder": "Please describe your current health status, any treatments you've received, current medications, and any relevant medical history..."})
+    
+    submit = SubmitField('Submit Interest for Cell Therapy')
+
 class AdminSearchForm(FlaskForm):
     search_pincode = StringField('Search by Pincode', render_kw={"placeholder": "Enter pincode"})
     
@@ -54,6 +92,12 @@ class AdminSearchForm(FlaskForm):
         ('', 'All'),
         ('eligible', 'Eligible Only'),
         ('not_eligible', 'Not Eligible Only')
+    ])
+    
+    therapy_filter = SelectField('Filter by Therapy Type', choices=[
+        ('', 'All Therapies'),
+        ('general', 'General Interest'),
+        ('cell_therapy', 'Cell Therapy')
     ])
     
     submit = SubmitField('Search')

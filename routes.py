@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for, flash, jsonify, session
 from app import app, db
-from models import UserSubmission, check_clinical_trial_eligibility, get_eligibility_message
-from forms import InterestForm, AdminSearchForm, AdminLoginForm
+from models import UserSubmission, check_clinical_trial_eligibility, get_eligibility_message, check_cell_therapy_eligibility
+from forms import InterestForm, AdminSearchForm, AdminLoginForm, CellTherapyInterestForm
 from email_service import send_bulk_emails
 import logging
 import os
@@ -63,6 +63,95 @@ def confirmation(submission_id):
     submission = UserSubmission.query.get_or_404(submission_id)
     return render_template('confirmation.html', submission=submission)
 
+@app.route('/celltherapy')
+def celltherapy():
+    """Cell Therapy landing page with trial information"""
+    trials_info = {
+        'locus': {
+            'name': 'LOCUS - Long-term Follow-up Study',
+            'nct_id': 'NCT06194461',
+            'description': 'Master long-term follow-up protocol for participants who received cell or gene therapies in other AstraZeneca studies',
+            'phase': 'Phase 1/2',
+            'condition': 'Hepatocellular Carcinoma',
+            'age_range': '18-130 years',
+            'status': 'Will Be Recruiting (Sept 2025)',
+            'duration': 'Up to 15 years post-treatment monitoring'
+        },
+        'azd5851': {
+            'name': 'ATHENA - AZD5851 CAR-T Study',
+            'nct_id': 'NCT06084884',
+            'description': 'Phase I/II study evaluating AZD5851 CAR-T therapy for GPC3+ advanced/recurrent hepatocellular carcinoma',
+            'phase': 'Phase I/II',
+            'condition': 'Advanced Hepatocellular Carcinoma',
+            'age_range': '18+ years',
+            'status': 'Currently Recruiting',
+            'target_enrollment': '94 participants'
+        }
+    }
+    
+    locations = [
+        {'name': 'UCSF (University of California, San Francisco)', 'contact': '888-689-8273'},
+        {'name': 'Multiple International Sites', 'contact': 'Contact study coordinator'}
+    ]
+    
+    return render_template('celltherapy.html', trials=trials_info, locations=locations)
+
+@app.route('/celltherapy/interest', methods=['GET', 'POST'])
+def celltherapy_interest():
+    """Cell therapy specific interest form"""
+    form = CellTherapyInterestForm()
+    
+    if form.validate_on_submit():
+        # Cell therapy specific eligibility check
+        is_eligible, reasons = check_cell_therapy_eligibility(
+            age=form.age.data,
+            pincode=form.pincode.data,
+            diagnosis=form.diagnosis.data,
+            health_status=form.current_health_status.data
+        )
+        
+        # Generate user-friendly message for cell therapy
+        message_type, message = get_eligibility_message(is_eligible, reasons)
+        
+        # Create new cell therapy submission
+        submission = UserSubmission(
+            name=form.name.data,
+            email=form.email.data,
+            mobile=form.mobile.data,
+            pincode=form.pincode.data,
+            age=form.age.data,
+            health_info=form.current_health_status.data,
+            is_eligible=is_eligible,
+            therapy_type='cell_therapy',
+            diagnosis=form.diagnosis.data,
+            current_health_status=form.current_health_status.data
+        )
+        
+        try:
+            db.session.add(submission)
+            db.session.commit()
+            
+            flash(message, message_type)
+            
+            return redirect(url_for('celltherapy_confirmation', submission_id=submission.id))
+            
+        except Exception as e:
+            db.session.rollback()
+            flash('An error occurred while submitting your form. Please try again.', 'error')
+            logging.error(f"Error saving cell therapy submission: {e}")
+    
+    return render_template('celltherapy_form.html', form=form)
+
+@app.route('/celltherapy/confirmation/<int:submission_id>')
+def celltherapy_confirmation(submission_id):
+    """Confirmation page for cell therapy submission"""
+    submission = UserSubmission.query.get_or_404(submission_id)
+    if submission.therapy_type != 'cell_therapy':
+        flash('Invalid submission type', 'error')
+        return redirect(url_for('celltherapy'))
+    
+    return render_template('celltherapy_confirmation.html', submission=submission)
+
 def admin_required(f):
     """Decorator to require admin authentication"""
     @wraps(f)
@@ -113,6 +202,7 @@ def admin_dashboard():
     # Apply filters if provided
     pincode_filter = request.args.get('search_pincode', '').strip()
     eligibility_filter = request.args.get('eligibility_filter', '')
+    therapy_filter = request.args.get('therapy_filter', '')
     
     if pincode_filter:
         query = query.filter(UserSubmission.pincode.contains(pincode_filter))
@@ -122,18 +212,27 @@ def admin_dashboard():
     elif eligibility_filter == 'not_eligible':
         query = query.filter(UserSubmission.is_eligible == False)
     
+    if therapy_filter == 'general':
+        query = query.filter(UserSubmission.therapy_type == 'general')
+    elif therapy_filter == 'cell_therapy':
+        query = query.filter(UserSubmission.therapy_type == 'cell_therapy')
+    
     submissions = query.order_by(UserSubmission.created_at.desc()).all()
     
     # Statistics
     total_submissions = UserSubmission.query.count()
     eligible_count = UserSubmission.query.filter(UserSubmission.is_eligible == True).count()
     emails_sent_count = UserSubmission.query.filter(UserSubmission.email_sent == True).count()
+    cell_therapy_count = UserSubmission.query.filter(UserSubmission.therapy_type == 'cell_therapy').count()
+    general_count = UserSubmission.query.filter(UserSubmission.therapy_type == 'general').count()
     
     stats = {
         'total': total_submissions,
         'eligible': eligible_count,
         'not_eligible': total_submissions - eligible_count,
-        'emails_sent': emails_sent_count
+        'emails_sent': emails_sent_count,
+        'cell_therapy': cell_therapy_count,
+        'general': general_count
     }
     
     return render_template('admin/dashboard.html', 
@@ -141,7 +240,8 @@ def admin_dashboard():
                          search_form=search_form,
                          stats=stats,
                          current_pincode=pincode_filter,
-                         current_eligibility=eligibility_filter)
+                         current_eligibility=eligibility_filter,
+                         current_therapy=therapy_filter)
 
 @app.route('/admin/send_emails', methods=['POST'])
 @admin_required

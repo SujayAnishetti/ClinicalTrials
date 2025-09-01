@@ -13,6 +13,9 @@ class UserSubmission(db.Model):
     is_eligible = db.Column(db.Boolean, nullable=False, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     email_sent = db.Column(db.Boolean, default=False)
+    therapy_type = db.Column(db.String(50), nullable=False, default='general')  # 'general', 'cell_therapy'
+    diagnosis = db.Column(db.String(200), nullable=True)  # For cell therapy specific diagnosis
+    current_health_status = db.Column(db.Text, nullable=True)  # Additional health status for cell therapy
     
     def __repr__(self):
         return f'<UserSubmission {self.name}>'
@@ -128,6 +131,61 @@ def check_clinical_trial_eligibility(age, pincode, health_info, mobile=None, add
                     reasons.append(f"Current medication ({med}) may interfere with trial participation")
     
     # Determine overall eligibility
+    is_eligible = len(reasons) == 0
+    
+    return is_eligible, reasons
+
+def check_cell_therapy_eligibility(age, pincode, diagnosis, health_status, mobile=None):
+    """
+    Cell therapy specific eligibility check
+    
+    Args:
+        age (int): Participant's age (18-65 for cell therapy)
+        pincode (str): Participant's pincode
+        diagnosis (str): Current diagnosis
+        health_status (str): Detailed health status
+        mobile (str, optional): Mobile number for additional validation
+    
+    Returns:
+        tuple: (is_eligible: bool, reasons: list)
+    """
+    reasons = []
+    
+    # Age validation for cell therapy (stricter than general trials)
+    if age < 18:
+        reasons.append("Must be at least 18 years old for cell therapy trials")
+    elif age > 65:
+        reasons.append("Cell therapy trials typically accept participants up to 65 years old")
+    
+    # Pincode validation
+    if not UserSubmission.validate_pincode(pincode):
+        reasons.append("Invalid pincode format")
+    
+    # Diagnosis validation - check for qualifying conditions
+    diagnosis_lower = diagnosis.lower()
+    qualifying_conditions = [
+        'hepatocellular carcinoma', 'liver cancer', 'hcc', 'hepatocellular',
+        'liver tumor', 'liver malignancy', 'hepatic cancer'
+    ]
+    
+    has_qualifying_diagnosis = any(condition in diagnosis_lower for condition in qualifying_conditions)
+    if not has_qualifying_diagnosis:
+        reasons.append("Cell therapy trials focus on specific conditions. Please consult with your healthcare provider.")
+    
+    # Health status validation
+    if len(health_status.strip()) < 20:
+        reasons.append("More detailed health information is required for cell therapy evaluation")
+    
+    # Mobile validation if provided
+    if mobile and not re.match(r'^\d{10}$', mobile):
+        reasons.append("Invalid mobile number format")
+    
+    # Additional cell therapy specific criteria
+    concerning_keywords = ['severe heart', 'severe kidney', 'severe lung', 'active infection', 'immunocompromised']
+    health_lower = health_status.lower()
+    if any(keyword in health_lower for keyword in concerning_keywords):
+        reasons.append("Some health conditions may affect cell therapy eligibility. A detailed medical evaluation is required.")
+    
     is_eligible = len(reasons) == 0
     
     return is_eligible, reasons
