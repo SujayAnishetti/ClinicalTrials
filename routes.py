@@ -340,6 +340,17 @@ def api_check_eligibility():
             'is_eligible': False
         }), 500
 
+# Individual Clinical Trial Pages
+@app.route('/trial/locus')
+def trial_locus():
+    """LOCUS Trial Detail Page - NCT06194461"""
+    return render_template('trial_locus.html')
+
+@app.route('/trial/azd5851')
+def trial_azd5851():
+    """AZD5851 Trial Detail Page - NCT06084884"""
+    return render_template('trial_azd5851.html')
+
 @app.errorhandler(404)
 def not_found_error(error):
     return render_template('404.html'), 404
