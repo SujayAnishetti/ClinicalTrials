@@ -260,7 +260,14 @@ def send_emails():
         ).all()
         
         # Send emails
-        success_count, error_count = send_bulk_emails(selected_submissions)
+        success_count, error_count, success_emails = send_bulk_emails(selected_submissions)
+        
+        # Update database for successful emails
+        if success_emails:
+            for submission in selected_submissions:
+                if submission.email in success_emails:
+                    submission.email_sent = True
+            db.session.commit()
         
         if success_count > 0:
             flash(f'Successfully sent {success_count} emails.', 'success')

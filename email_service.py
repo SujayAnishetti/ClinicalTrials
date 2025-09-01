@@ -4,7 +4,6 @@ import logging
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from typing import List, Dict, Tuple, Optional
-from app import db
 
 class EmailService:
     """
@@ -350,7 +349,7 @@ def send_bulk_emails(submissions):
         submissions: List of UserSubmission objects from database
         
     Returns:
-        Tuple of (success_count, error_count)
+        Tuple of (success_count, error_count, success_emails)
     """
     
     # Prepare recipients data
@@ -377,20 +376,10 @@ def send_bulk_emails(submissions):
         template=body_template
     )
     
-    # Update database for successful sends
+    # Return success emails for database update in routes
     success_emails = [r['email'] for r in result['results'] if r['status'] == 'success']
     
-    if success_emails:
-        for submission in submissions:
-            if submission.email in success_emails:
-                submission.email_sent = True
-        
-        try:
-            db.session.commit()
-        except Exception as e:
-            logging.error(f"Failed to update database: {e}")
-    
-    return result['success_count'], result['error_count']
+    return result['success_count'], result['error_count'], success_emails
 
 def get_locality_from_pincode(pincode):
     """Map pincode to locality name"""
