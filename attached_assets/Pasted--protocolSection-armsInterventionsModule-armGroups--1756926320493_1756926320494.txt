@@ -1,0 +1,222 @@
+{
+  "protocolSection": {
+    "armsInterventionsModule": {
+      "armGroups": [
+        {
+          "description": "Outpatients who have not yet received EVUSHELD but who plan on receiving it in the future.",
+          "interventionNames": [
+            "Drug: Evusheld"
+          ],
+          "label": "Outpatients"
+        },
+        {
+          "description": "Newly transplanted adult solid organ transplant and HCT recipients, as well as CAR-T-cell therapy recipients, during their hospitalization to undergo SOT/HCT/CAR-T-cell therapy",
+          "interventionNames": [
+            "Drug: Evusheld"
+          ],
+          "label": "Select inpatients (SOT/HCT/CAR-T)"
+        },
+        {
+          "description": "Individuals who have received EVUSHELD within 9 months of enrollment.",
+          "interventionNames": [
+            "Drug: Evusheld"
+          ],
+          "label": "Individuals who have received EVUSHELD"
+        }
+      ],
+      "interventions": [
+        {
+          "armGroupLabels": [
+            "Individuals who have received EVUSHELD",
+            "Outpatients",
+            "Select inpatients (SOT/HCT/CAR-T)"
+          ],
+          "description": "Participants who have received or plan to receive Evusheld.",
+          "name": "Evusheld",
+          "type": "DRUG"
+        }
+      ]
+    },
+    "conditionsModule": {
+      "conditions": [
+        "Immuno-Deficiency",
+        "COVID-19"
+      ]
+    },
+    "contactsLocationsModule": {
+      "locations": [
+        {
+          "city": "Pittsburgh",
+          "country": "United States",
+          "facility": "UPMC",
+          "geoPoint": {
+            "lat": 40.44062,
+            "lon": -79.99589
+          },
+          "state": "Pennsylvania",
+          "zip": "15213"
+        }
+      ],
+      "overallOfficials": [
+        {
+          "affiliation": "University of Pittsburgh and UPMC",
+          "name": "Ghady Haidar, MD",
+          "role": "PRINCIPAL_INVESTIGATOR"
+        }
+      ]
+    },
+    "descriptionModule": {
+      "briefSummary": "This is a study of immunocompromised individuals who have received or plan to receive a drug called EVUSHELD. This study is looking at any serious adverse events that might happen after receiving EVUSHELD, the levels of EVUSHELD in participant\u0027s blood, blood antibody levels, neutralizing antibodies against SARS-CoV-2 (the virus that causes COVID-19), and other blood responses related to the immune system and COVID-19. Investigators are collecting blood and may also collect other samples such as nose swabs, oral swabs, or saliva.",
+      "detailedDescription": "This is a prospective study of 500 immunocompromised participants at UPMC health system. EVUSHELD will be given according to the EUA in the United States as a part of standard of care by the patient\u0027s health care provider. Patients who receive intramuscular EVUSHELD as standard of care will be enrolled and followed for 12-months. The target sample size is 500 immunocompromised individuals; serum concentrations of AZD7442 will be obtained in all patients at the 6 (or at enrollment if the time point has passed) and 12 month timepoints."
+    },
+    "designModule": {
+      "bioSpec": {
+        "description": "Plasma, serum, and cellular components may be collected from whole blood samples. SARS-CoV-2 may be isolated from nasal and respiratory samples of persons with COVID-19. Investigators may also collect remnant swabs and blood from persons with COVID-19.",
+        "retention": "SAMPLES_WITHOUT_DNA"
+      },
+      "designInfo": {
+        "observationalModel": "COHORT",
+        "timePerspective": "PROSPECTIVE"
+      },
+      "enrollmentInfo": {
+        "count": 138,
+        "type": "ACTUAL"
+      },
+      "patientRegistry": false,
+      "studyType": "OBSERVATIONAL"
+    },
+    "eligibilityModule": {
+      "eligibilityCriteria": "Inclusion Criteria:\n\n* Age \u2265 12 and at least 40 kg\n* Eligible for EVUSHELD as per the EUA\n\nExclusion Criteria:\n\n* Active and confirmed COVID-19\n* Known or suspected pregnancy, concurrent lactation\n* Any other significant disease, disorder, or finding, in the opinion of the investigator, that may significantly increase the risk to the participant because of participation in the study, affect the ability of the subject to participate in the study, or impair interpretation of the study data",
+      "healthyVolunteers": false,
+      "minimumAge": "12 Years",
+      "samplingMethod": "NON_PROBABILITY_SAMPLE",
+      "sex": "ALL",
+      "stdAges": [
+        "CHILD",
+        "ADULT",
+        "OLDER_ADULT"
+      ],
+      "studyPopulation": "Immunocompromised Patients using the Monoclonal Antibody EVUSHELD (AZD7442)"
+    },
+    "identificationModule": {
+      "acronym": "PrEP",
+      "briefTitle": "PREP (Pre-Exposure Prophylaxis) of COVID-19",
+      "nctId": "NCT05461378",
+      "officialTitle": "Prospective Observational Cohort Study of Pre-Exposure Prophylaxis of COVID-19 in Immunocompromised Patients Receiving the Monoclonal Antibody AZD7442 (EVUSHELD)",
+      "orgStudyIdInfo": {
+        "id": "PrEP C-19"
+      },
+      "organization": {
+        "class": "OTHER",
+        "fullName": "University of Pittsburgh"
+      }
+    },
+    "ipdSharingStatementModule": {
+      "description": "Share study reports to AstraZeneca, de-identified data only will be shared",
+      "ipdSharing": "NO"
+    },
+    "outcomesModule": {
+      "primaryOutcomes": [
+        {
+          "description": "The primary objective of PrEP C-19 is to measure AZD7442 serum concentration levels by blood draws at 6 months (or at enrollment if the time point has passed) and 12 months after IM administration of EVUSHELD.",
+          "measure": "Concentration of AZD7442 in serum over time [ENROLLMENT, 6 MONTHS, 12 MONTHS] Concentration of AZD7442 in serum over time [ENROLLMENT, 6 MONTHS, 12 MONTHS] Concentration of AZD7442 in serum over time [ENROLLMENT, 6 MONTHS, 12 MONTHS]",
+          "timeFrame": "12-months"
+        }
+      ],
+      "secondaryOutcomes": [
+        {
+          "description": "Collected at 1, 3, AND 9 months",
+          "measure": "Concentration of AZD7442 in serum",
+          "timeFrame": "12-months"
+        },
+        {
+          "description": "Collected at enrollment and 1, 3, 6, 9, and 12 months",
+          "measure": "Assessment of SARS-CoV-2 Spike IgG levels using Bioplex/Biorad assays, viral neutralization assay using competitive ACE2 EIA, and pseudovirus neutralization titers",
+          "timeFrame": "12-months"
+        },
+        {
+          "description": "Obtained before and after vaccination",
+          "measure": "Assessment of T-cell responses using an ELISPOT assay",
+          "timeFrame": "12-months"
+        },
+        {
+          "description": "Collected among subjects with breakthrough infection",
+          "measure": "Determining SARS_CoV-2 variant type using whole genome sequencing",
+          "timeFrame": "12-months"
+        },
+        {
+          "description": "Collected during breakthrough infection",
+          "measure": "Determining Concentration of AZD7442 in serum, SARS-CoV-2 Spike IgG levels using Bioplex/Biorad assays, viral neutralization assay using competitive ACE2 EIA, and pseudovirus neutralization titers",
+          "timeFrame": "12-months"
+        },
+        {
+          "description": "Participants with \u22651 COVID-19-related medically-attended visit",
+          "measure": "Proportion of participants with \u22651 COVID-19-related medically-attended visit",
+          "timeFrame": "12-months"
+        },
+        {
+          "description": "COVID-19 associated and all-cause mortality",
+          "measure": "Proportion of participants who die by the end of the study",
+          "timeFrame": "12-months"
+        },
+        {
+          "description": "Proportion of participants who report changes in lifestyle",
+          "measure": "Lifestyle Modification Questionnaire",
+          "timeFrame": "12-months"
+        }
+      ]
+    },
+    "oversightModule": {
+      "isFdaRegulatedDevice": false,
+      "isFdaRegulatedDrug": true
+    },
+    "sponsorCollaboratorsModule": {
+      "collaborators": [
+        {
+          "class": "INDUSTRY",
+          "name": "AstraZeneca"
+        }
+      ],
+      "leadSponsor": {
+        "class": "OTHER",
+        "name": "Ghady Haidar"
+      },
+      "responsibleParty": {
+        "investigatorAffiliation": "University of Pittsburgh",
+        "investigatorFullName": "Ghady Haidar",
+        "investigatorTitle": "Assistant Professor of Medicine",
+        "type": "SPONSOR_INVESTIGATOR"
+      }
+    },
+    "statusModule": {
+      "completionDateStruct": {
+        "date": "2024-01-29",
+        "type": "ACTUAL"
+      },
+      "expandedAccessInfo": {
+        "hasExpandedAccess": false
+      },
+      "lastUpdatePostDateStruct": {
+        "date": "2024-07-15",
+        "type": "ACTUAL"
+      },
+      "lastUpdateSubmitDate": "2024-07-12",
+      "overallStatus": "COMPLETED",
+      "primaryCompletionDateStruct": {
+        "date": "2024-01-29",
+        "type": "ACTUAL"
+      },
+      "startDateStruct": {
+        "date": "2022-07-26",
+        "type": "ACTUAL"
+      },
+      "statusVerifiedDate": "2024-07",
+      "studyFirstPostDateStruct": {
+        "date": "2022-07-18",
+        "type": "ACTUAL"
+      },
+      "studyFirstSubmitDate": "2022-07-12",
+      "studyFirstSubmitQcDate": "2022-07-14"
+    }
+  }
+}

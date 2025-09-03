@@ -164,6 +164,10 @@ class ClinicalTrialsScraper:
             interventions_module = protocol.get('interventionsModule', {})
             eligibility_module = protocol.get('eligibilityModule', {})
             contacts_module = protocol.get('contactsModule', {})
+            contacts_locations_module = protocol.get('contactsLocationsModule', {})
+            outcomes_module = protocol.get('outcomesModule', {})
+            arms_interventions_module = protocol.get('armsInterventionsModule', {})
+            oversight_module = protocol.get('oversightModule', {})
             
             # Extract key information
             trial_data = {
@@ -211,9 +215,22 @@ class ClinicalTrialsScraper:
                 'minimum_age': eligibility_module.get('minimumAge'),
                 'maximum_age': eligibility_module.get('maximumAge'),
                 
-                # Contact information
-                'locations': self._extract_locations(contacts_module),
+                # Contact and location information
+                'locations': self._extract_locations({**contacts_module, **contacts_locations_module}),
                 'central_contacts': contacts_module.get('centralContacts', []),
+                'overall_officials': contacts_locations_module.get('overallOfficials', []),
+                
+                # Study design and outcomes
+                'primary_outcomes': outcomes_module.get('primaryOutcomes', []),
+                'secondary_outcomes': outcomes_module.get('secondaryOutcomes', []),
+                'arm_groups': arms_interventions_module.get('armGroups', []),
+                'detailed_interventions': arms_interventions_module.get('interventions', []),
+                'biospec_retention': design.get('bioSpec', {}).get('retention'),
+                'biospec_description': design.get('bioSpec', {}).get('description'),
+                
+                # Regulatory information
+                'is_fda_regulated_drug': oversight_module.get('isFdaRegulatedDrug', False),
+                'is_fda_regulated_device': oversight_module.get('isFdaRegulatedDevice', False),
                 
                 # Additional metadata
                 'enrollment': design.get('enrollmentInfo', {}).get('count'),
@@ -235,18 +252,27 @@ class ClinicalTrialsScraper:
     def _extract_locations(self, contacts_module: Dict) -> List[Dict]:
         """Extract and format location information"""
         locations = []
-        location_contacts = contacts_module.get('locations', [])
+        
+        # Handle both possible location structures
+        location_contacts = (contacts_module.get('contactsLocationsModule', {}).get('locations', []) or 
+                           contacts_module.get('locations', []))
         
         for location in location_contacts:
-            facility = location.get('facility', {})
+            # Handle different facility name structures
+            facility_name = (location.get('facility') or 
+                           location.get('facility', {}).get('name') if isinstance(location.get('facility'), dict) else 
+                           location.get('facility'))
+            
             location_data = {
-                'facility_name': facility.get('name'),
-                'city': facility.get('city'),
-                'state': facility.get('state'),
-                'zip_code': facility.get('zip'),
-                'country': facility.get('country'),
+                'facility_name': facility_name,
+                'city': location.get('city'),
+                'state': location.get('state'),
+                'zip_code': location.get('zip'),
+                'country': location.get('country'),
                 'status': location.get('status'),
-                'contacts': location.get('contacts', [])
+                'contacts': location.get('contacts', []),
+                'geo_point': location.get('geoPoint', {}),  # Add geographic coordinates
+                'overall_officials': location.get('overallOfficials', [])
             }
             locations.append(location_data)
         
