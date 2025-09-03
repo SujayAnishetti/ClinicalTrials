@@ -59,18 +59,33 @@
     }
     
     .status-recruiting {
-        background: linear-gradient(45deg, #28a745, #20c997);
-        color: white;
+        background: #28a745 !important;
+        color: white !important;
     }
     
     .status-active {
-        background: linear-gradient(45deg, #007bff, #0056b3);
-        color: white;
+        background: #28a745 !important;
+        color: white !important;
     }
     
     .status-completed {
-        background: linear-gradient(45deg, #6c757d, #495057);
-        color: white;
+        background: #6c757d !important;
+        color: white !important;
+    }
+    
+    .status-not-yet-recruiting, .status-not_yet_recruiting {
+        background: #dc3545 !important;
+        color: white !important;
+    }
+    
+    .status-terminated, .status-suspended, .status-withdrawn {
+        background: #dc3545 !important;
+        color: white !important;
+    }
+    
+    .status-unknown {
+        background: #6c757d !important;
+        color: white !important;
     }
     
     .json-viewer {
@@ -123,7 +138,7 @@
                         <p class="lead opacity-90 mb-3">{{ trial.basic_info.official_title }}</p>
                         {% endif %}
                         <div class="d-flex flex-wrap gap-2 mb-3">
-                            <span class="badge badge-custom {% if 'recruiting' in trial.basic_info.overall_status.lower() %}status-recruiting{% elif 'active' in trial.basic_info.overall_status.lower() %}status-active{% else %}status-completed{% endif %}">
+                            <span class="badge badge-custom {% set status_lower = trial.basic_info.overall_status.lower().replace(' ', '-') %}{% if 'recruiting' in status_lower and 'not' not in status_lower %}status-recruiting{% elif 'active' in status_lower %}status-active{% elif 'completed' in status_lower %}status-completed{% elif 'not-yet-recruiting' in status_lower or 'not_yet_recruiting' in status_lower %}status-not-yet-recruiting{% elif 'terminated' in status_lower or 'suspended' in status_lower or 'withdrawn' in status_lower %}status-terminated{% else %}status-unknown{% endif %}">
                                 {{ trial.basic_info.overall_status }}
                             </span>
                             {% if trial.basic_info.phases %}

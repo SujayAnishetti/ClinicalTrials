@@ -76,7 +76,7 @@ def celltherapy():
             'description': 'Master long-term follow-up protocol for participants who received cell or gene therapies in other AstraZeneca studies',
             'phase': 'Phase 1/2',
             'condition': 'Hepatocellular Carcinoma',
-            'age_range': '18-130 years',
+            'age_range': '13 years minimum',
             'status': 'Will Be Recruiting (Sept 2025)',
             'duration': 'Up to 15 years post-treatment monitoring',
             'is_featured': True,
