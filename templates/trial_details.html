@@ -5,11 +5,13 @@
 {% block head %}
 <style>
     .trial-header {
-        background: linear-gradient(135deg, var(--az-primary) 0%, #6d003f 100%);
+        background: linear-gradient(135deg, #8A0051 0%, #6d003f 100%);
         color: white;
-        border-radius: 15px;
+        border-radius: 20px;
         position: relative;
         overflow: hidden;
+        box-shadow: 0 8px 25px rgba(138, 0, 81, 0.3);
+        margin-bottom: 2rem;
     }
     
     .trial-header::before {
@@ -36,20 +38,37 @@
     
     .info-card {
         border: none;
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        transition: transform 0.2s ease;
+        border-radius: 16px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        background: #ffffff;
+        border-left: 4px solid #EFAB00;
     }
     
     .info-card:hover {
-        transform: translateY(-2px);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 35px rgba(0,0,0,0.15);
     }
     
     .section-header {
-        color: var(--az-primary);
-        border-bottom: 2px solid var(--az-primary);
-        padding-bottom: 0.5rem;
-        margin-bottom: 1.5rem;
+        color: #8A0051;
+        border-bottom: 3px solid #EFAB00;
+        padding-bottom: 0.75rem;
+        margin-bottom: 2rem;
+        font-weight: 700;
+        font-size: 1.4rem;
+        position: relative;
+    }
+    
+    .section-header::after {
+        content: '';
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: #8A0051;
+        border-radius: 2px;
     }
     
     .badge-custom {
@@ -108,10 +127,27 @@
     }
     
     .contact-card {
-        border-left: 4px solid var(--az-primary);
-        background: #f8f9fa;
-        padding: 1rem;
-        border-radius: 0 8px 8px 0;
+        border-left: 4px solid #8A0051;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 1.5rem;
+        border-radius: 0 12px 12px 0;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    
+    .nav-pills .nav-link.active {
+        background: linear-gradient(135deg, #8A0051, #6d003f) !important;
+        color: white !important;
+        box-shadow: 0 4px 15px rgba(138, 0, 81, 0.3);
+    }
+    
+    .nav-pills .nav-link:not(.active) {
+        color: #8A0051;
+        background: transparent;
+    }
+    
+    .nav-pills .nav-link:not(.active):hover {
+        background: rgba(138, 0, 81, 0.1);
+        color: #8A0051;
     }
 </style>
 {% endblock %}
@@ -162,38 +198,46 @@
         <!-- Key Information Cards -->
         <div class="row g-4 mb-5">
             <div class="col-md-6 col-lg-3">
-                <div class="info-card card h-100">
-                    <div class="card-body text-center">
-                        <i class="fas fa-calendar-alt fa-3x text-astra-purple mb-3"></i>
-                        <h6 class="card-title">Start Date</h6>
-                        <p class="card-text">{{ trial.dates.start_date or 'Not specified' }}</p>
+                <div class="info-card card h-100 text-center">
+                    <div class="card-body p-4">
+                        <div class="rounded-circle bg-gradient d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px; background: linear-gradient(135deg, #8A0051, #6d003f); box-shadow: 0 4px 15px rgba(138, 0, 81, 0.3);">
+                            <i class="fas fa-calendar-alt fa-2x text-white"></i>
+                        </div>
+                        <h6 class="card-title fw-bold text-astra-purple mb-2">Start Date</h6>
+                        <p class="card-text fw-semibold text-dark">{{ trial.dates.start_date or 'Not specified' }}</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-3">
-                <div class="info-card card h-100">
-                    <div class="card-body text-center">
-                        <i class="fas fa-users fa-3x text-astra-purple mb-3"></i>
-                        <h6 class="card-title">Target Enrollment</h6>
-                        <p class="card-text">{{ trial.study_design.enrollment or 'Not specified' }} participants</p>
+                <div class="info-card card h-100 text-center">
+                    <div class="card-body p-4">
+                        <div class="rounded-circle bg-gradient d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px; background: linear-gradient(135deg, #EFAB00, #d4941a); box-shadow: 0 4px 15px rgba(239, 171, 0, 0.3);">
+                            <i class="fas fa-users fa-2x text-white"></i>
+                        </div>
+                        <h6 class="card-title fw-bold mb-2" style="color: #EFAB00;">Target Enrollment</h6>
+                        <p class="card-text fw-semibold text-dark">{{ trial.study_design.enrollment or 'Not specified' }} participants</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-3">
-                <div class="info-card card h-100">
-                    <div class="card-body text-center">
-                        <i class="fas fa-building fa-3x text-astra-purple mb-3"></i>
-                        <h6 class="card-title">Sponsor</h6>
-                        <p class="card-text">{{ trial.sponsor_info.lead_sponsor }}</p>
+                <div class="info-card card h-100 text-center">
+                    <div class="card-body p-4">
+                        <div class="rounded-circle bg-gradient d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px; background: linear-gradient(135deg, #28a745, #20c997); box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);">
+                            <i class="fas fa-building fa-2x text-white"></i>
+                        </div>
+                        <h6 class="card-title fw-bold text-success mb-2">Sponsor</h6>
+                        <p class="card-text fw-semibold text-dark">{{ trial.sponsor_info.lead_sponsor }}</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-3">
-                <div class="info-card card h-100">
-                    <div class="card-body text-center">
-                        <i class="fas fa-map-marker-alt fa-3x text-astra-purple mb-3"></i>
-                        <h6 class="card-title">Study Locations</h6>
-                        <p class="card-text">
+                <div class="info-card card h-100 text-center">
+                    <div class="card-body p-4">
+                        <div class="rounded-circle bg-gradient d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px; background: linear-gradient(135deg, #6f42c1, #563d7c); box-shadow: 0 4px 15px rgba(111, 66, 193, 0.3);">
+                            <i class="fas fa-map-marker-alt fa-2x text-white"></i>
+                        </div>
+                        <h6 class="card-title fw-bold mb-2" style="color: #6f42c1;">Study Locations</h6>
+                        <p class="card-text fw-semibold text-dark">
                             {% if trial.locations and trial.locations|length > 0 %}
                                 {{ trial.locations|length }} site{% if trial.locations|length != 1 %}s{% endif %}
                             {% else %}
@@ -209,14 +253,14 @@
         <div class="row">
             <div class="col-12">
                 <!-- Tab Navigation -->
-                <ul class="nav nav-tabs nav-fill mb-4" id="trialTabs" role="tablist">
+                <ul class="nav nav-pills nav-fill mb-4 p-1 rounded-3" id="trialTabs" role="tablist" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab">
+                        <button class="nav-link active fw-bold" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab" style="border-radius: 12px;">
                             <i class="fas fa-info-circle me-2"></i>Overview
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="eligibility-tab" data-bs-toggle="tab" data-bs-target="#eligibility" type="button" role="tab">
+                        <button class="nav-link fw-bold" id="eligibility-tab" data-bs-toggle="tab" data-bs-target="#eligibility" type="button" role="tab" style="border-radius: 12px;">
                             <i class="fas fa-check-circle me-2"></i>Eligibility
                         </button>
                     </li>
@@ -314,24 +358,30 @@
                                 <h3 class="section-header">Eligibility Criteria</h3>
                                 <div class="row g-4 mb-4">
                                     <div class="col-md-4">
-                                        <div class="text-center p-3 bg-light rounded">
-                                            <i class="fas fa-venus-mars fa-2x text-astra-purple mb-2"></i>
-                                            <h6>Gender</h6>
-                                            <p class="mb-0">{{ trial.eligibility.gender or 'All' }}</p>
+                                        <div class="text-center p-4 rounded-3 border-0" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-left: 4px solid #8A0051 !important;">
+                                            <div class="rounded-circle bg-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px; box-shadow: 0 4px 15px rgba(138, 0, 81, 0.2);">
+                                                <i class="fas fa-venus-mars fa-2x text-astra-purple"></i>
+                                            </div>
+                                            <h6 class="fw-bold text-astra-purple">Gender</h6>
+                                            <p class="mb-0 fw-semibold">{{ trial.eligibility.gender or 'All' }}</p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="text-center p-3 bg-light rounded">
-                                            <i class="fas fa-birthday-cake fa-2x text-astra-purple mb-2"></i>
-                                            <h6>Age Range</h6>
-                                            <p class="mb-0">{{ trial.eligibility.minimum_age or 'No min' }} - {{ trial.eligibility.maximum_age or 'No max' }}</p>
+                                        <div class="text-center p-4 rounded-3 border-0" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-left: 4px solid #EFAB00 !important;">
+                                            <div class="rounded-circle bg-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px; box-shadow: 0 4px 15px rgba(239, 171, 0, 0.2);">
+                                                <i class="fas fa-birthday-cake fa-2x" style="color: #EFAB00;"></i>
+                                            </div>
+                                            <h6 class="fw-bold" style="color: #EFAB00;">Age Range</h6>
+                                            <p class="mb-0 fw-semibold">{{ trial.eligibility.minimum_age or 'No min' }} - {{ trial.eligibility.maximum_age or 'No max' }}</p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="text-center p-3 bg-light rounded">
-                                            <i class="fas fa-heartbeat fa-2x text-astra-purple mb-2"></i>
-                                            <h6>Healthy Volunteers</h6>
-                                            <p class="mb-0">{{ 'Yes' if trial.eligibility.healthy_volunteers else 'No' }}</p>
+                                        <div class="text-center p-4 rounded-3 border-0" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-left: 4px solid #28a745 !important;">
+                                            <div class="rounded-circle bg-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px; box-shadow: 0 4px 15px rgba(40, 167, 69, 0.2);">
+                                                <i class="fas fa-heartbeat fa-2x text-success"></i>
+                                            </div>
+                                            <h6 class="fw-bold text-success">Healthy Volunteers</h6>
+                                            <p class="mb-0 fw-semibold">{{ 'Yes' if trial.eligibility.healthy_volunteers else 'No' }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -416,13 +466,19 @@
         <!-- Action Buttons -->
         <div class="row mt-5">
             <div class="col-12 text-center">
-                <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
-                    <a href="{{ url_for('celltherapy_interest') }}" class="btn btn-astra-purple btn-lg">
-                        <i class="fas fa-user-plus me-2"></i>Express Interest in Cell Therapy Trials
-                    </a>
-                    <a href="https://clinicaltrials.gov/study/{{ trial.basic_info.nct_id }}" target="_blank" class="btn btn-outline-astra-purple btn-lg">
-                        <i class="fas fa-external-link-alt me-2"></i>View on ClinicalTrials.gov
-                    </a>
+                <div class="p-4 rounded-3" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border: 2px dashed #8A0051;">
+                    <h4 class="text-astra-purple mb-3">
+                        <i class="fas fa-hands-helping me-2"></i>Interested in This Trial?
+                    </h4>
+                    <p class="text-muted mb-4">Connect with our team to learn more about participation opportunities</p>
+                    <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
+                        <a href="{{ url_for('celltherapy_interest', nct_id=trial.basic_info.nct_id) }}" class="btn btn-lg px-4 py-3 fw-bold" style="background: linear-gradient(135deg, #8A0051, #6d003f); color: white; border-radius: 15px; box-shadow: 0 6px 20px rgba(138, 0, 81, 0.3);">
+                            <i class="fas fa-user-plus me-2"></i>Express Interest in This Trial
+                        </a>
+                        <a href="https://clinicaltrials.gov/study/{{ trial.basic_info.nct_id }}" target="_blank" class="btn btn-outline-dark btn-lg px-4 py-3 fw-bold" style="border-radius: 15px; border-width: 2px;">
+                            <i class="fas fa-external-link-alt me-2"></i>View on ClinicalTrials.gov
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
