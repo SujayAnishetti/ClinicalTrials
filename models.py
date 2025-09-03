@@ -16,6 +16,7 @@ class UserSubmission(db.Model):
     therapy_type = db.Column(db.String(50), nullable=False, default='general')  # 'general', 'cell_therapy'
     diagnosis = db.Column(db.String(200), nullable=True)  # For cell therapy specific diagnosis
     current_health_status = db.Column(db.Text, nullable=True)  # Additional health status for cell therapy
+    specific_trial_nct = db.Column(db.String(20), nullable=True)  # NCT ID for specific trial interest
     
     def __repr__(self):
         return f'<UserSubmission {self.name}>'

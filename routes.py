@@ -115,6 +115,10 @@ def celltherapy():
         for trial in api_trials:
             # Skip if this is one of our static trials
             if trial.get('nct_id') not in ['NCT06194461', 'NCT06084884']:
+                # Extract locations properly
+                locations = trial.get('locations', [])
+                valid_locations = [loc for loc in locations if loc.get('facility_name')]
+                
                 processed_trial = {
                     'name': trial.get('brief_title', 'Unknown Trial'),
                     'nct_id': trial.get('nct_id'),
@@ -126,7 +130,9 @@ def celltherapy():
                     'enrollment': trial.get('enrollment'),
                     'is_featured': False,
                     'source': 'api',
-                    'locations_count': len(trial.get('locations', [])),
+                    'locations_count': len(valid_locations),
+                    'locations': valid_locations[:3],  # Show first 3 locations in bento box
+                    'total_locations': len(valid_locations),
                     'last_updated': trial.get('last_update_submitted_date')
                 }
                 
@@ -257,9 +263,23 @@ def trial_details(nct_id):
         return redirect(url_for('celltherapy'))
 
 @app.route('/celltherapy/interest', methods=['GET', 'POST'])
-def celltherapy_interest():
-    """Cell therapy specific interest form"""
+@app.route('/celltherapy/interest/<nct_id>', methods=['GET', 'POST'])
+def celltherapy_interest(nct_id=None):
+    """Cell therapy specific interest form - can be trial-specific"""
     form = CellTherapyInterestForm()
+    trial_info = None
+    
+    # If NCT ID is provided, get trial information
+    if nct_id:
+        try:
+            trial_info = scraper.fetch_trial_details(nct_id)
+            if not trial_info:
+                flash(f'Trial {nct_id} not found. Showing general interest form.', 'warning')
+                nct_id = None
+        except Exception as e:
+            logging.error(f"Error fetching trial info for {nct_id}: {e}")
+            flash('Unable to load specific trial information. Showing general form.', 'warning')
+            nct_id = None
     
     if form.validate_on_submit():
         # Cell therapy specific eligibility check
@@ -284,7 +304,8 @@ def celltherapy_interest():
             is_eligible=is_eligible,
             therapy_type='cell_therapy',
             diagnosis=form.diagnosis.data,
-            current_health_status=form.current_health_status.data
+            current_health_status=form.current_health_status.data,
+            specific_trial_nct=nct_id  # Store specific trial interest
         )
         
         try:
@@ -300,7 +321,7 @@ def celltherapy_interest():
             flash('An error occurred while submitting your form. Please try again.', 'error')
             logging.error(f"Error saving cell therapy submission: {e}")
     
-    return render_template('celltherapy_form.html', form=form)
+    return render_template('celltherapy_form.html', form=form, trial_info=trial_info, nct_id=nct_id)
 
 @app.route('/celltherapy/confirmation/<int:submission_id>')
 def celltherapy_confirmation(submission_id):

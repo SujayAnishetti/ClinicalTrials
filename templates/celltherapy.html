@@ -391,7 +391,7 @@
                                 <div class="col-6">
                                     <div class="p-1 rounded text-center" style="background-color: #f8f9fa;">
                                         <i class="fas fa-map-marker-alt" style="color: #28a745; font-size: 0.8rem;"></i>
-                                        <div class="small fw-bold text-dark" style="font-size: 0.7rem;">{{ trial.locations_count }} Sites</div>
+                                        <div class="small fw-bold text-dark" style="font-size: 0.7rem;">{{ trial.total_locations or trial.locations_count or 0 }} Sites</div>
                                     </div>
                                 </div>
                             </div>
