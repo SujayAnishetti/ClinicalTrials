@@ -2,7 +2,16 @@
 
 ## Overview
 
-This is a Flask-based web application for managing clinical trial participant registrations for AstraZeneca. The system allows potential participants to register their interest in clinical trials through a web form, automatically determines eligibility based on age and location criteria, and provides an admin dashboard for managing submissions. The application includes email notification capabilities and focuses on collecting participant health information for trial matching purposes.
+This is a Flask-based web application for managing clinical trial participant registrations for AstraZeneca. The system allows potential participants to register their interest in clinical trials through a web form, automatically determines eligibility based on age and US ZIP code criteria, and provides an admin dashboard for managing submissions. The application includes email notification capabilities with location-specific clinical trial recommendations and focuses on collecting participant health information for trial matching purposes.
+
+## Recent Changes
+
+### September 2025
+- **ZIP Code Conversion**: Converted entire application from Indian 6-digit pincodes to US 5-digit ZIP codes with proper validation
+- **Clinical Trial Integration**: Added real clinical trial data (LOCUS NCT06194461, ATHENA AZD5851 NCT06084884) 
+- **Email Enhancement**: Updated email templates to recommend specific clinical trials based on user's ZIP code location
+- **Site Recommendations**: Integrated location-based site recommendations (UCSF, MD Anderson, etc.) in email notifications
+- **URL Update**: Changed all email links to https://azclinicaltrailstest.replit.app/
 
 ## User Preferences
 
@@ -26,12 +35,12 @@ Preferred communication style: Simple, everyday language.
 ### Application Flow
 - **Registration Process**: Multi-step form validation → database storage → eligibility determination → confirmation page
 - **Admin Interface**: Dashboard with statistics, search/filter capabilities, and bulk email management
-- **Eligibility Logic**: Age-based (18+) and pincode validation with automatic status assignment
+- **Eligibility Logic**: Age-based (18+) and US ZIP code validation with automatic status assignment for major metropolitan areas
 
 ### Data Management
-- **Validation**: Server-side validation using WTForms with regex patterns for mobile and pincode
+- **Validation**: Server-side validation using WTForms with regex patterns for phone numbers and US ZIP codes
 - **Storage**: Normalized database schema with timestamp tracking and email delivery status
-- **Regional Support**: Pincode-based regional mapping for localized email content
+- **Regional Support**: ZIP code-based regional mapping with specific clinical trial site recommendations
 
 ## External Dependencies
 

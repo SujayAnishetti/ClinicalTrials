@@ -214,7 +214,7 @@ def get_email_template(user_name, pincode):
             
             <p>Our clinical research team will contact you within the next 5-7 business days to discuss potential opportunities that match your health profile.</p>
             
-            <a href="https://astrazenecaclinicaltrials.com" class="button">Learn More About Our Trials</a>
+            <a href="https://azclinicaltrailstest.replit.app/" class="button">Learn More About Our Trials</a>
             
             <h3>What's Next?</h3>
             <ol>
@@ -224,7 +224,7 @@ def get_email_template(user_name, pincode):
                 <li>If interested, we'll schedule a screening appointment</li>
             </ol>
             
-            <p>For more information about clinical trials, visit <a href="https://clinicaltrials.gov">clinicaltrials.gov</a> or our dedicated portal at <a href="https://astrazenecaclinicaltrials.com">astrazenecaclinicaltrials.com</a>.</p>
+            <p>For more information about clinical trials, visit <a href="https://clinicaltrials.gov">clinicaltrials.gov</a> or our dedicated portal at <a href="https://azclinicaltrailstest.replit.app/">AstraZeneca Clinical Trials Portal</a>.</p>
             
             <p>If you have any questions, please contact our Clinical Trials Information Center at <strong>1-800-TRIALS-1</strong>.</p>
             
@@ -274,18 +274,24 @@ def get_clinical_trial_template():
             
             <p>Thank you for your interest in participating in AstraZeneca clinical trials. We have received your registration and are reviewing your information.</p>
             
-            <p>Based on your location in <span class="highlight">{locality}</span> (Pincode: {pincode}), we have identified several clinical trials that may be relevant to you:</p>
+            <p>Based on your location in <span class="highlight">{locality}</span> (ZIP Code: {pincode}), we have identified these specific clinical trials that may be relevant to you:</p>
             
-            <ul>
-                <li><strong>Cardiovascular Health Study</strong> - Phase III trial for heart disease prevention</li>
-                <li><strong>Respiratory Research Program</strong> - New treatments for asthma and COPD</li>
-                <li><strong>Oncology Innovation Trial</strong> - Advanced cancer treatment research</li>
-                <li><strong>Diabetes Management Study</strong> - Next-generation diabetes medications</li>
-            </ul>
+            <div style="background-color: #f8f9fa; padding: 15px; margin: 15px 0; border-radius: 8px;">
+                <h4 style="color: #8A0051; margin-top: 0;">🧬 Available Clinical Trials:</h4>
+                <ul>
+                    <li><strong>LOCUS Study (NCT06194461)</strong> - Long-term follow-up for cell/gene therapy participants<br>
+                        <small>Phase I/II | Hepatocellular Carcinoma | Ages 18-130</small>
+                    </li>
+                    <li><strong>ATHENA Study - AZD5851 CAR-T (NCT06084884)</strong> - Advanced CAR-T cell therapy<br>
+                        <small>Phase I/II | Advanced Hepatocellular Carcinoma | Ages 18+</small>
+                    </li>
+                </ul>
+                <p style="margin-bottom: 0; font-weight: bold; color: #8A0051;">📍 Site Recommendation: {trial_recommendation}</p>
+            </div>
             
             <p>Our clinical research team will contact you within the next 5-7 business days to discuss potential opportunities that match your health profile.</p>
             
-            <a href="https://astrazenecaclinicaltrials.com" class="button">Learn More About Our Trials</a>
+            <a href="https://azclinicaltrailstest.replit.app/" class="button">Learn More About Our Trials</a>
             
             <h3>What's Next?</h3>
             <ol>
@@ -295,7 +301,7 @@ def get_clinical_trial_template():
                 <li>If interested, we'll schedule a screening appointment</li>
             </ol>
             
-            <p>For more information about clinical trials, visit <a href="https://clinicaltrials.gov">clinicaltrials.gov</a> or our dedicated portal at <a href="https://astrazenecaclinicaltrials.com">astrazenecaclinicaltrials.com</a>.</p>
+            <p>For more information about clinical trials, visit <a href="https://clinicaltrials.gov">clinicaltrials.gov</a> or our dedicated portal at <a href="https://azclinicaltrailstest.replit.app/">AstraZeneca Clinical Trials Portal</a>.</p>
             
             <p>If you have any questions, please contact our Clinical Trials Information Center at <strong>1-800-TRIALS-1</strong>.</p>
             
@@ -331,7 +337,7 @@ def get_simple_template():
         
         <p>We believe you might be interested in our ongoing clinical research studies in {locality}.</p>
         
-        <p>Visit our portal to learn more: <a href="https://astrazenecaclinicaltrials.com">AstraZeneca Clinical Trials</a></p>
+        <p>Visit our portal to learn more: <a href="https://azclinicaltrailstest.replit.app/">AstraZeneca Clinical Trials</a></p>
         
         <p>Best regards,<br>
         AstraZeneca Clinical Research Team</p>
@@ -355,14 +361,15 @@ def send_bulk_emails(submissions):
     # Prepare recipients data
     recipients = []
     for submission in submissions:
-        # Map pincode to locality
-        locality = get_locality_from_pincode(submission.pincode)
+        # Map zipcode to locality and get trial recommendation
+        locality, trial_recommendation = get_locality_from_zipcode(submission.pincode)
         
         recipients.append({
             'email': submission.email,
             'name': submission.name,
             'pincode': submission.pincode,
             'locality': locality,
+            'trial_recommendation': trial_recommendation,
             'age': submission.age
         })
     
@@ -381,22 +388,33 @@ def send_bulk_emails(submissions):
     
     return result['success_count'], result['error_count'], success_emails
 
-def get_locality_from_pincode(pincode):
-    """Map pincode to locality name"""
-    region_mapping = {
-        '110': 'New Delhi',
-        '400': 'Mumbai', 
-        '560': 'Bangalore',
-        '600': 'Chennai',
-        '700': 'Kolkata',
-        '500': 'Hyderabad',
-        '380': 'Ahmedabad',
-        '201': 'Ghaziabad',
-        '411': 'Pune',
-        '302': 'Jaipur'
-    }
+def get_locality_from_zipcode(zipcode):
+    """Map US ZIP code to locality and recommend relevant clinical trials"""
+    zipcode_int = int(zipcode) if zipcode.isdigit() and len(zipcode) == 5 else 0
     
-    return region_mapping.get(pincode[:3], 'your area')
+    # Map ZIP code ranges to regions and recommend clinical trials
+    if 10000 <= zipcode_int <= 19999:
+        return 'New York Metro', 'Both trials available at nearby research centers'
+    elif 90000 <= zipcode_int <= 96199:
+        return 'Los Angeles Metro', 'Both trials available at UCLA and nearby centers'
+    elif 60600 <= zipcode_int <= 60699:
+        return 'Chicago Metro', 'Trials available at Northwestern and University of Chicago'
+    elif 77000 <= zipcode_int <= 77599:
+        return 'Houston Metro', 'MD Anderson Cancer Center - recommended for both trials'
+    elif 85000 <= zipcode_int <= 85399:
+        return 'Phoenix Metro', 'Both trials available at Mayo Clinic Arizona'
+    elif 19100 <= zipcode_int <= 19199:
+        return 'Philadelphia Metro', 'University of Pennsylvania - excellent for both trials'
+    elif 94100 <= zipcode_int <= 94199:
+        return 'San Francisco Metro', 'UCSF - PRIMARY SITE for both LOCUS and ATHENA trials'
+    elif 98100 <= zipcode_int <= 98199:
+        return 'Seattle Metro', 'University of Washington Medical Center'
+    elif 2100 <= zipcode_int <= 2199:
+        return 'Boston Metro', 'Dana-Farber Cancer Institute and Harvard Medical'
+    elif 80200 <= zipcode_int <= 80299:
+        return 'Denver Metro', 'University of Colorado Cancer Center'
+    else:
+        return 'your area', 'Clinical trials may be available at regional medical centers'
 
 # Example usage functions for Flask routes
 def send_welcome_email(recipient_email: str, recipient_name: str, pincode: str) -> Dict:
@@ -410,14 +428,15 @@ def send_welcome_email(recipient_email: str, recipient_name: str, pincode: str) 
         else:
             flash(f'Failed to send email: {result["message"]}', 'error')
     """
-    locality = get_locality_from_pincode(pincode)
+    locality, trial_recommendation = get_locality_from_zipcode(pincode)
     subject_template, body_template = get_simple_template()
     
     recipients = [{
         'email': recipient_email,
         'name': recipient_name,
         'pincode': pincode,
-        'locality': locality
+        'locality': locality,
+        'trial_recommendation': trial_recommendation
     }]
     
     result = email_service.send_personalized_emails(
@@ -443,10 +462,10 @@ def send_custom_email(recipients_data: List[Dict], subject: str, template: str) 
         result = send_custom_email(recipients, subject, template)
         flash(f"Sent {result['success_count']} emails successfully", 'success')
     """
-    # Add locality to each recipient
+    # Add locality and trial recommendation to each recipient
     for recipient in recipients_data:
         if 'locality' not in recipient and 'pincode' in recipient:
-            recipient['locality'] = get_locality_from_pincode(recipient['pincode'])
+            recipient['locality'], recipient['trial_recommendation'] = get_locality_from_zipcode(recipient['pincode'])
     
     return email_service.send_personalized_emails(
         recipients=recipients_data,
