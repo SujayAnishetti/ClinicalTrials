@@ -9,9 +9,11 @@
         color: white;
         border-radius: 20px;
         position: relative;
-        overflow: hidden;
+        overflow: visible;
         box-shadow: 0 8px 25px rgba(138, 0, 81, 0.3);
-        margin-bottom: 2rem;
+        margin-bottom: 3rem;
+        margin-top: 1rem;
+        min-height: 300px;
     }
     
     .trial-header::before {
@@ -153,8 +155,9 @@
 {% endblock %}
 
 {% block content %}
-<section class="py-4">
-    <div class="container">
+<section class="py-5">
+    <div class="container-fluid px-4">
+        <div class="container">
         <!-- Back Button -->
         <div class="row mb-4">
             <div class="col-12">
@@ -166,28 +169,31 @@
 
         <!-- Trial Header -->
         <div class="trial-header mb-5">
-            <div class="container py-4">
+            <div class="container py-5">
                 <div class="row align-items-center">
                     <div class="col-lg-8">
-                        <h1 class="display-5 fw-bold mb-2">{{ trial.basic_info.brief_title }}</h1>
+                        <h1 class="display-4 fw-bold mb-3" style="line-height: 1.2;">{{ trial.basic_info.brief_title }}</h1>
                         {% if trial.basic_info.official_title and trial.basic_info.official_title != trial.basic_info.brief_title %}
-                        <p class="lead opacity-90 mb-3">{{ trial.basic_info.official_title }}</p>
+                        <p class="lead opacity-90 mb-4" style="font-size: 1.1rem; line-height: 1.4;">{{ trial.basic_info.official_title }}</p>
                         {% endif %}
-                        <div class="d-flex flex-wrap gap-2 mb-3">
-                            <span class="badge badge-custom {% set status_lower = trial.basic_info.overall_status.lower().replace(' ', '-') %}{% if 'recruiting' in status_lower and 'not' not in status_lower %}status-recruiting{% elif 'active' in status_lower %}status-active{% elif 'completed' in status_lower %}status-completed{% elif 'not-yet-recruiting' in status_lower or 'not_yet_recruiting' in status_lower %}status-not-yet-recruiting{% elif 'terminated' in status_lower or 'suspended' in status_lower or 'withdrawn' in status_lower %}status-terminated{% else %}status-unknown{% endif %}">
+                        {% if trial.basic_info.acronym %}
+                        <p class="h5 opacity-75 mb-3">Study Acronym: {{ trial.basic_info.acronym }}</p>
+                        {% endif %}
+                        <div class="d-flex flex-wrap gap-3 mb-4">
+                            <span class="badge badge-custom fs-6 px-3 py-2 {% set status_lower = trial.basic_info.overall_status.lower().replace(' ', '-') %}{% if 'recruiting' in status_lower and 'not' not in status_lower %}status-recruiting{% elif 'active' in status_lower %}status-active{% elif 'completed' in status_lower %}status-completed{% elif 'not-yet-recruiting' in status_lower or 'not_yet_recruiting' in status_lower %}status-not-yet-recruiting{% elif 'terminated' in status_lower or 'suspended' in status_lower or 'withdrawn' in status_lower %}status-terminated{% else %}status-unknown{% endif %}">
                                 {{ trial.basic_info.overall_status }}
                             </span>
                             {% if trial.basic_info.phases %}
-                            <span class="badge bg-light text-dark">{{ ', '.join(trial.basic_info.phases) }}</span>
+                            <span class="badge bg-light text-dark fs-6 px-3 py-2">{{ ', '.join(trial.basic_info.phases) }}</span>
                             {% endif %}
-                            <span class="badge bg-light text-dark">{{ trial.basic_info.study_type }}</span>
+                            <span class="badge bg-light text-dark fs-6 px-3 py-2">{{ trial.basic_info.study_type }}</span>
                         </div>
                     </div>
                     <div class="col-lg-4 text-center">
-                        <div class="bg-white bg-opacity-20 rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 120px; height: 120px;">
+                        <div class="bg-white bg-opacity-20 rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 140px; height: 140px;">
                             <div>
-                                <h2 class="mb-1">{{ trial.basic_info.nct_id }}</h2>
-                                <small class="opacity-75">ClinicalTrials.gov</small>
+                                <h2 class="mb-1" style="font-size: 1.5rem;">{{ trial.basic_info.nct_id }}</h2>
+                                <small class="opacity-75" style="font-size: 0.9rem;">ClinicalTrials.gov</small>
                             </div>
                         </div>
                     </div>
@@ -481,6 +487,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </div>
 </section>
