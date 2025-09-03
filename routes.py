@@ -96,13 +96,21 @@ def celltherapy():
         }
     }
     
+    # Get search and filter parameters
+    search_query = request.args.get('search', '').strip()
+    status_filter = request.args.get('status', '')
+    phase_filter = request.args.get('phase', '')
+    condition_filter = request.args.get('condition', '')
+    page = int(request.args.get('page', 1))
+    per_page = 12  # Show 12 trials per page
+
     # Fetch live API data
     try:
         logging.info("Fetching AstraZeneca cell therapy trials from API...")
-        api_trials = scraper.fetch_astrazeneca_cell_therapy_trials(page_size=100)
+        api_trials = scraper.fetch_astrazeneca_cell_therapy_trials(page_size=500)
         logging.info(f"Fetched {len(api_trials)} trials from API")
         
-        # Process API trials for display
+        # Process and filter API trials
         processed_api_trials = []
         for trial in api_trials:
             # Skip if this is one of our static trials
@@ -121,11 +129,42 @@ def celltherapy():
                     'locations_count': len(trial.get('locations', [])),
                     'last_updated': trial.get('last_update_submitted_date')
                 }
+                
+                # Apply filters
+                if search_query:
+                    if not (search_query.lower() in processed_trial['name'].lower() or 
+                           search_query.lower() in processed_trial['description'].lower() or
+                           search_query.lower() in processed_trial['condition'].lower()):
+                        continue
+                
+                if status_filter and status_filter.lower() not in processed_trial['status'].lower():
+                    continue
+                
+                if phase_filter and phase_filter.lower() not in processed_trial['phase'].lower():
+                    continue
+                    
+                if condition_filter and condition_filter.lower() not in processed_trial['condition'].lower():
+                    continue
+                
                 processed_api_trials.append(processed_trial)
+        
+        # Pagination
+        total_trials = len(processed_api_trials)
+        start_idx = (page - 1) * per_page
+        end_idx = start_idx + per_page
+        paginated_trials = processed_api_trials[start_idx:end_idx]
+        
+        # Calculate pagination info
+        total_pages = (total_trials + per_page - 1) // per_page
+        has_prev = page > 1
+        has_next = page < total_pages
     
     except Exception as e:
         logging.error(f"Error fetching API trials: {str(e)}")
-        processed_api_trials = []
+        paginated_trials = []
+        total_trials = 0
+        total_pages = 0
+        has_prev = has_next = False
         flash('Unable to load latest trial data. Showing available trials.', 'warning')
     
     locations = [
@@ -135,9 +174,19 @@ def celltherapy():
     
     return render_template('celltherapy.html', 
                          static_trials=static_trials, 
-                         api_trials=processed_api_trials,
+                         api_trials=paginated_trials,
                          locations=locations,
-                         total_trials=len(static_trials) + len(processed_api_trials))
+                         total_trials=len(static_trials) + total_trials,
+                         current_page=page,
+                         total_pages=total_pages,
+                         has_prev=has_prev,
+                         has_next=has_next,
+                         search_query=search_query,
+                         status_filter=status_filter,
+                         phase_filter=phase_filter,
+                         condition_filter=condition_filter,
+                         showing_results=len(paginated_trials),
+                         filtered_total=total_trials)
 
 @app.route('/trial/<nct_id>')
 def trial_details(nct_id):

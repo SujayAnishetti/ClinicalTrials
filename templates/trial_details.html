@@ -383,7 +383,7 @@
                                     This section contains all available data from ClinicalTrials.gov for this study.
                                 </p>
                                 <div class="json-viewer">
-                                    <pre><code>{{ trial.raw_data | tojsonpretty }}</code></pre>
+                                    <pre><code>{{ trial.raw_data | tojson(indent=2) }}</code></pre>
                                 </div>
                             </div>
                         </div>

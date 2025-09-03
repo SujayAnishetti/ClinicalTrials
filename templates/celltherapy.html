@@ -276,12 +276,93 @@
         </div>
         {% endif %}
         
+        <!-- Search and Filter Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-astra-purple text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-search me-2"></i>Search & Filter Clinical Trials
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="GET" action="{{ url_for('celltherapy') }}">
+                            <div class="row g-3">
+                                <div class="col-lg-6">
+                                    <label class="form-label">Search Trials</label>
+                                    <input type="text" 
+                                           name="search" 
+                                           class="form-control" 
+                                           placeholder="Search by title, description, or condition..."
+                                           value="{{ search_query }}">
+                                </div>
+                                <div class="col-lg-2">
+                                    <label class="form-label">Status</label>
+                                    <select name="status" class="form-select">
+                                        <option value="">All Statuses</option>
+                                        <option value="recruiting" {% if status_filter == 'recruiting' %}selected{% endif %}>Recruiting</option>
+                                        <option value="active" {% if status_filter == 'active' %}selected{% endif %}>Active</option>
+                                        <option value="completed" {% if status_filter == 'completed' %}selected{% endif %}>Completed</option>
+                                        <option value="suspended" {% if status_filter == 'suspended' %}selected{% endif %}>Suspended</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-2">
+                                    <label class="form-label">Phase</label>
+                                    <select name="phase" class="form-select">
+                                        <option value="">All Phases</option>
+                                        <option value="phase1" {% if phase_filter == 'phase1' %}selected{% endif %}>Phase I</option>
+                                        <option value="phase2" {% if phase_filter == 'phase2' %}selected{% endif %}>Phase II</option>
+                                        <option value="phase3" {% if phase_filter == 'phase3' %}selected{% endif %}>Phase III</option>
+                                        <option value="phase4" {% if phase_filter == 'phase4' %}selected{% endif %}>Phase IV</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-2 d-flex align-items-end">
+                                    <button type="submit" class="btn btn-astra-purple w-100">
+                                        <i class="fas fa-search me-1"></i>Search
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row g-3 mt-2">
+                                <div class="col-lg-6">
+                                    <label class="form-label">Condition</label>
+                                    <input type="text" 
+                                           name="condition" 
+                                           class="form-control" 
+                                           placeholder="e.g., cancer, hepatocellular carcinoma..."
+                                           value="{{ condition_filter }}">
+                                </div>
+                                <div class="col-lg-6 d-flex align-items-end">
+                                    <a href="{{ url_for('celltherapy') }}" class="btn btn-outline-secondary">
+                                        <i class="fas fa-times me-1"></i>Clear Filters
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Summary -->
+        {% if search_query or status_filter or phase_filter or condition_filter %}
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Showing {{ showing_results }} of {{ filtered_total }} filtered results
+                    {% if search_query %}for search: "{{ search_query }}"{% endif %}
+                    {% if current_page > 1 %}(Page {{ current_page }} of {{ total_pages }}){% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
         <!-- Live API Trials Section -->
         {% if api_trials %}
         <div class="row mb-4">
             <div class="col-12">
                 <h4 class="text-astra-purple mb-3">
-                    <i class="fas fa-sync-alt me-2"></i>Additional AstraZeneca Cell Therapy Trials 
+                    <i class="fas fa-sync-alt me-2"></i>AstraZeneca Cell Therapy Trials 
                     <small class="text-muted">(Live from ClinicalTrials.gov)</small>
                 </h4>
             </div>
@@ -335,6 +416,53 @@
             </div>
             {% endfor %}
         </div>
+        
+        <!-- Pagination -->
+        {% if total_pages > 1 %}
+        <div class="row mt-5">
+            <div class="col-12">
+                <nav aria-label="Clinical trials pagination">
+                    <ul class="pagination pagination-lg justify-content-center">
+                        {% if has_prev %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('celltherapy', page=current_page-1, search=search_query, status=status_filter, phase=phase_filter, condition=condition_filter) }}">
+                                <i class="fas fa-chevron-left"></i> Previous
+                            </a>
+                        </li>
+                        {% endif %}
+                        
+                        {% for page_num in range(1, total_pages + 1) %}
+                            {% if page_num == current_page %}
+                            <li class="page-item active">
+                                <span class="page-link bg-astra-purple border-astra-purple">{{ page_num }}</span>
+                            </li>
+                            {% elif page_num <= 3 or page_num > total_pages - 3 or (page_num >= current_page - 1 and page_num <= current_page + 1) %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('celltherapy', page=page_num, search=search_query, status=status_filter, phase=phase_filter, condition=condition_filter) }}">{{ page_num }}</a>
+                            </li>
+                            {% elif page_num == 4 or page_num == total_pages - 3 %}
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('celltherapy', page=current_page+1, search=search_query, status=status_filter, phase=phase_filter, condition=condition_filter) }}">
+                                Next <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                <div class="text-center text-muted">
+                    Showing page {{ current_page }} of {{ total_pages }} 
+                    ({{ showing_results }} trials on this page, {{ filtered_total }} total)
+                </div>
+            </div>
+        </div>
+        {% endif %}
         {% endif %}
         
         {% if not static_trials and not api_trials %}
@@ -342,7 +470,7 @@
             <div class="col-12 text-center">
                 <div class="alert alert-info">
                     <i class="fas fa-info-circle me-2"></i>
-                    No trials are currently available. Please check back later or contact us for more information.
+                    No trials match your current search criteria. Try adjusting your filters or search terms.
                 </div>
             </div>
         </div>
