@@ -3,8 +3,10 @@ from app import app, db
 from models import UserSubmission, check_clinical_trial_eligibility, get_eligibility_message, check_cell_therapy_eligibility
 from forms import InterestForm, AdminSearchForm, AdminLoginForm, CellTherapyInterestForm
 from email_service import send_bulk_emails
+from clinical_trials_scraper import scraper
 import logging
 import os
+import json
 from functools import wraps
 
 @app.route('/')
@@ -66,7 +68,8 @@ def confirmation(submission_id):
 @app.route('/celltherapy')
 def celltherapy():
     """Cell Therapy landing page with trial information"""
-    trials_info = {
+    # Static trials (keep as primary featured trials)
+    static_trials = {
         'locus': {
             'name': 'LOCUS - Long-term Follow-up Study',
             'nct_id': 'NCT06194461',
@@ -75,7 +78,9 @@ def celltherapy():
             'condition': 'Hepatocellular Carcinoma',
             'age_range': '18-130 years',
             'status': 'Will Be Recruiting (Sept 2025)',
-            'duration': 'Up to 15 years post-treatment monitoring'
+            'duration': 'Up to 15 years post-treatment monitoring',
+            'is_featured': True,
+            'source': 'static'
         },
         'azd5851': {
             'name': 'ATHENA - AZD5851 CAR-T Study',
@@ -85,16 +90,122 @@ def celltherapy():
             'condition': 'Advanced Hepatocellular Carcinoma',
             'age_range': '18+ years',
             'status': 'Currently Recruiting',
-            'target_enrollment': '94 participants'
+            'target_enrollment': '94 participants',
+            'is_featured': True,
+            'source': 'static'
         }
     }
+    
+    # Fetch live API data
+    try:
+        logging.info("Fetching AstraZeneca cell therapy trials from API...")
+        api_trials = scraper.fetch_astrazeneca_cell_therapy_trials(page_size=100)
+        logging.info(f"Fetched {len(api_trials)} trials from API")
+        
+        # Process API trials for display
+        processed_api_trials = []
+        for trial in api_trials:
+            # Skip if this is one of our static trials
+            if trial.get('nct_id') not in ['NCT06194461', 'NCT06084884']:
+                processed_trial = {
+                    'name': trial.get('brief_title', 'Unknown Trial'),
+                    'nct_id': trial.get('nct_id'),
+                    'description': trial.get('brief_summary', trial.get('detailed_description', 'No description available'))[:200] + '...' if trial.get('brief_summary') else 'No description available',
+                    'phase': ', '.join(trial.get('phases', [])) if trial.get('phases') else 'Unknown Phase',
+                    'condition': ', '.join(trial.get('conditions', [])) if trial.get('conditions') else 'Unknown Condition',
+                    'status': trial.get('overall_status', 'Unknown Status'),
+                    'sponsor': trial.get('lead_sponsor', 'AstraZeneca'),
+                    'enrollment': trial.get('enrollment'),
+                    'is_featured': False,
+                    'source': 'api',
+                    'locations_count': len(trial.get('locations', [])),
+                    'last_updated': trial.get('last_update_submitted_date')
+                }
+                processed_api_trials.append(processed_trial)
+    
+    except Exception as e:
+        logging.error(f"Error fetching API trials: {str(e)}")
+        processed_api_trials = []
+        flash('Unable to load latest trial data. Showing available trials.', 'warning')
     
     locations = [
         {'name': 'UCSF (University of California, San Francisco)', 'contact': '888-689-8273'},
         {'name': 'Multiple International Sites', 'contact': 'Contact study coordinator'}
     ]
     
-    return render_template('celltherapy.html', trials=trials_info, locations=locations)
+    return render_template('celltherapy.html', 
+                         static_trials=static_trials, 
+                         api_trials=processed_api_trials,
+                         locations=locations,
+                         total_trials=len(static_trials) + len(processed_api_trials))
+
+@app.route('/trial/<nct_id>')
+def trial_details(nct_id):
+    """Detailed view of a specific clinical trial"""
+    try:
+        # Try to get detailed trial information from API
+        trial_data = scraper.fetch_trial_details(nct_id)
+        
+        if not trial_data:
+            flash(f'Trial {nct_id} not found or unavailable.', 'error')
+            return redirect(url_for('celltherapy'))
+        
+        # Format trial data for display
+        formatted_trial = {
+            'basic_info': {
+                'nct_id': trial_data.get('nct_id'),
+                'brief_title': trial_data.get('brief_title'),
+                'official_title': trial_data.get('official_title'),
+                'acronym': trial_data.get('acronym'),
+                'overall_status': trial_data.get('overall_status'),
+                'study_type': trial_data.get('study_type'),
+                'phases': trial_data.get('phases', [])
+            },
+            'dates': {
+                'start_date': trial_data.get('start_date'),
+                'primary_completion_date': trial_data.get('primary_completion_date'),
+                'completion_date': trial_data.get('completion_date'),
+                'last_updated': trial_data.get('last_update_submitted_date')
+            },
+            'sponsor_info': {
+                'lead_sponsor': trial_data.get('lead_sponsor'),
+                'lead_sponsor_class': trial_data.get('lead_sponsor_class'),
+                'collaborators': trial_data.get('collaborators', [])
+            },
+            'study_design': {
+                'allocation': trial_data.get('allocation'),
+                'intervention_model': trial_data.get('intervention_model'),
+                'primary_purpose': trial_data.get('primary_purpose'),
+                'masking': trial_data.get('masking'),
+                'enrollment': trial_data.get('enrollment')
+            },
+            'conditions_interventions': {
+                'conditions': trial_data.get('conditions', []),
+                'interventions': trial_data.get('interventions', []),
+                'keywords': trial_data.get('keywords', [])
+            },
+            'eligibility': {
+                'criteria': trial_data.get('eligibility_criteria'),
+                'healthy_volunteers': trial_data.get('healthy_volunteers'),
+                'gender': trial_data.get('gender'),
+                'minimum_age': trial_data.get('minimum_age'),
+                'maximum_age': trial_data.get('maximum_age')
+            },
+            'descriptions': {
+                'brief_summary': trial_data.get('brief_summary'),
+                'detailed_description': trial_data.get('detailed_description')
+            },
+            'locations': trial_data.get('locations', []),
+            'contacts': trial_data.get('central_contacts', []),
+            'raw_data': trial_data.get('raw_data', {})
+        }
+        
+        return render_template('trial_details.html', trial=formatted_trial)
+        
+    except Exception as e:
+        logging.error(f"Error fetching trial details for {nct_id}: {str(e)}")
+        flash(f'Error loading trial details for {nct_id}. Please try again.', 'error')
+        return redirect(url_for('celltherapy'))
 
 @app.route('/celltherapy/interest', methods=['GET', 'POST'])
 def celltherapy_interest():

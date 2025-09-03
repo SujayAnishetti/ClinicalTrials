@@ -200,119 +200,153 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mx-auto text-center mb-5">
-                <h2 class="text-astra-purple mb-4">Current Cell Therapy Trials</h2>
+                <h2 class="text-astra-purple mb-4">
+                    Current Cell Therapy Trials 
+                    <span class="badge bg-astra-purple">{{ total_trials }} Available</span>
+                </h2>
                 <p class="lead text-muted">
                     Explore our active clinical trials investigating innovative cell therapy treatments 
-                    for advanced cancer patients.
+                    for advanced cancer patients. Data updated from ClinicalTrials.gov API.
                 </p>
             </div>
         </div>
         
-        <div class="row g-4">
-            <!-- LOCUS Trial Bento Box -->
-            <div class="col-lg-6">
-                <a href="{{ url_for('trial_locus') }}" class="text-decoration-none">
-                    <div class="card h-100 border-0 shadow-sm trial-bento-box" style="transition: all 0.3s ease;">
-                        <div class="card-header text-white text-center" style="background: linear-gradient(135deg, #6f42c1 0%, #8A0051 100%);">
-                            <i class="fas fa-dna fa-3x mb-2"></i>
-                            <h4 class="mb-0">LOCUS Trial</h4>
-                            <small class="opacity-75">NCT06194461</small>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title" style="color: #6f42c1;">AZD0486 CAR-T Cell Therapy</h5>
-                            <p class="card-text text-dark">Revolutionary CRISPR-edited allogeneic CAR-T cell therapy targeting CD19+ large B-cell lymphoma.</p>
-                            
-                            <div class="row g-2 mb-3">
-                                <div class="col-6">
-                                    <div class="p-2 rounded" style="background-color: #f8f9fa;">
-                                        <div class="text-center">
-                                            <i class="fas fa-users" style="color: #6f42c1;"></i>
-                                            <div class="small fw-bold text-dark">90 Participants</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="p-2 rounded" style="background-color: #f8f9fa;">
-                                        <div class="text-center">
-                                            <i class="fas fa-calendar" style="color: #6f42c1;"></i>
-                                            <div class="small fw-bold text-dark">18-70 Years</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <h6 class="fw-bold" style="color: #6f42c1;">Study Locations:</h6>
-                                <div class="small text-dark">
-                                    <i class="fas fa-map-marker-alt me-1"></i>United States, Canada, UK
-                                </div>
-                            </div>
-                            
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="badge bg-success">
-                                    <i class="fas fa-play-circle me-1"></i>Recruiting
-                                </span>
-                                <span class="fw-bold" style="color: #6f42c1;">
-                                    Learn More <i class="fas fa-arrow-right ms-1"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            
-            <!-- AZD5851 Trial Bento Box -->
-            <div class="col-lg-6">
-                <a href="{{ url_for('trial_azd5851') }}" class="text-decoration-none">
-                    <div class="card h-100 border-0 shadow-sm trial-bento-box" style="transition: all 0.3s ease;">
-                        <div class="card-header text-white text-center" style="background: linear-gradient(135deg, #8A0051 0%, #EFAB00 100%);">
-                            <i class="fas fa-microscope fa-3x mb-2"></i>
-                            <h4 class="mb-0">AZD5851 Trial</h4>
-                            <small class="opacity-75">NCT06084884</small>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title" style="color: #8A0051;">Bispecific T-cell Engager</h5>
-                            <p class="card-text text-dark">Innovative BiTE therapy targeting CD19 and CD3 for relapsed/refractory B-cell acute lymphoblastic leukemia.</p>
-                            
-                            <div class="row g-2 mb-3">
-                                <div class="col-6">
-                                    <div class="p-2 rounded" style="background-color: #f8f9fa;">
-                                        <div class="text-center">
-                                            <i class="fas fa-users" style="color: #8A0051;"></i>
-                                            <div class="small fw-bold text-dark">120 Participants</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="p-2 rounded" style="background-color: #f8f9fa;">
-                                        <div class="text-center">
-                                            <i class="fas fa-calendar" style="color: #8A0051;"></i>
-                                            <div class="small fw-bold text-dark">18+ Years</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <h6 class="fw-bold" style="color: #8A0051;">Study Locations:</h6>
-                                <div class="small text-dark">
-                                    <i class="fas fa-map-marker-alt me-1"></i>Leading US Cancer Centers
-                                </div>
-                            </div>
-                            
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="badge bg-success">
-                                    <i class="fas fa-play-circle me-1"></i>Recruiting
-                                </span>
-                                <span class="fw-bold" style="color: #8A0051;">
-                                    Learn More <i class="fas fa-arrow-right ms-1"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
+        <!-- Featured Trials Section -->
+        {% if static_trials %}
+        <div class="row mb-4">
+            <div class="col-12">
+                <h4 class="text-astra-purple mb-3">
+                    <i class="fas fa-star me-2"></i>Featured Trials
+                </h4>
             </div>
         </div>
+        <div class="row g-4 mb-5">
+            {% for trial_key, trial in static_trials.items() %}
+            <div class="col-lg-6">
+                <a href="{{ url_for('trial_details', nct_id=trial.nct_id) }}" class="text-decoration-none">
+                    <div class="card h-100 border-0 shadow-sm trial-bento-box" style="transition: all 0.3s ease;">
+                        <div class="card-header text-white text-center" style="background: linear-gradient(135deg, {% if trial_key == 'locus' %}#6f42c1 0%, #8A0051 100%{% else %}#8A0051 0%, #EFAB00 100%{% endif %});">
+                            <i class="fas fa-dna fa-3x mb-2"></i>
+                            <h4 class="mb-0">{{ trial.name.split(' - ')[0] }}</h4>
+                            <small class="opacity-75">{{ trial.nct_id }}</small>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title" style="color: {% if trial_key == 'locus' %}#6f42c1{% else %}#8A0051{% endif %};">{{ trial.name.split(' - ')[1] if ' - ' in trial.name else trial.name }}</h5>
+                            <p class="card-text text-dark">{{ trial.description[:120] }}...</p>
+                            
+                            <div class="row g-2 mb-3">
+                                <div class="col-6">
+                                    <div class="p-2 rounded" style="background-color: #f8f9fa;">
+                                        <div class="text-center">
+                                            <i class="fas fa-flask" style="color: {% if trial_key == 'locus' %}#6f42c1{% else %}#8A0051{% endif %};"></i>
+                                            <div class="small fw-bold text-dark">{{ trial.phase }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-2 rounded" style="background-color: #f8f9fa;">
+                                        <div class="text-center">
+                                            <i class="fas fa-calendar" style="color: {% if trial_key == 'locus' %}#6f42c1{% else %}#8A0051{% endif %};"></i>
+                                            <div class="small fw-bold text-dark">{{ trial.age_range }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <h6 class="fw-bold" style="color: {% if trial_key == 'locus' %}#6f42c1{% else %}#8A0051{% endif %};">Condition:</h6>
+                                <div class="small text-dark">
+                                    <i class="fas fa-stethoscope me-1"></i>{{ trial.condition }}
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge {% if 'recruiting' in trial.status.lower() %}bg-success{% else %}bg-warning text-dark{% endif %}">
+                                    <i class="fas fa-{% if 'recruiting' in trial.status.lower() %}play-circle{% else %}clock{% endif %} me-1"></i>{{ trial.status }}
+                                </span>
+                                <span class="fw-bold" style="color: {% if trial_key == 'locus' %}#6f42c1{% else %}#8A0051{% endif %};">
+                                    View Details <i class="fas fa-arrow-right ms-1"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <!-- Live API Trials Section -->
+        {% if api_trials %}
+        <div class="row mb-4">
+            <div class="col-12">
+                <h4 class="text-astra-purple mb-3">
+                    <i class="fas fa-sync-alt me-2"></i>Additional AstraZeneca Cell Therapy Trials 
+                    <small class="text-muted">(Live from ClinicalTrials.gov)</small>
+                </h4>
+            </div>
+        </div>
+        <div class="row g-4">
+            {% for trial in api_trials %}
+            <div class="col-lg-4 col-md-6">
+                <a href="{{ url_for('trial_details', nct_id=trial.nct_id) }}" class="text-decoration-none">
+                    <div class="card h-100 border-0 shadow-sm trial-bento-box" style="transition: all 0.3s ease;">
+                        <div class="card-header text-white text-center" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
+                            <i class="fas fa-flask fa-2x mb-2"></i>
+                            <h6 class="mb-0">{{ trial.nct_id }}</h6>
+                            <small class="opacity-75">{{ trial.sponsor }}</small>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title text-truncate" style="color: #28a745;" title="{{ trial.name }}">{{ trial.name }}</h6>
+                            <p class="card-text small text-dark">{{ trial.description }}</p>
+                            
+                            <div class="row g-1 mb-2">
+                                <div class="col-6">
+                                    <div class="p-1 rounded text-center" style="background-color: #f8f9fa;">
+                                        <i class="fas fa-flask" style="color: #28a745; font-size: 0.8rem;"></i>
+                                        <div class="small fw-bold text-dark" style="font-size: 0.7rem;">{{ trial.phase }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-1 rounded text-center" style="background-color: #f8f9fa;">
+                                        <i class="fas fa-map-marker-alt" style="color: #28a745; font-size: 0.8rem;"></i>
+                                        <div class="small fw-bold text-dark" style="font-size: 0.7rem;">{{ trial.locations_count }} Sites</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-2">
+                                <div class="small text-muted">
+                                    <strong>Condition:</strong> {{ trial.condition[:50] }}...
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge {% if 'recruiting' in trial.status.lower() %}bg-success{% elif 'active' in trial.status.lower() %}bg-primary{% else %}bg-secondary{% endif %}" style="font-size: 0.7rem;">
+                                    {{ trial.status[:15] }}...
+                                </span>
+                                <span class="small fw-bold" style="color: #28a745;">
+                                    Details <i class="fas fa-external-link-alt ms-1"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        {% if not static_trials and not api_trials %}
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    No trials are currently available. Please check back later or contact us for more information.
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
 </section>
 

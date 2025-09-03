@@ -1,0 +1,432 @@
+{% extends "base.html" %}
+
+{% block title %}{{ trial.basic_info.brief_title }} - {{ trial.basic_info.nct_id }} | AstraZeneca{% endblock %}
+
+{% block head %}
+<style>
+    .trial-header {
+        background: linear-gradient(135deg, var(--az-primary) 0%, #6d003f 100%);
+        color: white;
+        border-radius: 15px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .trial-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="25" cy="25" r="3" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="35" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="55" cy="75" r="4" fill="rgba(255,255,255,0.1)"/></svg>');
+        animation: rotate 30s linear infinite;
+        opacity: 0.3;
+    }
+    
+    .trial-header .container {
+        position: relative;
+        z-index: 2;
+    }
+    
+    @keyframes rotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    .info-card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease;
+    }
+    
+    .info-card:hover {
+        transform: translateY(-2px);
+    }
+    
+    .section-header {
+        color: var(--az-primary);
+        border-bottom: 2px solid var(--az-primary);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .badge-custom {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+    }
+    
+    .status-recruiting {
+        background: linear-gradient(45deg, #28a745, #20c997);
+        color: white;
+    }
+    
+    .status-active {
+        background: linear-gradient(45deg, #007bff, #0056b3);
+        color: white;
+    }
+    
+    .status-completed {
+        background: linear-gradient(45deg, #6c757d, #495057);
+        color: white;
+    }
+    
+    .json-viewer {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 1rem;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    .intervention-badge {
+        background: var(--az-yellow);
+        color: var(--az-primary);
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        font-size: 0.85rem;
+        margin: 0.25rem;
+        display: inline-block;
+    }
+    
+    .contact-card {
+        border-left: 4px solid var(--az-primary);
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 0 8px 8px 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="py-4">
+    <div class="container">
+        <!-- Back Button -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <a href="{{ url_for('celltherapy') }}" class="btn btn-outline-astra-purple">
+                    <i class="fas fa-arrow-left me-2"></i>Back to Cell Therapy Trials
+                </a>
+            </div>
+        </div>
+
+        <!-- Trial Header -->
+        <div class="trial-header mb-5">
+            <div class="container py-4">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <h1 class="display-5 fw-bold mb-2">{{ trial.basic_info.brief_title }}</h1>
+                        {% if trial.basic_info.official_title and trial.basic_info.official_title != trial.basic_info.brief_title %}
+                        <p class="lead opacity-90 mb-3">{{ trial.basic_info.official_title }}</p>
+                        {% endif %}
+                        <div class="d-flex flex-wrap gap-2 mb-3">
+                            <span class="badge badge-custom {% if 'recruiting' in trial.basic_info.overall_status.lower() %}status-recruiting{% elif 'active' in trial.basic_info.overall_status.lower() %}status-active{% else %}status-completed{% endif %}">
+                                {{ trial.basic_info.overall_status }}
+                            </span>
+                            {% if trial.basic_info.phases %}
+                            <span class="badge bg-light text-dark">{{ ', '.join(trial.basic_info.phases) }}</span>
+                            {% endif %}
+                            <span class="badge bg-light text-dark">{{ trial.basic_info.study_type }}</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-center">
+                        <div class="bg-white bg-opacity-20 rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 120px; height: 120px;">
+                            <div>
+                                <h2 class="mb-1">{{ trial.basic_info.nct_id }}</h2>
+                                <small class="opacity-75">ClinicalTrials.gov</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Information Cards -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-6 col-lg-3">
+                <div class="info-card card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-calendar-alt fa-3x text-astra-purple mb-3"></i>
+                        <h6 class="card-title">Start Date</h6>
+                        <p class="card-text">{{ trial.dates.start_date or 'Not specified' }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="info-card card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-users fa-3x text-astra-purple mb-3"></i>
+                        <h6 class="card-title">Target Enrollment</h6>
+                        <p class="card-text">{{ trial.study_design.enrollment or 'Not specified' }} participants</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="info-card card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-building fa-3x text-astra-purple mb-3"></i>
+                        <h6 class="card-title">Sponsor</h6>
+                        <p class="card-text">{{ trial.sponsor_info.lead_sponsor }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="info-card card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-map-marker-alt fa-3x text-astra-purple mb-3"></i>
+                        <h6 class="card-title">Study Locations</h6>
+                        <p class="card-text">{{ trial.locations|length }} sites</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Tabs -->
+        <div class="row">
+            <div class="col-12">
+                <!-- Tab Navigation -->
+                <ul class="nav nav-tabs nav-fill mb-4" id="trialTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab">
+                            <i class="fas fa-info-circle me-2"></i>Overview
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="eligibility-tab" data-bs-toggle="tab" data-bs-target="#eligibility" type="button" role="tab">
+                            <i class="fas fa-check-circle me-2"></i>Eligibility
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="locations-tab" data-bs-toggle="tab" data-bs-target="#locations" type="button" role="tab">
+                            <i class="fas fa-map-marker-alt me-2"></i>Locations
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab">
+                            <i class="fas fa-database me-2"></i>Full Data
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Tab Content -->
+                <div class="tab-content" id="trialTabsContent">
+                    <!-- Overview Tab -->
+                    <div class="tab-pane fade show active" id="overview" role="tabpanel">
+                        <div class="row g-4">
+                            <div class="col-lg-8">
+                                <div class="card info-card">
+                                    <div class="card-body">
+                                        <h3 class="section-header">Study Description</h3>
+                                        {% if trial.descriptions.brief_summary %}
+                                        <h5>Brief Summary</h5>
+                                        <p>{{ trial.descriptions.brief_summary }}</p>
+                                        {% endif %}
+                                        
+                                        {% if trial.descriptions.detailed_description %}
+                                        <h5>Detailed Description</h5>
+                                        <p>{{ trial.descriptions.detailed_description }}</p>
+                                        {% endif %}
+                                        
+                                        <h5>Study Design</h5>
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <strong>Allocation:</strong> {{ trial.study_design.allocation or 'Not specified' }}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <strong>Intervention Model:</strong> {{ trial.study_design.intervention_model or 'Not specified' }}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <strong>Primary Purpose:</strong> {{ trial.study_design.primary_purpose or 'Not specified' }}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <strong>Masking:</strong> {{ trial.study_design.masking or 'Not specified' }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="card info-card mb-4">
+                                    <div class="card-body">
+                                        <h5 class="section-header">Conditions</h5>
+                                        {% for condition in trial.conditions_interventions.conditions %}
+                                        <span class="badge bg-astra-purple text-white mb-2 me-1">{{ condition }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                
+                                <div class="card info-card mb-4">
+                                    <div class="card-body">
+                                        <h5 class="section-header">Interventions</h5>
+                                        {% for intervention in trial.conditions_interventions.interventions %}
+                                        <div class="intervention-badge">
+                                            <strong>{{ intervention.type }}:</strong> {{ intervention.name }}
+                                        </div>
+                                        {% if intervention.description %}
+                                        <p class="small text-muted mt-2">{{ intervention.description }}</p>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                
+                                {% if trial.conditions_interventions.keywords %}
+                                <div class="card info-card">
+                                    <div class="card-body">
+                                        <h5 class="section-header">Keywords</h5>
+                                        {% for keyword in trial.conditions_interventions.keywords %}
+                                        <span class="badge bg-light text-dark mb-1 me-1">{{ keyword }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Eligibility Tab -->
+                    <div class="tab-pane fade" id="eligibility" role="tabpanel">
+                        <div class="card info-card">
+                            <div class="card-body">
+                                <h3 class="section-header">Eligibility Criteria</h3>
+                                <div class="row g-4 mb-4">
+                                    <div class="col-md-4">
+                                        <div class="text-center p-3 bg-light rounded">
+                                            <i class="fas fa-venus-mars fa-2x text-astra-purple mb-2"></i>
+                                            <h6>Gender</h6>
+                                            <p class="mb-0">{{ trial.eligibility.gender or 'All' }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="text-center p-3 bg-light rounded">
+                                            <i class="fas fa-birthday-cake fa-2x text-astra-purple mb-2"></i>
+                                            <h6>Age Range</h6>
+                                            <p class="mb-0">{{ trial.eligibility.minimum_age or 'No min' }} - {{ trial.eligibility.maximum_age or 'No max' }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="text-center p-3 bg-light rounded">
+                                            <i class="fas fa-heartbeat fa-2x text-astra-purple mb-2"></i>
+                                            <h6>Healthy Volunteers</h6>
+                                            <p class="mb-0">{{ 'Yes' if trial.eligibility.healthy_volunteers else 'No' }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                {% if trial.eligibility.criteria %}
+                                <h5>Detailed Criteria</h5>
+                                <div class="p-3 bg-light rounded">
+                                    <pre class="mb-0" style="white-space: pre-wrap;">{{ trial.eligibility.criteria }}</pre>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Locations Tab -->
+                    <div class="tab-pane fade" id="locations" role="tabpanel">
+                        <div class="row g-4">
+                            {% for location in trial.locations %}
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card info-card h-100">
+                                    <div class="card-body">
+                                        <h6 class="card-title text-astra-purple">{{ location.facility_name or 'Facility Name Not Available' }}</h6>
+                                        <div class="mb-2">
+                                            <i class="fas fa-map-marker-alt text-astra-purple me-2"></i>
+                                            {{ location.city }}, {{ location.state }} {{ location.zip_code }}
+                                            <br>{{ location.country }}
+                                        </div>
+                                        {% if location.status %}
+                                        <div class="mb-2">
+                                            <span class="badge {% if 'recruiting' in location.status.lower() %}bg-success{% elif 'active' in location.status.lower() %}bg-primary{% else %}bg-secondary{% endif %}">
+                                                {{ location.status }}
+                                            </span>
+                                        </div>
+                                        {% endif %}
+                                        {% for contact in location.contacts %}
+                                        <div class="contact-card mt-3">
+                                            {% if contact.name %}
+                                            <div class="fw-bold">{{ contact.name }}</div>
+                                            {% endif %}
+                                            {% if contact.phone %}
+                                            <div><i class="fas fa-phone me-1"></i>{{ contact.phone }}</div>
+                                            {% endif %}
+                                            {% if contact.email %}
+                                            <div><i class="fas fa-envelope me-1"></i>{{ contact.email }}</div>
+                                            {% endif %}
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            
+                            {% if not trial.locations %}
+                            <div class="col-12">
+                                <div class="alert alert-info text-center">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Location information is not available for this trial.
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Full Data Tab -->
+                    <div class="tab-pane fade" id="details" role="tabpanel">
+                        <div class="card info-card">
+                            <div class="card-body">
+                                <h3 class="section-header">Complete Trial Data (JSON)</h3>
+                                <p class="text-muted mb-3">
+                                    This section contains all available data from ClinicalTrials.gov for this study.
+                                </p>
+                                <div class="json-viewer">
+                                    <pre><code>{{ trial.raw_data | tojsonpretty }}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
+                    <a href="{{ url_for('celltherapy_interest') }}" class="btn btn-astra-purple btn-lg">
+                        <i class="fas fa-user-plus me-2"></i>Express Interest in Cell Therapy Trials
+                    </a>
+                    <a href="https://clinicaltrials.gov/study/{{ trial.basic_info.nct_id }}" target="_blank" class="btn btn-outline-astra-purple btn-lg">
+                        <i class="fas fa-external-link-alt me-2"></i>View on ClinicalTrials.gov
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Bootstrap tabs
+    var triggerTabList = [].slice.call(document.querySelectorAll('#trialTabs button'))
+    triggerTabList.forEach(function (triggerEl) {
+        var tabTrigger = new bootstrap.Tab(triggerEl)
+    })
+    
+    // Smooth scrolling for any anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+});
+</script>
+{% endblock %}
