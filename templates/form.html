@@ -88,20 +88,20 @@
                                         {% for error in form.mobile.errors %}{{ error }}{% endfor %}
                                     </div>
                                 {% endif %}
-                                <div class="form-text">10-digit mobile number</div>
+                                <div class="form-text">10-digit phone number</div>
                             </div>
                         </div>
 
-                        <!-- Pincode Field -->
+                        <!-- ZIP Code Field -->
                         <div class="mb-3">
-                            <label for="{{ form.pincode.id }}" class="form-label required">
+                            <label for="{{ form.zipcode.id }}" class="form-label required">
                                 <i class="fas fa-map-marker-alt me-1"></i>
-                                {{ form.pincode.label.text }}
+                                {{ form.zipcode.label.text }}
                             </label>
-                            {{ form.pincode(class="form-control" + (" is-invalid" if form.pincode.errors else "")) }}
-                            {% if form.pincode.errors %}
+                            {{ form.zipcode(class="form-control" + (" is-invalid" if form.zipcode.errors else "")) }}
+                            {% if form.zipcode.errors %}
                                 <div class="invalid-feedback">
-                                    {% for error in form.pincode.errors %}{{ error }}{% endfor %}
+                                    {% for error in form.zipcode.errors %}{{ error }}{% endfor %}
                                 </div>
                             {% endif %}
                             <div class="form-text">This helps us identify clinical trials in your area</div>

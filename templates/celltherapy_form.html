@@ -117,7 +117,7 @@
                                     <div class="form-group mb-3">
                                         {{ form.mobile.label(class="form-label required-field") }}
                                         {{ form.mobile(class="form-control") }}
-                                        <small class="text-muted">10-digit mobile number (e.g., 9876543210)</small>
+                                        <small class="text-muted">10-digit phone number (e.g., 5551234567)</small>
                                         {% if form.mobile.errors %}
                                             <div class="text-danger small mt-1">
                                                 {% for error in form.mobile.errors %}{{ error }}{% endfor %}
@@ -128,12 +128,12 @@
                                 
                                 <div class="col-md-3">
                                     <div class="form-group mb-3">
-                                        {{ form.pincode.label(class="form-label required-field") }}
-                                        {{ form.pincode(class="form-control") }}
-                                        <small class="text-muted">6-digit pincode</small>
-                                        {% if form.pincode.errors %}
+                                        {{ form.zipcode.label(class="form-label required-field") }}
+                                        {{ form.zipcode(class="form-control") }}
+                                        <small class="text-muted">5-digit ZIP code</small>
+                                        {% if form.zipcode.errors %}
                                             <div class="text-danger small mt-1">
-                                                {% for error in form.pincode.errors %}{{ error }}{% endfor %}
+                                                {% for error in form.zipcode.errors %}{{ error }}{% endfor %}
                                             </div>
                                         {% endif %}
                                     </div>

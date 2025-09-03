@@ -21,7 +21,7 @@ def interest_form():
         # Perform comprehensive eligibility check
         is_eligible, reasons = check_clinical_trial_eligibility(
             age=form.age.data,
-            pincode=form.pincode.data,
+            zipcode=form.zipcode.data,
             health_info=form.health_info.data,
             mobile=form.mobile.data
         )
@@ -34,7 +34,7 @@ def interest_form():
             name=form.name.data,
             email=form.email.data,
             mobile=form.mobile.data,
-            pincode=form.pincode.data,
+            pincode=form.zipcode.data,
             age=form.age.data,
             health_info=form.health_info.data,
             is_eligible=is_eligible
@@ -105,7 +105,7 @@ def celltherapy_interest():
         # Cell therapy specific eligibility check
         is_eligible, reasons = check_cell_therapy_eligibility(
             age=form.age.data,
-            pincode=form.pincode.data,
+            zipcode=form.zipcode.data,
             diagnosis=form.diagnosis.data,
             health_status=form.current_health_status.data
         )
@@ -118,7 +118,7 @@ def celltherapy_interest():
             name=form.name.data,
             email=form.email.data,
             mobile=form.mobile.data,
-            pincode=form.pincode.data,
+            pincode=form.zipcode.data,
             age=form.age.data,
             health_info=form.current_health_status.data,
             is_eligible=is_eligible,
@@ -200,12 +200,12 @@ def admin_dashboard():
     query = UserSubmission.query
     
     # Apply filters if provided
-    pincode_filter = request.args.get('search_pincode', '').strip()
+    zipcode_filter = request.args.get('search_zipcode', '').strip()
     eligibility_filter = request.args.get('eligibility_filter', '')
     therapy_filter = request.args.get('therapy_filter', '')
     
-    if pincode_filter:
-        query = query.filter(UserSubmission.pincode.contains(pincode_filter))
+    if zipcode_filter:
+        query = query.filter(UserSubmission.pincode.contains(zipcode_filter))
     
     if eligibility_filter == 'eligible':
         query = query.filter(UserSubmission.is_eligible == True)
@@ -239,7 +239,7 @@ def admin_dashboard():
                          submissions=submissions, 
                          search_form=search_form,
                          stats=stats,
-                         current_pincode=pincode_filter,
+                         current_zipcode=zipcode_filter,
                          current_eligibility=eligibility_filter,
                          current_therapy=therapy_filter)
 
@@ -289,7 +289,7 @@ def api_check_eligibility():
     Expected JSON payload:
     {
         "age": 25,
-        "pincode": "560001",
+        "zipcode": "90210",
         "health_info": "No major health issues",
         "mobile": "9876543210"
     }
@@ -312,7 +312,7 @@ def api_check_eligibility():
             }), 400
         
         # Validate required fields
-        required_fields = ['age', 'pincode', 'health_info']
+        required_fields = ['age', 'zipcode', 'health_info']
         missing_fields = [field for field in required_fields if field not in data]
         
         if missing_fields:
@@ -324,7 +324,7 @@ def api_check_eligibility():
         # Perform eligibility check
         is_eligible, reasons = check_clinical_trial_eligibility(
             age=data['age'],
-            pincode=data['pincode'],
+            zipcode=data['zipcode'],
             health_info=data['health_info'],
             mobile=data.get('mobile'),
             additional_checks=data.get('additional_checks')

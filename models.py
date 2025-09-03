@@ -21,22 +21,22 @@ class UserSubmission(db.Model):
         return f'<UserSubmission {self.name}>'
     
     @staticmethod
-    def validate_pincode(pincode):
-        """Validate pincode format (6 digits)"""
-        return bool(re.match(r'^\d{6}$', pincode))
+    def validate_zipcode(zipcode):
+        """Validate ZIP code format (5 digits)"""
+        return bool(re.match(r'^\d{5}$', zipcode))
     
     @staticmethod
-    def check_eligibility(age, pincode):
+    def check_eligibility(age, zipcode):
         """Check if user is eligible for clinical trials"""
-        return age >= 18 and UserSubmission.validate_pincode(pincode)
+        return age >= 18 and UserSubmission.validate_zipcode(zipcode)
 
-def check_clinical_trial_eligibility(age, pincode, health_info, mobile=None, additional_checks=None):
+def check_clinical_trial_eligibility(age, zipcode, health_info, mobile=None, additional_checks=None):
     """
     Comprehensive eligibility check for clinical trial participation
     
     Args:
         age (int): Participant's age
-        pincode (str): Participant's pincode
+        zipcode (str): Participant's ZIP code
         health_info (str): Health information provided
         mobile (str, optional): Mobile number for additional validation
         additional_checks (dict, optional): Additional criteria to check
@@ -54,38 +54,38 @@ def check_clinical_trial_eligibility(age, pincode, health_info, mobile=None, add
     elif age > 85:
         reasons.append("Participants must be 85 years old or younger for safety considerations")
     
-    # Pincode validation - format check
-    if not re.match(r'^\d{6}$', str(pincode)):
-        reasons.append("Pincode must be a valid 6-digit number")
+    # ZIP code validation - format check
+    if not re.match(r'^\d{5}$', str(zipcode)):
+        reasons.append("ZIP code must be a valid 5-digit number")
     else:
-        # Pincode validation - allowed regions
-        allowed_pincode_prefixes = [
-            '11',  # Delhi
-            '40',  # Mumbai
-            '56',  # Bangalore
-            '57',  # Bangalore extended
-            '60',  # Chennai
-            '70',  # Kolkata
-            '50',  # Hyderabad
-            '38',  # Ahmedabad
-            '20',  # Ghaziabad/Noida
-            '41',  # Pune
-            '30',  # Jaipur
-            '22',  # Lucknow
-            '12',  # Gurgaon/Faridabad
-            '14',  # Chandigarh
-            '16',  # Chandigarh extended
-            '15',  # Punjab
-            '80',  # Patna
-            '75',  # Bhubaneswar
-            '64',  # Coimbatore
-            '62',  # Madurai
-            '68',  # Kochi
+        # ZIP code validation - allowed regions (major US metropolitan areas)
+        allowed_zipcode_ranges = [
+            (10000, 19999),  # New York Metro
+            (90000, 96199),  # Los Angeles Metro  
+            (60600, 60699),  # Chicago Metro
+            (77000, 77599),  # Houston Metro
+            (85000, 85399),  # Phoenix Metro
+            (19100, 19199),  # Philadelphia Metro
+            (78200, 78299),  # San Antonio Metro
+            (92100, 92199),  # San Diego Metro
+            (75200, 75299),  # Dallas Metro
+            (95100, 95199),  # San Jose Metro
+            (78700, 78799),  # Austin Metro
+            (32200, 32299),  # Jacksonville Metro
+            (76100, 76199),  # Fort Worth Metro
+            (43200, 43299),  # Columbus Metro
+            (28200, 28299),  # Charlotte Metro
+            (94100, 94199),  # San Francisco Metro
+            (46200, 46299),  # Indianapolis Metro
+            (98100, 98199),  # Seattle Metro
+            (80200, 80299),  # Denver Metro
+            (2100, 2199),    # Boston Metro
         ]
         
-        pincode_prefix = str(pincode)[:2]
-        if pincode_prefix not in allowed_pincode_prefixes:
-            reasons.append(f"Clinical trials are not currently available in your area (pincode: {pincode})")
+        zipcode_int = int(zipcode)
+        is_in_allowed_area = any(start <= zipcode_int <= end for start, end in allowed_zipcode_ranges)
+        if not is_in_allowed_area:
+            reasons.append(f"Clinical trials are not currently available in your area (ZIP code: {zipcode})")
     
     # Health information validation
     if not health_info or len(health_info.strip()) < 10:
@@ -135,13 +135,13 @@ def check_clinical_trial_eligibility(age, pincode, health_info, mobile=None, add
     
     return is_eligible, reasons
 
-def check_cell_therapy_eligibility(age, pincode, diagnosis, health_status, mobile=None):
+def check_cell_therapy_eligibility(age, zipcode, diagnosis, health_status, mobile=None):
     """
     Cell therapy specific eligibility check
     
     Args:
         age (int): Participant's age (18-65 for cell therapy)
-        pincode (str): Participant's pincode
+        zipcode (str): Participant's ZIP code
         diagnosis (str): Current diagnosis
         health_status (str): Detailed health status
         mobile (str, optional): Mobile number for additional validation
@@ -157,9 +157,9 @@ def check_cell_therapy_eligibility(age, pincode, diagnosis, health_status, mobil
     elif age > 65:
         reasons.append("Cell therapy trials typically accept participants up to 65 years old")
     
-    # Pincode validation
-    if not UserSubmission.validate_pincode(pincode):
-        reasons.append("Invalid pincode format")
+    # ZIP code validation
+    if not UserSubmission.validate_zipcode(zipcode):
+        reasons.append("Invalid ZIP code format")
     
     # Diagnosis validation - check for qualifying conditions
     diagnosis_lower = diagnosis.lower()

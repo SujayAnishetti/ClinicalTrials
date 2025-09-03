@@ -19,9 +19,9 @@ class InterestForm(FlaskForm):
         Regexp(r'^\d{10}$', message='Please enter a valid 10-digit mobile number')
     ])
     
-    pincode = StringField('Pincode', validators=[
-        DataRequired(message='Pincode is required'),
-        Regexp(r'^\d{6}$', message='Please enter a valid 6-digit pincode')
+    zipcode = StringField('ZIP Code', validators=[
+        DataRequired(message='ZIP Code is required'),
+        Regexp(r'^\d{5}$', message='Please enter a valid 5-digit ZIP code')
     ])
     
     age = IntegerField('Age', validators=[
@@ -63,9 +63,9 @@ class CellTherapyInterestForm(FlaskForm):
         Regexp(r'^\d{10}$', message='Please enter a valid 10-digit mobile number')
     ])
     
-    pincode = StringField('Pincode', validators=[
-        DataRequired(message='Pincode is required'),
-        Regexp(r'^\d{6}$', message='Please enter a valid 6-digit pincode')
+    zipcode = StringField('ZIP Code', validators=[
+        DataRequired(message='ZIP Code is required'),
+        Regexp(r'^\d{5}$', message='Please enter a valid 5-digit ZIP code')
     ])
     
     age = IntegerField('Age', validators=[
@@ -86,7 +86,7 @@ class CellTherapyInterestForm(FlaskForm):
     submit = SubmitField('Submit Interest for Cell Therapy')
 
 class AdminSearchForm(FlaskForm):
-    search_pincode = StringField('Search by Pincode', render_kw={"placeholder": "Enter pincode"})
+    search_zipcode = StringField('Search by ZIP Code', render_kw={"placeholder": "Enter ZIP code"})
     
     eligibility_filter = SelectField('Filter by Eligibility', choices=[
         ('', 'All'),
