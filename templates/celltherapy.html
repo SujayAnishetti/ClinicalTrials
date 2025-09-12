@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %}Cell Therapy Clinical Trials - AstraZeneca{% endblock %}
+{% block title %}Clinical Trials - AstraZeneca{% endblock %}
 
 {% block head %}
-<!-- Custom CSS for Cell Therapy page -->
+<!-- Custom CSS for Clinical Trials page -->
 <style>
     .trial-card {
         border: 1px solid #dee2e6;
@@ -109,11 +109,11 @@
             <div class="col-lg-8">
                 <h1 class="display-4 fw-bold mb-4 hero-text">
                     <i class="fas fa-dna me-3"></i>
-                    Cell Therapy Clinical Trials
+                    Clinical Trials
                 </h1>
                 <p class="lead mb-4 hero-text">
-                    Explore AstraZeneca's groundbreaking cell therapy trials using CAR-T technology for advanced cancer treatment. 
-                    Join the forefront of personalized medicine that could transform cancer care.
+                    Explore AstraZeneca's groundbreaking clinical trials using innovative technologies for advanced cancer treatment. 
+                    Join the forefront of personalized medicine that could transform patient care.
                 </p>
                 <div class="d-flex flex-column flex-sm-row gap-3">
                     <a href="{{ url_for('celltherapy_interest') }}" class="btn btn-astra-yellow btn-lg px-4">
@@ -138,10 +138,9 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mx-auto text-center mb-5">
-                <h2 class="text-astra-purple mb-4">What is Cell Therapy?</h2>
+                <h2 class="text-astra-purple mb-4">Innovative Clinical Research</h2>
                 <p class="lead text-muted">
-                    Cell therapy represents a revolutionary approach to cancer treatment, using genetically modified immune cells 
-                    to target and destroy cancer cells with unprecedented precision.
+                    Our clinical trials represent revolutionary approaches to cancer treatment, including cell therapies, targeted treatments, and innovative therapeutic solutions designed to improve patient outcomes with unprecedented precision.
                 </p>
             </div>
         </div>
@@ -201,11 +200,11 @@
         <div class="row">
             <div class="col-lg-8 mx-auto text-center mb-5">
                 <h2 class="text-astra-purple mb-4">
-                    Current Cell Therapy Trials 
+                    Current Clinical Trials 
                     <span class="badge bg-astra-purple">{{ total_trials }} Available</span>
                 </h2>
                 <p class="lead text-muted">
-                    Explore our active clinical trials investigating innovative cell therapy treatments 
+                    Explore our active clinical trials investigating innovative treatments 
                     for advanced cancer patients. Data updated from ClinicalTrials.gov API.
                 </p>
             </div>
@@ -300,20 +299,18 @@
                                     <label class="form-label">Status</label>
                                     <select name="status" class="form-select">
                                         <option value="">All Statuses</option>
-                                        <option value="recruiting" {% if status_filter == 'recruiting' %}selected{% endif %}>Recruiting</option>
-                                        <option value="active" {% if status_filter == 'active' %}selected{% endif %}>Active</option>
-                                        <option value="completed" {% if status_filter == 'completed' %}selected{% endif %}>Completed</option>
-                                        <option value="suspended" {% if status_filter == 'suspended' %}selected{% endif %}>Suspended</option>
+                                        {% for status in available_statuses %}
+                                        <option value="{{ status }}" {% if status_filter == status %}selected{% endif %}>{{ status }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                                 <div class="col-lg-2">
                                     <label class="form-label">Phase</label>
                                     <select name="phase" class="form-select">
                                         <option value="">All Phases</option>
-                                        <option value="phase1" {% if phase_filter == 'phase1' %}selected{% endif %}>Phase I</option>
-                                        <option value="phase2" {% if phase_filter == 'phase2' %}selected{% endif %}>Phase II</option>
-                                        <option value="phase3" {% if phase_filter == 'phase3' %}selected{% endif %}>Phase III</option>
-                                        <option value="phase4" {% if phase_filter == 'phase4' %}selected{% endif %}>Phase IV</option>
+                                        {% for phase in available_phases %}
+                                        <option value="{{ phase }}" {% if phase_filter == phase %}selected{% endif %}>{{ phase }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                                 <div class="col-lg-2 d-flex align-items-end">
@@ -362,7 +359,7 @@
         <div class="row mb-4">
             <div class="col-12">
                 <h4 class="text-astra-purple mb-3">
-                    <i class="fas fa-sync-alt me-2"></i>AstraZeneca Cell Therapy Trials 
+                    <i class="fas fa-sync-alt me-2"></i>AstraZeneca Clinical Trials 
                     <small class="text-muted">(Live from ClinicalTrials.gov)</small>
                 </h4>
             </div>
@@ -512,11 +509,11 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
-                <h2 class="text-astra-purple mb-4">Cell Therapy Eligibility</h2>
+                <h2 class="text-astra-purple mb-4">Clinical Trial Eligibility</h2>
                 <ul class="list-unstyled">
                     <li class="mb-3">
                         <i class="fas fa-check-circle text-astra-yellow me-3"></i>
-                        <strong>Age 18-65 years</strong> for most cell therapy trials
+                        <strong>Age 18-65 years</strong> for most clinical trials
                     </li>
                     <li class="mb-3">
                         <i class="fas fa-check-circle text-astra-yellow me-3"></i>
@@ -528,7 +525,7 @@
                     </li>
                     <li class="mb-3">
                         <i class="fas fa-check-circle text-astra-yellow me-3"></i>
-                        <strong>Adequate organ function</strong> to safely receive cell therapy
+                        <strong>Adequate organ function</strong> to safely receive treatment
                     </li>
                     <li class="mb-3">
                         <i class="fas fa-check-circle text-astra-yellow me-3"></i>
@@ -543,7 +540,7 @@
                         Important Information
                     </h4>
                     <p class="text-muted mb-3">
-                        Cell therapy trials have specific eligibility criteria that may differ from other cancer treatments. 
+                        Clinical trials have specific eligibility criteria that may differ from other cancer treatments. 
                         A thorough medical evaluation is required to determine suitability.
                     </p>
                     <div class="alert alert-info">
@@ -564,14 +561,14 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mx-auto text-center">
-                <h2 class="mb-4">Ready to Explore Cell Therapy Options?</h2>
+                <h2 class="mb-4">Ready to Explore Clinical Trial Options?</h2>
                 <p class="lead mb-4">
-                    Express your interest in our cell therapy clinical trials. Our research team will review your information 
+                    Express your interest in our clinical trials. Our research team will review your information 
                     and contact you if you may be eligible for participation.
                 </p>
                 <a href="{{ url_for('celltherapy_interest') }}" class="btn btn-astra-yellow btn-lg px-5 me-3">
                     <i class="fas fa-clipboard-list me-2"></i>
-                    Express Interest in Cell Therapy
+                    Express Interest in Clinical Trials
                 </a>
                 <a href="{{ url_for('index') }}" class="btn btn-outline-light btn-lg px-4">
                     <i class="fas fa-arrow-left me-2"></i>

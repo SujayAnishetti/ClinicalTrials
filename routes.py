@@ -67,7 +67,7 @@ def confirmation(submission_id):
 
 @app.route('/celltherapy')
 def celltherapy():
-    """Cell Therapy landing page with trial information"""
+    """Clinical Trials landing page with trial information"""
     # Static trials (keep as primary featured trials)
     static_trials = {
         'locus': {
@@ -110,6 +110,10 @@ def celltherapy():
         api_trials = scraper.fetch_astrazeneca_cell_therapy_trials(page_size=500)
         logging.info(f"Fetched {len(api_trials)} trials from API")
         
+        # Collect unique status values for filtering
+        all_statuses = set()
+        all_phases = set()
+        
         # Process and filter API trials
         processed_api_trials = []
         for trial in api_trials:
@@ -119,6 +123,11 @@ def celltherapy():
                 locations = trial.get('locations', [])
                 valid_locations = [loc for loc in locations if loc.get('facility_name')]
                 
+                # Ensure this is an AstraZeneca trial
+                sponsor_name = trial.get('lead_sponsor', '')
+                if 'astrazeneca' not in sponsor_name.lower():
+                    continue
+                
                 processed_trial = {
                     'name': trial.get('brief_title', 'Unknown Trial'),
                     'nct_id': trial.get('nct_id'),
@@ -126,7 +135,7 @@ def celltherapy():
                     'phase': ', '.join(trial.get('phases', [])) if trial.get('phases') else 'Unknown Phase',
                     'condition': ', '.join(trial.get('conditions', [])) if trial.get('conditions') else 'Unknown Condition',
                     'status': trial.get('overall_status', 'Unknown Status'),
-                    'sponsor': trial.get('lead_sponsor', 'AstraZeneca'),
+                    'sponsor': sponsor_name or 'AstraZeneca',
                     'enrollment': trial.get('enrollment'),
                     'is_featured': False,
                     'source': 'api',
@@ -136,6 +145,12 @@ def celltherapy():
                     'last_updated': trial.get('last_update_submitted_date')
                 }
                 
+                # Collect unique statuses and phases for filtering
+                all_statuses.add(processed_trial['status'])
+                if trial.get('phases'):
+                    for phase in trial.get('phases', []):
+                        all_phases.add(phase)
+                
                 # Apply filters
                 if search_query:
                     if not (search_query.lower() in processed_trial['name'].lower() or 
@@ -143,11 +158,15 @@ def celltherapy():
                            search_query.lower() in processed_trial['condition'].lower()):
                         continue
                 
-                if status_filter and status_filter.lower() not in processed_trial['status'].lower():
+                # Improved status filtering - exact match for better accuracy
+                if status_filter and status_filter != processed_trial['status']:
                     continue
                 
-                if phase_filter and phase_filter.lower() not in processed_trial['phase'].lower():
-                    continue
+                # Improved phase filtering - check if any of the trial's phases match
+                if phase_filter:
+                    trial_phases = trial.get('phases', [])
+                    if not any(phase_filter in phase for phase in trial_phases):
+                        continue
                     
                 if condition_filter and condition_filter.lower() not in processed_trial['condition'].lower():
                     continue
@@ -172,6 +191,8 @@ def celltherapy():
         total_pages = 0
         has_prev = has_next = False
         flash('Unable to load latest trial data. Showing available trials.', 'warning')
+        all_statuses = set()
+        all_phases = set()
     
     locations = [
         {'name': 'UCSF (University of California, San Francisco)', 'contact': '888-689-8273'},
@@ -192,7 +213,9 @@ def celltherapy():
                          phase_filter=phase_filter,
                          condition_filter=condition_filter,
                          showing_results=len(paginated_trials),
-                         filtered_total=total_trials)
+                         filtered_total=total_trials,
+                         available_statuses=sorted(all_statuses),
+                         available_phases=sorted(all_phases))
 
 @app.route('/trial/<nct_id>')
 def trial_details(nct_id):
