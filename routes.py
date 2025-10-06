@@ -77,7 +77,7 @@ def celltherapy():
             'phase': 'Phase 1/2',
             'condition': 'Hepatocellular Carcinoma',
             'age_range': '13 years minimum',
-            'status': 'Will Be Recruiting (Sept 2025)',
+            'status': 'NOT_YET_RECRUITING',
             'duration': 'Up to 15 years post-treatment monitoring',
             'is_featured': True,
             'source': 'static'
