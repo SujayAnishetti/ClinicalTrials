@@ -260,7 +260,7 @@
                             </div>
                             
                             <div class="d-flex justify-content-between align-items-center">
-                                <span class="badge text-white" style="background-color: #000000;">
+                                <span class="badge text-white" style="background-color: {% if 'recruiting' in trial.status.lower() and 'not' not in trial.status.lower() %}#28a745{% elif 'not' in trial.status.lower() and 'recruiting' in trial.status.lower() %}#fd7e14{% elif 'active' in trial.status.lower() %}#28a745{% elif 'completed' in trial.status.lower() %}#6c757d{% elif 'terminated' in trial.status.lower() or 'suspended' in trial.status.lower() or 'withdrawn' in trial.status.lower() %}#dc3545{% else %}#495057{% endif %};">
                                     <i class="fas fa-{% if 'recruiting' in trial.status.lower() %}play-circle{% else %}clock{% endif %} me-1"></i>{{ trial.status }}
                                 </span>
                                 <span class="fw-bold" style="color: {% if trial_key == 'locus' %}#6f42c1{% else %}#8A0051{% endif %};">
@@ -400,7 +400,7 @@
                             </div>
                             
                             <div class="d-flex justify-content-between align-items-center">
-                                <span class="badge text-white" style="background-color: #000000; font-size: 0.7rem;">
+                                <span class="badge text-white" style="background-color: {% set status_lower = trial.status.lower() %}{% if 'recruiting' in status_lower and 'not' not in status_lower %}#28a745{% elif 'not' in status_lower and 'recruiting' in status_lower %}#fd7e14{% elif 'active' in status_lower %}#28a745{% elif 'completed' in status_lower %}#6c757d{% elif 'terminated' in status_lower or 'suspended' in status_lower or 'withdrawn' in status_lower %}#dc3545{% else %}#495057{% endif %}; font-size: 0.7rem;">
                                     {{ trial.status }}
                                 </span>
                                 <span class="small fw-bold" style="color: #28a745;">
