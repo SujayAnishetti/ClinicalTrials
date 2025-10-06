@@ -209,6 +209,61 @@ body {
     font-weight: 500;
 }
 
+/* Status Badge Styles - White background with black text */
+.badge.status-recruiting,
+span.status-recruiting {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 2px solid #28a745 !important;
+}
+
+.badge.status-active,
+span.status-active {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 2px solid #28a745 !important;
+}
+
+.badge.status-completed,
+span.status-completed {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 2px solid #6c757d !important;
+}
+
+.badge.status-not-yet-recruiting,
+.badge.status-not_yet_recruiting,
+span.status-not-yet-recruiting,
+span.status-not_yet_recruiting {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 2px solid #dc3545 !important;
+}
+
+.badge.status-terminated,
+.badge.status-suspended,
+.badge.status-withdrawn,
+span.status-terminated,
+span.status-suspended,
+span.status-withdrawn {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 2px solid #dc3545 !important;
+}
+
+.badge.status-unknown,
+span.status-unknown {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 2px solid #6c757d !important;
+}
+
 /* Alert Styles */
 .alert {
     border: none;
