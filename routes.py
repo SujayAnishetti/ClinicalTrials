@@ -68,6 +68,10 @@ def confirmation(submission_id):
 @app.route('/celltherapy')
 def celltherapy():
     """Clinical Trials landing page with trial information"""
+    # Fetch real-time status for featured trials
+    locus_data = scraper.fetch_trial_details('NCT06194461')
+    athena_data = scraper.fetch_trial_details('NCT06084884')
+    
     # Static trials (keep as primary featured trials)
     static_trials = {
         'locus': {
@@ -77,7 +81,7 @@ def celltherapy():
             'phase': 'Phase 1/2',
             'condition': 'Hepatocellular Carcinoma',
             'age_range': '13 years minimum',
-            'status': 'NOT_YET_RECRUITING',
+            'status': locus_data.get('overall_status', 'NOT_YET_RECRUITING') if locus_data else 'NOT_YET_RECRUITING',
             'duration': 'Up to 15 years post-treatment monitoring',
             'is_featured': True,
             'source': 'static'
@@ -89,7 +93,7 @@ def celltherapy():
             'phase': 'Phase I/II',
             'condition': 'Advanced Hepatocellular Carcinoma',
             'age_range': '18+ years',
-            'status': 'Currently Recruiting',
+            'status': athena_data.get('overall_status', 'RECRUITING') if athena_data else 'RECRUITING',
             'target_enrollment': '94 participants',
             'is_featured': True,
             'source': 'static'
