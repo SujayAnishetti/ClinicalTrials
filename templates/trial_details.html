@@ -628,15 +628,8 @@ function initializeMap() {
         var lat = location.geo_point.lat;
         var lon = location.geo_point.lon;
         
-        // Create custom icon
-        var markerIcon = L.divIcon({
-            className: 'custom-marker',
-            html: '<div style="background-color: #8A0051; width: 30px; height: 30px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);"></div>',
-            iconSize: [30, 30],
-            iconAnchor: [15, 15]
-        });
-        
-        var marker = L.marker([lat, lon], { icon: markerIcon }).addTo(mapInstance);
+        // Use default Leaflet marker
+        var marker = L.marker([lat, lon]).addTo(mapInstance);
         
         // Create popup content
         var popupContent = '<div style="min-width: 200px;">' +
