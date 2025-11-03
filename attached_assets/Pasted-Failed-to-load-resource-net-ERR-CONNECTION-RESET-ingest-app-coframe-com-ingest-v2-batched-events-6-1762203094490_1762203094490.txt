@@ -1,0 +1,101 @@
+Failed to load resource: net::ERR_CONNECTION_RESET
+ingest.app.coframe.com/ingest/v2/batched_events/68c9ad4d4cddb58cf3a1f93d/:1   Failed to load resource: net::ERR_CONNECTION_RESET
+ingest.app.coframe.com/ingest/v2/batched_events/68c9ad4d4cddb58cf3a1f93d/:1   Failed to load resource: net::ERR_CONNECTION_RESET
+ingest.app.coframe.com/ingest/v2/batched_events/68c9ad4d4cddb58cf3a1f93d/:1   Failed to load resource: net::ERR_CONNECTION_RESET
+ingest.app.coframe.com/ingest/v2/batched_events/68c9ad4d4cddb58cf3a1f93d/:1   Failed to load resource: net::ERR_CONNECTION_RESET
+events.launchdarkly.com/events/bulk/62b35a865152ab14c5942820:1   Failed to load resource: net::ERR_CONNECTION_RESET
+stallwart.build.js:1 stallwart: failed ping 1
+stallwart.build.js:1 stallwart: failed ping 2
+ca343566e0ba1bad.js:2  WebSocket connection to 'wss://eval.worf.platform.replit.com/wsv2/v2.public.Q2dZSXdOV2p5QVlTQmdqZjhhUElCaUlFZDI5eVpqQUFPdmdCQ2lSbVpqVXhNRFkwTmkwME1HVmpMVFJtWkdNdE9EQTJPQzAxT1RNd1ptTm1OamsyTWpVU0EyNXBlQm9XY21Wd2JHbDBMWEpsY0d3dFptbHNaWE10ZDI5eVppSU1WSEpwWVd4RGIyNXVaV04wS2d4a1pYWmxiRzl3WlhJek5qUkNUZ29YY21Wd2JHbDBMWEpsY0d3dFlteHZZMnR6TFhkdmNtWVNGWEpsY0d4cGRDMXlaWEJzTFcxbGRHRXRkMjl5WmhvY2NtVndiR2wwTFcxaGNtZGhjbWx1WlMxaWJHOWphM010ZDI5eVprb0hDSVd5bVJZUUFWQUFXZzlwYm5SbGJuUmZZblZ6YVc1bGMzTmFGVzl1WW05aGNtUnBibWRmYW05aVgyUmxjMmxuYmxvU2IyNWliMkZ5WkdsdVoxOXliMnhsWDNad2VBQlNKUWdCRUlDQWdJQWdHUUFBQUFBQUFCQkFJUUFBQUFBQUFCQkFLSUNBZ0lESUFUQUNPQUJnQTJvVENJV3ltUllTREdSbGRtVnNiM0JsY2pNMk5JSUJBaW9BbWdFS0NnZ3dMakF1TWpBMk9LQUJBUT09W2uTvKXtL4tZQMvdKRksWX2oIApK7lR9tBhyWxHr9lBpkwNSBKZ_U3NwKK-CVSsv_s_Jsj6WintNkVgmoSvoDg.Q2dad2NtOWtPak1pQ25KbGNHeHBkQzVqYjIwPQ' failed: 
+(anonymous) @ ca343566e0ba1bad.js:2
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+TrialConnect:1  Uncaught (in promise) Object
+stallwart.build.js:1 stallwart: failed ping 1
+TrialConnect:1  Uncaught (in promise) Object
+ingest.app.coframe.com/ingest/v2/batched_events/68c9ad4d4cddb58cf3a1f93d/:1   Failed to load resource: net::ERR_CONNECTION_RESET
+d3ebe8d1cbd1d969.js:2  WebSocket connection to 'wss://eval.worf.platform.replit.com/wsv2/v2.public.Q2dZSS80ZWt5QVlTQmdpZXBLVElCaUlFZDI5eVpqQUFPdmdCQ2lSbVpqVXhNRFkwTmkwME1HVmpMVFJtWkdNdE9EQTJPQzAxT1RNd1ptTm1OamsyTWpVU0EyNXBlQm9XY21Wd2JHbDBMWEpsY0d3dFptbHNaWE10ZDI5eVppSU1WSEpwWVd4RGIyNXVaV04wS2d4a1pYWmxiRzl3WlhJek5qUkNUZ29YY21Wd2JHbDBMWEpsY0d3dFlteHZZMnR6TFhkdmNtWVNGWEpsY0d4cGRDMXlaWEJzTFcxbGRHRXRkMjl5WmhvY2NtVndiR2wwTFcxaGNtZGhjbWx1WlMxaWJHOWphM010ZDI5eVprb0hDSVd5bVJZUUFWQUFXZzlwYm5SbGJuUmZZblZ6YVc1bGMzTmFGVzl1WW05aGNtUnBibWRmYW05aVgyUmxjMmxuYmxvU2IyNWliMkZ5WkdsdVoxOXliMnhsWDNad2VBQlNKUWdCRUlDQWdJQWdHUUFBQUFBQUFCQkFJUUFBQUFBQUFCQkFLSUNBZ0lESUFUQUNPQUJnQUdvVENJV3ltUllTREdSbGRtVnNiM0JsY2pNMk5JSUJBaW9BbWdFS0NnZ3dMakF1TWpBMk9LQUJBUT09fu6BXxP5mmfUtod4RFsS2JgT1AoYf-eDaGPZK7hRHl9svno4TQPnkxIYAsW5C2LgG67Buaed7JWaIA5P_gd1BQ.Q2dad2NtOWtPak1pQ25KbGNHeHBkQzVqYjIwPQ' failed: 
+(anonymous) @ d3ebe8d1cbd1d969.js:2
+d3ebe8d1cbd1d969.js:2  WebSocket connection to 'wss://eval.worf.platform.replit.com/wsv2/v2.public.Q2dZSS80ZWt5QVlTQmdpZXBLVElCaUlFZDI5eVpqQUFPdmdCQ2lSbVpqVXhNRFkwTmkwME1HVmpMVFJtWkdNdE9EQTJPQzAxT1RNd1ptTm1OamsyTWpVU0EyNXBlQm9XY21Wd2JHbDBMWEpsY0d3dFptbHNaWE10ZDI5eVppSU1WSEpwWVd4RGIyNXVaV04wS2d4a1pYWmxiRzl3WlhJek5qUkNUZ29YY21Wd2JHbDBMWEpsY0d3dFlteHZZMnR6TFhkdmNtWVNGWEpsY0d4cGRDMXlaWEJzTFcxbGRHRXRkMjl5WmhvY2NtVndiR2wwTFcxaGNtZGhjbWx1WlMxaWJHOWphM010ZDI5eVprb0hDSVd5bVJZUUFWQUFXZzlwYm5SbGJuUmZZblZ6YVc1bGMzTmFGVzl1WW05aGNtUnBibWRmYW05aVgyUmxjMmxuYmxvU2IyNWliMkZ5WkdsdVoxOXliMnhsWDNad2VBQlNKUWdCRUlDQWdJQWdHUUFBQUFBQUFCQkFJUUFBQUFBQUFCQkFLSUNBZ0lESUFUQUNPQUJnQUdvVENJV3ltUllTREdSbGRtVnNiM0JsY2pNMk5JSUJBaW9BbWdFS0NnZ3dMakF1TWpBMk9LQUJBUT09fu6BXxP5mmfUtod4RFsS2JgT1AoYf-eDaGPZK7hRHl9svno4TQPnkxIYAsW5C2LgG67Buaed7JWaIA5P_gd1BQ.Q2dad2NtOWtPak1pQ25KbGNHeHBkQzVqYjIwPQ' failed: 
+(anonymous) @ d3ebe8d1cbd1d969.js:2
+d3ebe8d1cbd1d969.js:2  WebSocket connection to 'wss://eval.worf.platform.replit.com/wsv2/v2.public.Q2dZSS80ZWt5QVlTQmdpZXBLVElCaUlFZDI5eVpqQUFPdmdCQ2lSbVpqVXhNRFkwTmkwME1HVmpMVFJtWkdNdE9EQTJPQzAxT1RNd1ptTm1OamsyTWpVU0EyNXBlQm9XY21Wd2JHbDBMWEpsY0d3dFptbHNaWE10ZDI5eVppSU1WSEpwWVd4RGIyNXVaV04wS2d4a1pYWmxiRzl3WlhJek5qUkNUZ29YY21Wd2JHbDBMWEpsY0d3dFlteHZZMnR6TFhkdmNtWVNGWEpsY0d4cGRDMXlaWEJzTFcxbGRHRXRkMjl5WmhvY2NtVndiR2wwTFcxaGNtZGhjbWx1WlMxaWJHOWphM010ZDI5eVprb0hDSVd5bVJZUUFWQUFXZzlwYm5SbGJuUmZZblZ6YVc1bGMzTmFGVzl1WW05aGNtUnBibWRmYW05aVgyUmxjMmxuYmxvU2IyNWliMkZ5WkdsdVoxOXliMnhsWDNad2VBQlNKUWdCRUlDQWdJQWdHUUFBQUFBQUFCQkFJUUFBQUFBQUFCQkFLSUNBZ0lESUFUQUNPQUJnQUdvVENJV3ltUllTREdSbGRtVnNiM0JsY2pNMk5JSUJBaW9BbWdFS0NnZ3dMakF1TWpBMk9LQUJBUT09fu6BXxP5mmfUtod4RFsS2JgT1AoYf-eDaGPZK7hRHl9svno4TQPnkxIYAsW5C2LgG67Buaed7JWaIA5P_gd1BQ.Q2dad2NtOWtPak1pQ25KbGNHeHBkQzVqYjIwPQ' failed: 
+(anonymous) @ d3ebe8d1cbd1d969.js:2
+stallwart.build.js:1 stallwart: failed ping 1
+/graphql:1   Failed to load resource: net::ERR_CONNECTION_RESET
+0c59a8afa45a8e04.js:2  [Coframe] Mutation callback infinite loop protection triggered, disconnecting mutation observer Object
+(anonymous) @ 0c59a8afa45a8e04.js:2
+ingest.app.coframe.com/ingest/v2/batched_monitoring/68c9ad4d4cddb58cf3a1f93d/:1   Failed to load resource: net::ERR_CONNECTION_RESET
+stallwart.build.js:1 stallwart: failed ping 1
+www.google.co.in/ads/ga-audiences?v=1&t=sr&slf_rd=1&_r=4&tid=G-MPJY3F1YEL&cid=300096332.1756493054&gtm=45je5au0v9135634466za200&aip=1&dma=0&gcd=13l3l3l3l2l1&npa=0&frm=0&tag_exp=101509157~102015666~103116026~103200004~103233427~104527906~104528500~104684208~104684211~104948813~115480709~115583767~115616986~115938465~115938468~116217636~116217638&z=1580317676:1   Failed to load resource: net::ERR_CONNECTION_RESET
+ingest.app.coframe.com/ingest/v2/batched_events/68c9ad4d4cddb58cf3a1f93d/:1   Failed to load resource: net::ERR_CONNECTION_RESET
+stats.g.doubleclick.net/j/collect?t=dc&aip=1&_r=3&v=1&_v=j102&tid=UA-25629695-1&cid=300096332.1756493054&jid=473668856&gjid=1501438757&_gid=1590799673.1762177357&_u=SCCAgEAjQAAAAGgCIAD~&z=1709117864:1   Failed to load resource: net::ERR_CONNECTION_RESET
+workspace_iframe.html?initialPath=%2Ftrial%2FNCT06084884&id=%3Ar16d%3A:32  Unrecognized feature: 'ambient-light-sensor'.
+workspace_iframe.html?initialPath=%2Ftrial%2FNCT06084884&id=%3Ar16d%3A:32  Unrecognized feature: 'battery'.
+workspace_iframe.html?initialPath=%2Ftrial%2FNCT06084884&id=%3Ar16d%3A:32  Unrecognized feature: 'execution-while-not-rendered'.
+workspace_iframe.html?initialPath=%2Ftrial%2FNCT06084884&id=%3Ar16d%3A:32  Unrecognized feature: 'execution-while-out-of-viewport'.
+workspace_iframe.html?initialPath=%2Ftrial%2FNCT06084884&id=%3Ar16d%3A:32  Unrecognized feature: 'layout-animations'.
+workspace_iframe.html?initialPath=%2Ftrial%2FNCT06084884&id=%3Ar16d%3A:32  Unrecognized feature: 'legacy-image-formats'.
+workspace_iframe.html?initialPath=%2Ftrial%2FNCT06084884&id=%3Ar16d%3A:32  Unrecognized feature: 'navigation-override'.
+workspace_iframe.html?initialPath=%2Ftrial%2FNCT06084884&id=%3Ar16d%3A:32  Unrecognized feature: 'oversized-images'.
+workspace_iframe.html?initialPath=%2Ftrial%2FNCT06084884&id=%3Ar16d%3A:32  Unrecognized feature: 'publickey-credentials'.
+workspace_iframe.html?initialPath=%2Ftrial%2FNCT06084884&id=%3Ar16d%3A:32  Unrecognized feature: 'speaker-selection'.
+workspace_iframe.html?initialPath=%2Ftrial%2FNCT06084884&id=%3Ar16d%3A:32  Unrecognized feature: 'unoptimized-images'.
+workspace_iframe.html?initialPath=%2Ftrial%2FNCT06084884&id=%3Ar16d%3A:32  Unrecognized feature: 'unsized-media'.
+workspace_iframe.html?initialPath=%2Ftrial%2FNCT06084884&id=%3Ar16d%3A:32  Allow attribute will take precedence over 'allowfullscreen'.
+workspace_iframe.html?initialPath=%2Ftrial%2FNCT06084884&id=%3Ar16d%3A:32  Allow attribute will take precedence over 'allowpaymentrequest'.
+[NEW] Explain Console errors by using Copilot in Edge: click
+         
+         to explain an error. 
+        Learn more
+        Don't show again
