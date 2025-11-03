@@ -6,6 +6,32 @@
     --astra-dark-purple: #6B003F;
 }
 
+/* Leaflet Map Styles */
+#trial-locations-map {
+    height: 500px;
+    width: 100%;
+    border-radius: 15px;
+    z-index: 1;
+}
+
+.leaflet-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.custom-marker {
+    background: transparent;
+    border: none;
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius: 8px;
+}
+
+.leaflet-popup-content h6 {
+    color: var(--astra-purple);
+    margin-bottom: 8px;
+}
+
 /* Global Styles */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
