@@ -3,6 +3,10 @@
 {% block title %}{{ trial.basic_info.brief_title }} - {{ trial.basic_info.nct_id }} | AstraZeneca{% endblock %}
 
 {% block head %}
+<!-- Leaflet CSS for maps -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <style>
     .trial-header {
         background: linear-gradient(135deg, #8A0051 0%, #6d003f 100%);
@@ -428,6 +432,16 @@
 
                     <!-- Locations Tab -->
                     <div class="tab-pane fade" id="locations" role="tabpanel">
+                        <!-- Map Section -->
+                        {% if trial.locations %}
+                        <div class="card info-card mb-4">
+                            <div class="card-body p-0">
+                                <div id="trial-locations-map" style="height: 500px; width: 100%; border-radius: 15px;"></div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <h5 class="text-astra-purple mb-3">All Study Sites</h5>
                         <div class="row g-4">
                             {% for location in trial.locations %}
                             <div class="col-md-6 col-lg-4">
@@ -535,6 +549,111 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
+    
+    // Initialize map when Locations tab is shown
+    var locationsTab = document.getElementById('locations-tab');
+    if (locationsTab) {
+        locationsTab.addEventListener('shown.bs.tab', function (event) {
+            initializeMap();
+        });
+    }
 });
+
+function initializeMap() {
+    // Check if map container exists and hasn't been initialized
+    var mapContainer = document.getElementById('trial-locations-map');
+    if (!mapContainer || mapContainer.dataset.initialized === 'true') {
+        return;
+    }
+    
+    // Get location data from template
+    var locations = {{ trial.locations | tojson | safe }};
+    
+    if (!locations || locations.length === 0) {
+        return;
+    }
+    
+    // Filter locations that have coordinates
+    var locationsWithCoords = locations.filter(function(loc) {
+        return loc.geo_point && loc.geo_point.lat && loc.geo_point.lon;
+    });
+    
+    if (locationsWithCoords.length === 0) {
+        mapContainer.innerHTML = '<div class="alert alert-info m-3">Location coordinates are not available for this trial.</div>';
+        return;
+    }
+    
+    // Initialize map centered on first location
+    var firstLoc = locationsWithCoords[0];
+    var map = L.map('trial-locations-map').setView([firstLoc.geo_point.lat, firstLoc.geo_point.lon], 4);
+    
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19
+    }).addTo(map);
+    
+    // Create a bounds object to fit all markers
+    var bounds = L.latLngBounds();
+    
+    // Add markers for each location
+    locationsWithCoords.forEach(function(location) {
+        var lat = location.geo_point.lat;
+        var lon = location.geo_point.lon;
+        
+        // Create custom icon
+        var markerIcon = L.divIcon({
+            className: 'custom-marker',
+            html: '<div style="background-color: #8A0051; width: 30px; height: 30px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);"></div>',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
+        
+        var marker = L.marker([lat, lon], { icon: markerIcon }).addTo(map);
+        
+        // Create popup content
+        var popupContent = '<div style="min-width: 200px;">' +
+            '<h6 class="text-astra-purple mb-2">' + (location.facility_name || 'Facility Name Not Available') + '</h6>' +
+            '<p class="mb-1"><strong>📍 Location:</strong><br>' + 
+            (location.city || '') + (location.city && location.state ? ', ' : '') + (location.state || '') + ' ' + (location.zip_code || '') + '<br>' +
+            (location.country || '') + '</p>';
+        
+        if (location.status) {
+            var statusClass = 'secondary';
+            if (location.status.toLowerCase().includes('recruiting')) {
+                statusClass = 'success';
+            } else if (location.status.toLowerCase().includes('active')) {
+                statusClass = 'primary';
+            }
+            popupContent += '<p class="mb-1"><span class="badge bg-' + statusClass + '">' + location.status + '</span></p>';
+        }
+        
+        if (location.contacts && location.contacts.length > 0) {
+            var contact = location.contacts[0];
+            if (contact.name || contact.phone || contact.email) {
+                popupContent += '<p class="mb-1"><strong>Contact:</strong><br>';
+                if (contact.name) popupContent += contact.name + '<br>';
+                if (contact.phone) popupContent += '📞 ' + contact.phone + '<br>';
+                if (contact.email) popupContent += '📧 ' + contact.email;
+                popupContent += '</p>';
+            }
+        }
+        
+        popupContent += '</div>';
+        
+        marker.bindPopup(popupContent);
+        
+        // Add to bounds
+        bounds.extend([lat, lon]);
+    });
+    
+    // Fit map to show all markers
+    if (locationsWithCoords.length > 1) {
+        map.fitBounds(bounds, { padding: [50, 50] });
+    }
+    
+    // Mark as initialized
+    mapContainer.dataset.initialized = 'true';
+}
 </script>
 {% endblock %}
