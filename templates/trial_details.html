@@ -554,16 +554,28 @@ document.addEventListener('DOMContentLoaded', function() {
     var locationsTab = document.getElementById('locations-tab');
     if (locationsTab) {
         locationsTab.addEventListener('shown.bs.tab', function (event) {
-            initializeMap();
+            // Small delay to ensure tab is fully visible
+            setTimeout(function() {
+                initializeMap();
+            }, 100);
         });
     }
 });
 
+var mapInstance = null;
+
 function initializeMap() {
-    // Check if map container exists and hasn't been initialized
+    // Check if map container exists
     var mapContainer = document.getElementById('trial-locations-map');
-    if (!mapContainer || mapContainer.dataset.initialized === 'true') {
-        console.log('Map container check failed or already initialized');
+    if (!mapContainer) {
+        console.log('Map container not found');
+        return;
+    }
+    
+    // Check if already initialized
+    if (mapInstance) {
+        console.log('Map already initialized, invalidating size');
+        mapInstance.invalidateSize();
         return;
     }
     
@@ -574,6 +586,7 @@ function initializeMap() {
     console.log('Locations data:', locations);
     
     if (!locations || locations.length === 0) {
+        console.log('No locations available');
         return;
     }
     
@@ -582,6 +595,8 @@ function initializeMap() {
         return loc.geo_point && loc.geo_point.lat && loc.geo_point.lon;
     });
     
+    console.log('Locations with coordinates:', locationsWithCoords.length);
+    
     if (locationsWithCoords.length === 0) {
         mapContainer.innerHTML = '<div class="alert alert-info m-3">Location coordinates are not available for this trial.</div>';
         return;
@@ -589,13 +604,15 @@ function initializeMap() {
     
     // Initialize map centered on first location
     var firstLoc = locationsWithCoords[0];
-    var map = L.map('trial-locations-map').setView([firstLoc.geo_point.lat, firstLoc.geo_point.lon], 4);
+    console.log('Creating map at:', firstLoc.geo_point.lat, firstLoc.geo_point.lon);
+    
+    mapInstance = L.map('trial-locations-map').setView([firstLoc.geo_point.lat, firstLoc.geo_point.lon], 4);
     
     // Add OpenStreetMap tiles
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         maxZoom: 19
-    }).addTo(map);
+    }).addTo(mapInstance);
     
     // Create a bounds object to fit all markers
     var bounds = L.latLngBounds();
@@ -613,7 +630,7 @@ function initializeMap() {
             iconAnchor: [15, 15]
         });
         
-        var marker = L.marker([lat, lon], { icon: markerIcon }).addTo(map);
+        var marker = L.marker([lat, lon], { icon: markerIcon }).addTo(mapInstance);
         
         // Create popup content
         var popupContent = '<div style="min-width: 200px;">' +
@@ -653,11 +670,15 @@ function initializeMap() {
     
     // Fit map to show all markers
     if (locationsWithCoords.length > 1) {
-        map.fitBounds(bounds, { padding: [50, 50] });
+        mapInstance.fitBounds(bounds, { padding: [50, 50] });
     }
     
-    // Mark as initialized
-    mapContainer.dataset.initialized = 'true';
+    // Force map to recalculate size
+    setTimeout(function() {
+        mapInstance.invalidateSize();
+    }, 200);
+    
+    console.log('Map initialized successfully');
 }
 </script>
 {% endblock %}
