@@ -563,11 +563,15 @@ function initializeMap() {
     // Check if map container exists and hasn't been initialized
     var mapContainer = document.getElementById('trial-locations-map');
     if (!mapContainer || mapContainer.dataset.initialized === 'true') {
+        console.log('Map container check failed or already initialized');
         return;
     }
     
+    console.log('Initializing map...');
+    
     // Get location data from template
     var locations = {{ trial.locations | tojson | safe }};
+    console.log('Locations data:', locations);
     
     if (!locations || locations.length === 0) {
         return;
